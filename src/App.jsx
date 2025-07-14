@@ -1,12 +1,20 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import HomePage from "./pages/Home";
+import "./index.css";
+import RootLayout from "./pages/Root";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [{ path: "/", element: <HomePage /> }],
+  },
+]);
 function App() {
-
-
-  return (
-    <>
-     <p>This is a new React project</p>
-    </>
-  )
+  return <div className="bg-bg-dark min-h-screen text-text-primary-dark ">
+   <RouterProvider  router={router} />
+  </div>
+  
 }
 
-export default App
+export default App;
