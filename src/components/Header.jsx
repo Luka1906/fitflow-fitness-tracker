@@ -13,7 +13,7 @@ export default function Header() {
             src={logo}
             alt="FitFlow Logo"
           />
-          <span className="text-2xl font-semibold text-accent-dark">
+          <span className="text-2xl font-extrabold text-accent-dark">
             FitFlow
           </span>
         </Link>
