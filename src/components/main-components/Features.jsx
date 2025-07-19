@@ -2,6 +2,8 @@ import Feature from "./Feature";
 import { IoBarbell } from "react-icons/io5";
 import { GiWaterDrop } from "react-icons/gi";
 import { GiMeal } from "react-icons/gi";
+import { FaChartLine } from "react-icons/fa";
+
 
 const features = [
   {
@@ -19,12 +21,22 @@ const features = [
     title: "AI Meal Suggestions",
     description: "Get smart, personalized meal ideas tailored to your goals.",
   },
+  {
+    icon: FaChartLine,
+    title: "Progress charts",
+    description:
+      "Visualize your fitness journey with dynamic, real-time progress charts.",
+  },
 ];
 
 export default function Features() {
   return (
-    <section className="flex flex-col items-center py-10 gap-10 ">
-      <h2 className="text-3xl font-bold text-accent-dark font-accent">Track Workouts, Hydration, and Nutrition</h2>
+    <section className="flex flex-col items-center py-20  gap-10 ">
+    
+ <h2 className="text-3xl font-bold text-accent-dark font-accent">
+        Track Workouts, Hydration, and Nutrition
+      </h2>
+      
       <p className="w-1/2 text-center text-lg">
         Log your exercise, monitor your daily water intake, and receive
         personalized meal recommendations powered by AI

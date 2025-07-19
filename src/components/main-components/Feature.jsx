@@ -6,7 +6,7 @@ export default function Feature({ icon, title, description }) {
   const Icon = icon;
 
   return (
-    <Card>
+    <Card sizeClass="w-80">
               <Icon className="text-4xl text-accent-dark drop-shadow-md" />
       <h2 className="text-2xl font-semibold ">{title}</h2>
 
