@@ -31,13 +31,13 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="flex flex-col items-center py-20  gap-10 ">
+    <section className="flex flex-col items-center pt-20  gap-10 ">
     
- <h2 className="text-3xl font-bold text-accent-dark font-accent">
+ <h2 className="text-3xl font-bold text-accent-dark font-accent tracking-wide">
         Track Workouts, Hydration, and Nutrition
       </h2>
       
-      <p className="w-1/2 text-center text-lg">
+      <p className="w-1/2 text-center text-lg text-text-primary-headings">
         Log your exercise, monitor your daily water intake, and receive
         personalized meal recommendations powered by AI
       </p>
@@ -48,7 +48,7 @@ export default function Features() {
             icon={feature.icon}
             title={feature.title}
             description={feature.description}
-            className=""
+      
           />
         ))}
       </article>

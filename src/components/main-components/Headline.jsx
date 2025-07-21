@@ -2,13 +2,13 @@ import tesimonial1 from "../../assets/testimonials/testimonial1.jpg";
 import tesimonial2 from "../../assets/testimonials/testimonial2.jpg";
 import tesimonial3 from "../../assets/testimonials/testimonial3.jpg";
 import banner from "../../assets/banner.png";
-import Button from "../ui/Button";
+import Button from "../../ui/Button";
 
 export default function Headline() {
   return (
-    <main className="px-6 mt-2 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+    <section className="px-6 mt-2 grid grid-cols-1 lg:grid-cols-2 items-center gap-10">
       <div>
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold max-w-2xl leading-tight font-accent">
+        <h1 className="text-5xl text-text-primary-headings sm:text-6xl lg:text-7xl font-bold max-w-2xl leading-tight font-accent">
           Track. Train. Thrive. Your Fitness,{" "}
           <span className="text-cta-dark">All in One Place.</span>
         </h1>
@@ -68,6 +68,6 @@ export default function Headline() {
           <h3 className="text-xl font-semibold">AI Meal Planner</h3>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

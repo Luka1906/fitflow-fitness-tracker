@@ -5,7 +5,6 @@ import user3 from "../../assets/testimonials/testimonial6.jpg";
 import mainUser1 from "../../assets/testimonials/testimonial8.jpg";
 import Testimonial from "./Testimonial";
 
-
 export default function Testimonials() {
   const testimonials = [
     {
@@ -35,7 +34,7 @@ export default function Testimonials() {
   const { avatar, role, text } = testimonials[index];
 
   return (
-    <section className="font-bold grid-cols-[2fr_3fr] font-accent bg-slate-800 px-6 grid">
+    <section className="font-bold grid-cols-[2fr_3fr] font-accent bg-slate-800 px-6 grid pb-20">
       {/* Left image + heading */}
       <div className="relative w-fit">
         <img
@@ -51,7 +50,11 @@ export default function Testimonials() {
 
       {/* Right side: slider */}
       <div className="flex flex-col items-center justify-center">
-        <Testimonial key={index}  avatar={avatar} role={role} text={text} />
+        <p className="text-sm uppercase tracking-wider text-slate-400 mb-4">
+          What they’re saying
+        </p>
+
+        <Testimonial key={index} avatar={avatar} role={role} text={text} />
 
         {/* Dots below */}
         <div className="flex justify-center gap-2 mt-4">

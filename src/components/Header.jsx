@@ -4,8 +4,8 @@ import { FaUser } from "react-icons/fa";
 
 export default function Header() {
   return (
-    <header className="bg-bg-dark text-white py-4">
-      <nav className=" px-6 flex items-center justify-between">
+    <header className="px-6 pb-4">
+      <nav className="flex items-center justify-between">
         {/* Logo + App Name */}
         <Link to="/" className="flex items-center gap-3">
           <img
