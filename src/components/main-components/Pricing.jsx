@@ -1,5 +1,6 @@
 import { GiCheckMark } from "react-icons/gi";
 import { ImGift } from "react-icons/im";
+import { IoSparklesOutline } from "react-icons/io5";
 import logo from "../../assets/logo.svg";
 import { useState } from "react";
 
@@ -124,15 +125,19 @@ export default function Pricing() {
               <tr key={feature.label}>
                 <td className="py-4 flex items-center gap-3">
                   <feature.icon className="text-accent-dark text-xl" />
-                  <p
-                    className={
-                      feature.highlight
-                        ? "underline underline-offset-4 decoration-accent-dark font-semibold"
-                        : ""
-                    }
-                  >
-                    {feature.label}
-                  </p>
+                  <div className="flex items-center gap-1">
+                    <p className=" text-base text-text-primary-paragraph">
+                      {feature.label}
+                    </p>
+                    {feature.highlight && (
+                      <span
+                        title="AI-powered feature"
+                        className="text-accent-dark text-sm cursor-help"
+                      >
+                        *
+                      </span>
+                    )}
+                  </div>
                 </td>
                 {plans.map((plan, colIndex) => {
                   const value = plan.featureStates[i];
@@ -149,7 +154,15 @@ export default function Pricing() {
                           <span className="text-slate-400 text-xl">✕</span>
                         )
                       ) : (
-                        <span className={`${hoveredCol === colIndex ? "text-accent-dark" : "text-slate-400"}`}>{value}</span>
+                        <span
+                          className={`${
+                            hoveredCol === colIndex
+                              ? "text-accent-dark"
+                              : "text-slate-400"
+                          }`}
+                        >
+                          {value}
+                        </span>
                       )}
                     </td>
                   );

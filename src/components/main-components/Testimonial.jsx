@@ -1,25 +1,35 @@
 import Card from "../../ui/Card";
 
-export default function Testimonial({ avatar, role, text, }) {
+export default function Testimonial({ avatar, name, role, text }) {
   return (
-   <div className="animate-fadeIn">
-  <Card sizeClass="w-150">
-        <div className="flex gap-4">
-          <p className="text-6xl  text-accent-dark ">❝</p>
-          <p className="text-lg text-text-primary-dark/90  ">{text}</p>
-        </div>
-
-        <div>
+    <div className="w-full max-w-xl animate-fadeIn">
+      <Card
+        sizeClass="w-full"
+        className="rounded-2xl shadow-2xl bg-slate-700/50 backdrop-blur-md p-6 border border-white/10"
+      >
+        <div className="flex flex-col items-center gap-6 text-center">
+          {/* Avatar */}
           <img
             src={avatar}
             alt={role}
-            className="w-25 h-25 object-cover object-top rounded-full mx-auto mb-1"
+            className="w-20 h-20 rounded-full object-cover  object-top border-2 border-accent-dark shadow-md"
           />
-          <p className="text-base text-accent-dark">{role}</p>
+
+          {/* Quote */}
+          <div className="flex flex-col gap-2">
+            <p className="text-4xl text-accent-dark leading-none">❝</p>
+            <p className="text-text-primary-light text-lg leading-relaxed font-medium tracking-wide">
+              {text}
+            </p>
+          </div>
+
+          {/* Name + Role */}
+          <div className="text-center mt-4">
+            <p className="text-white font-semibold">{name}</p>
+            <p className="text-accent-dark text-sm">{role}</p>
+          </div>
         </div>
       </Card>
-   </div>
-    
-
+    </div>
   );
 }
