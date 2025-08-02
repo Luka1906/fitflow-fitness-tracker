@@ -3,6 +3,7 @@ import tesimonial2 from "../../assets/testimonials/testimonial2.jpg";
 import tesimonial3 from "../../assets/testimonials/testimonial3.jpg";
 import banner from "../../assets/banner.png";
 import Button from "../../ui/Button";
+import { Link } from "react-router-dom";
 
 export default function Headline() {
   return (
@@ -19,18 +20,18 @@ export default function Headline() {
             <img
               className="md:w-[4.5rem] w-[5rem] md:h-[4.5rem] h-[5rem] object-cover rounded-full border-2 border-accent-dark relative top-[1.1rem]"
               src={tesimonial3}
-              alt="User testimonial"
+              alt="Happy user testimonial image - Mike"
             />
             <div className="flex -space-x-3  w-[9rem]">
               <img
                 className="md:w-[4.5rem] w-[5rem] md:h-[4.5rem] h-[5rem]  object-cover z-30 rounded-full border-2 border-accent-dark"
                 src={tesimonial1}
-                alt="User testimonial"
+                alt="Happy user testimonial image - Jess"
               />
               <img
                 className="md:w-[4.5rem] w-[5rem] md:h-[4.5rem] h-[5rem]  object-cover z-20 rounded-full border-2 border-accent-dark"
                 src={tesimonial2}
-                alt="User testimonial"
+                alt="Happy user testimonial image - Sarah"
               />
             </div>
             <h2 className="text-4xl mt-3 text-cta-dark font-bold">100k+</h2>
@@ -44,9 +45,10 @@ export default function Headline() {
               to help you stay consistent.
             </h3>
             <div className="mt-6 flex gap-6 font-accent">
-              <Button variant="primary">Sign Up</Button>
-                  <Button variant="outline">Log In</Button>
-              
+              <Button variant="primary" as={Link} to="auth">
+                Sign Up
+              </Button>
+              <Button variant="outline">Log In</Button>
             </div>
           </div>
         </div>

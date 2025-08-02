@@ -6,18 +6,20 @@ import SignUp from "./pages/SignUp";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: <RootLayout />,
-    children: [{ path: "/", element: <HomePage /> },
-      {path: "signup", element: <SignUp/>}
+    children: [
+      {index: true, element: <HomePage /> },
+      { path: "auth", element: <SignUp /> },
     ],
   },
 ]);
 function App() {
-  return <div className="bg-bg-dark min-h-screen text-text-primary-paragraph font-primary">
-   <RouterProvider  router={router} />
-  </div>
-  
+  return (
+    <div className="bg-bg-dark min-h-screen text-text-primary-paragraph font-primary">
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
 export default App;

@@ -1,4 +1,5 @@
 export default function Button({
+  as: Component = "button",
   variant = "primary",
   children,
   className = "",
@@ -12,18 +13,14 @@ export default function Button({
     outline: "border-2 border-cta-dark text-cta-dark hover:bg-cta-dark/10",
   };
 
-  const classes = `${baseStyles} ${variants[variant] || variants.primary} ${className}`;
+  const classes = `${baseStyles} ${
+    variants[variant] || variants.primary
+  } ${className}`;
 
   return (
-    <button className={classes} {...props}>
+    <Component className={classes} {...props}>
       {children}
-    </button>
+    </Component>
   );
 }
 
-// <button className="px-6 py-2 bg-accent-dark text-white rounded-md font-semibold hover:bg-accent-dark/90 transition">
-//             Sign Up
-//           </button>
-//           <button className="px-6 py-2 border-2 border-cta-dark rounded-md text-cta-dark font-semibold hover:bg-cta-dark/10 transition">
-//             Log Ine
-//           </button>
