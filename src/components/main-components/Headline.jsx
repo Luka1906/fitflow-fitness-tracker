@@ -45,10 +45,10 @@ export default function Headline() {
               to help you stay consistent.
             </h3>
             <div className="mt-6 flex gap-6 font-accent">
-              <Button variant="primary" as={Link} to="auth">
+              <Button variant="primary" as={Link} to="auth?mode=signup">
                 Sign Up
               </Button>
-              <Button variant="outline">Log In</Button>
+              <Button variant="outline" as={Link} to="auth">Log In</Button>
             </div>
           </div>
         </div>

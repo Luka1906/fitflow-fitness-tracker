@@ -1,6 +1,7 @@
 import Card from "../../ui/Card";
 
 export default function Testimonial({ avatar, name, role, text }) {
+  console.log(name)
   return (
     <div className="w-full max-w-xl animate-fadeIn">
       <Card
@@ -25,8 +26,8 @@ export default function Testimonial({ avatar, name, role, text }) {
 
           {/* Name + Role */}
           <div className="text-center mt-4">
-            <p className="text-white font-semibold">{name}</p>
-            <p className="text-accent-dark text-sm">{role}</p>
+            <p className="text-white font-semibold text-sm">{name}</p>
+            <p className="text-accent-dark text-xs">{role}</p>
           </div>
         </div>
       </Card>

@@ -76,7 +76,7 @@ export default function Faq() {
                 </span>
               </button>
               <div
-                className={`transition-all overflow-hidden duration-300 ${
+                className={`overflow-hidden transition-all duration-300 ${
                   isOpen ? "max-h-40 mt-3" : "max-h-0"
                 }`}
               >

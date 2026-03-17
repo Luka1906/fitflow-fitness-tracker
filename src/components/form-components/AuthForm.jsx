@@ -1,7 +1,8 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Form, Link, useSearchParams } from "react-router-dom";
 import Button from "../../ui/Button";
 import Card from "../../ui/Card";
-import Input from "../../ui/Input";
+import SignUpFields from "./SignUpFields";
+import LoginFields from "./LoginFields";
 import { useEffect, useState } from "react";
 
 export default function AuthForm() {
@@ -12,6 +13,7 @@ export default function AuthForm() {
 
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];
+    console.log(file);
 
     if (file) {
       setAvatarFile(file);
@@ -61,98 +63,26 @@ export default function AuthForm() {
         </p>
 
         <div className="flex flex-col gap-3">
-          <form className="flex flex-col gap-6">
-            {isSignup && (
-              <div className="flex gap-6">
-                <Input
-                  className="w-1/2"
-                  type="text"
-                  name="name"
-                  placeholder="First Name"
-                />
-                <Input
-                  className="w-1/2"
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                />
-              </div>
-            )}
-            {isSignup && (
-              <Input type="text" name="location" placeholder="Location" />
-            )}
-
-            {isSignup && (
-              <fieldset className="flex flex-col items-start gap-1 border-1 rounded-md p-3   ">
-                <legend className="text-accent-dark font-bold ">
-                  Select your fitness goals (You can choose up to two):
-                </legend>
-                {fitnessGoals.map((goal) => (
-                  <label className="flex items-center gap-2 text-sm">
-                    <input
-                      type="checkbox"
-                      className="appearance-none w-4 h-4 bg-bg-dark border-1  border-accent-dark rounded-sm 
-               checked:bg-accent-dark checked:border-transparent 
-               focus:outline-none transition duration-200"
-                      key={goal.value}
-                      name="fitnessGoals"
-                      value={goal.value}
-                    />
-                    {goal.label}
-                  </label>
-                ))}
-              </fieldset>
-            )}
-            {isSignup && (
-              <div className="border-1 border-text-primary-paragraph px-3 py-4  placeholder:text-slate-400 rounded-md ">
-                <label
-                  htmlFor="avatar"
-                  className="cursor-pointer flex items-center justify-center w-full h-40 border-2 border-dashed border-accent-dark rounded-md text-sm text-slate-500 hover:bg-bg-dark hover:text-text-primary-paragraph transition duration-200"
-                >
-                  {avatarPreview ? (
-                    <img
-                      src={avatarPreview}
-                      className="object-contain h-full w-full rounded-md"
-                      alt="Preview profile image"
-                    />
-                  ) : (
-                    "     Click to upload profile image"
-                  )}
-                </label>
-                <Input
-                  type="file"
-                  name="avatar"
-                  id="avatar"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleAvatarChange}
-                />
-              </div>
-            )}
-
-            <Input type="email" name="email" placeholder="Email" />
-
-            <div className="flex gap-6">
-              <Input
-                className={`${isSignup ? "w-1/2" : "md:w-[30rem] w-[20rem]"}`}
-                type="password"
-                name="password"
-                placeholder="Password"
+          <Form
+            method="POST"
+            encType="multipart/form-data"
+            className="flex flex-col gap-6"
+          >
+            {isSignup ? (
+              <SignUpFields
+                key="signup"
+                fitnessGoals={fitnessGoals}
+                avatarPreview={avatarPreview}
+                onAvatarChange={handleAvatarChange}
               />
+            ) : (
+              <LoginFields key="login" />
+            )}
 
-              {isSignup && (
-                <Input
-                  className="w-1/2"
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Confirm Password"
-                />
-              )}
-            </div>
             <Button className="w-full uppercase" variant="primary">
               {isSignup ? "Register" : "Login"}
             </Button>
-          </form>
+          </Form>
           <div className="text-left text-sm text-slate-500 mt-4">
             {isSignup
               ? "Already have an account?"

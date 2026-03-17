@@ -27,7 +27,7 @@ export default function WorkingSteps() {
       <h2 className="text-3xl font-bold text-accent-dark font-accent tracking-wide">
         How It Works
       </h2>
-      <p className=" w-1/2  text-center text-lg text-text-primary-headings">
+      <p className=" w-1/2 text-center text-lg text-text-primary-headings">
         Clear, actionable steps designed to keep you on track and achieve your
         fitness goals.
       </p>
@@ -35,7 +35,7 @@ export default function WorkingSteps() {
         {steps.map((step, index) => (
           <div key={step.title} className="flex items-center gap-4 ">
             <WorkingStep
-              step={index + 1}
+              step={index + 1} 
               title={step.title}
               description={step.description}
               isActive={activeStep === index + 1}

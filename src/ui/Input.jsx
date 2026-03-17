@@ -6,12 +6,12 @@ export default function Input({
   ...props
 }) {
   const classes =
-    "border-1 border-text-primary-paragraph px-3 py-2 placeholder:text-slate-400 rounded-md";
+    "border placeholder:text-slate-400 rounded-md outline-none px-3 py-2 ";
   return (
     <input
       type={type}
       name={name}
-      className={`${className} ${classes}`}
+      className={` ${classes} ${className}`}
       placeholder={placeholder}
       {...props}
     />

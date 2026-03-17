@@ -9,7 +9,7 @@ export default function Testimonials() {
   const testimonials = [
     {
       id: 1,
-      name: "David Kim",
+      name: "Taylor Scott",
       role: "Software Engineer",
       avatar: user1,
       text: "I’ve tried many tools before, but this one stands out for its reliability and speed. Support is also top-notch.",
@@ -31,19 +31,19 @@ export default function Testimonials() {
   ];
 
   const [index, setIndex] = useState(0);
-  const { avatar, role, text } = testimonials[index];
+  const { avatar, role, text, name } = testimonials[index];
 
   return (
-    <section className="font-bold grid-cols-[2fr_3fr] font-accent bg-slate-800 px-6 grid pb-20">
+    <section className="font-bold grid-cols-[2fr_3fr] font-accent bg-slate-800 p-6 grid ">
       {/* Left image + heading */}
-      <div className="relative w-fit">
+      <div className="relative   ">
         <img
-          className="h-[45rem] w-[35rem]"
+          className="h-[45rem] w-[35rem] rounded-xl "
           src={mainUser1}
           alt="Man riding cardio bike"
         />
-        <div className="absolute inset-0 bg-black/30" />
-        <h3 className="w-full absolute px-2 top-1/2 text-4xl uppercase z-10 text-center tracking-wide leading-tight bg-gradient-to-r from-cta-dark to-accent-dark bg-clip-text text-transparent">
+        <div className="absolute inset-0 bg-black/30 rounded-xl"  />
+<h3 className="absolute top-1/2   -translate-y-1/2 px-2 text-4xl uppercase z-10 text-center tracking-wide leading-tight bg-gradient-to-r from-cta-dark to-accent-dark bg-clip-text text-transparent">
           The People who felt the impact.
         </h3>
       </div>
@@ -54,7 +54,7 @@ export default function Testimonials() {
           What they’re saying
         </p>
 
-        <Testimonial key={index} avatar={avatar} role={role} text={text} />
+        <Testimonial key={index} name={name} avatar={avatar} role={role} text={text} />
 
         {/* Dots below */}
         <div className="flex justify-center gap-2 mt-4">
@@ -62,7 +62,7 @@ export default function Testimonials() {
             <button
               key={i}
               onClick={() => setIndex(i)}
-              className={`w-2.5 h-2.5 rounded-full border cursor-pointer border-white tranform  ${
+              className={`w-2.5 h-2.5 rounded-full border cursor-pointer border-white  ${
                 index === i ? "bg-white" : "bg-transparent hover:bg-white/20"
               }`}
             />
