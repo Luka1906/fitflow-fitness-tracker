@@ -1,7 +1,8 @@
-const signUpValidation = (schema) => {
+export const signUpValidation = (schema) => {
   return (req, res, next) => {
+    const inputFields = req.body;
     try {
-      const { error } = schema.validate(req.body, {
+      const { error } = schema.validate(inputFields, {
         abortEarly: false,
       });
 
@@ -15,7 +16,7 @@ const signUpValidation = (schema) => {
             errors[field] = err.message;
           }
         });
-        console.log(errors)
+        console.log(errors);
 
         return res.status(400).json({ errors });
       }
@@ -27,4 +28,32 @@ const signUpValidation = (schema) => {
   };
 };
 
-export default signUpValidation;
+export const loginValidation = (schema) => {
+  return (req, res, next) => {
+    const inputFields = req.body;
+    try {
+      const { error, value } = schema.validate(inputFields, {
+        abortEarly: false,
+      });
+
+      if (error) {
+        const errors = {};
+
+        error.details.forEach((err) => {
+          const field = err.path[0];
+
+          if (!errors[field]) {
+            errors[field] = err.message;
+          }
+        });
+        console.log(errors);
+
+        return res.status(400).json({ errors });
+      }
+
+      next();
+    } catch (error) {
+      return res.status(500).json({ error: "Server error" });
+    }
+  };
+};

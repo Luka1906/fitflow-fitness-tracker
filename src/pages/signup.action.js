@@ -11,10 +11,26 @@ export async function action({ request }) {
       : "http://localhost:3000/auth/login";
 
   try {
-    const response = await fetch(endpoint, {
+    let response;
+
+    if (mode === "signup") {
+      response = await fetch(endpoint, {
       method: "POST",
       body: formData,
+      credentials: "include"
     });
+    } else {
+      const loginData = Object.fromEntries(formData);
+      response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify(loginData)
+      })
+    }
+
 
     const responseData = await response.json();
 

@@ -48,7 +48,7 @@ export default function Headline() {
               <Button variant="primary" as={Link} to="auth?mode=signup">
                 Sign Up
               </Button>
-              <Button variant="outline" as={Link} to="auth">Log In</Button>
+              <Button variant="outline" as={Link} to="auth?mode=login">Log In</Button>
             </div>
           </div>
         </div>
