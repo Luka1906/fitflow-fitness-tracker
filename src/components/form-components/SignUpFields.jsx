@@ -3,23 +3,16 @@ import FitnessGoal from "./FitnessGoal";
 import { FaCheck } from "react-icons/fa6";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-import { useActionData } from "react-router-dom";
-
 import { useState } from "react";
 import {
   validateName,
   validateLocation,
-  validateCheckbox,
   validateEmail,
   validatePassword,
   validateConfirmPassword,
 } from "../utils/validation";
 
-export default function SignUpFields({
-  fitnessGoals,
-  avatarPreview,
-  onAvatarChange,
-}) {
+export default function SignUpFields({ avatarPreview, onAvatarChange }) {
   //   const errData = useActionData();
 
   const [signUpErr, setSignUpErr] = useState({});
@@ -32,7 +25,6 @@ export default function SignUpFields({
     firstName: "",
     lastName: "",
     location: "",
-    selectedGoals: [],
     email: "",
     password: "",
     confirmPassword: "",
@@ -52,26 +44,6 @@ export default function SignUpFields({
     }));
   };
 
-  const handleOnGoalChange = (event) => {
-    const { value, checked } = event.target;
-
-    setSignUpData((prev) => {
-      if (checked) {
-        if (prev.selectedGoals.length >= 3) {
-          return prev;
-        }
-        return {
-          ...prev,
-          selectedGoals: [...prev.selectedGoals, value],
-        };
-      }
-      return {
-        ...prev,
-        selectedGoals: prev.selectedGoals.filter((goal) => goal !== value),
-      };
-    });
-  };
-
   const handleOnBlurErr = (event) => {
     const { name, value } = event.target;
     let inputErr;
@@ -89,10 +61,7 @@ export default function SignUpFields({
         inputErr = validateLocation(value);
 
         break;
-      case "fitnessGoals":
-        inputErr = validateCheckbox(signUpData.selectedGoals);
 
-        break;
       case "email":
         inputErr = validateEmail(value);
 
@@ -179,35 +148,6 @@ export default function SignUpFields({
         </p>
       )}
 
-      <fieldset
-        className={`flex flex-col items-start gap-1 border-1 rounded-md p-3 ${signUpErr.fitnessGoals && "border-red-500"}`}
-      >
-        <legend
-          className={`text-accent-dark font-bold ${signUpErr.fitnessGoals && "text-red-500"} `}
-        >
-          Select your fitness goals (You can choose up to three)
-        </legend>
-        {fitnessGoals.map((goal) => (
-          <FitnessGoal
-            key={goal.value}
-            goal={goal}
-            checked={signUpData.selectedGoals.includes(goal.value)}
-            disabled={
-              signUpData.selectedGoals.length >= 3 &&
-              !signUpData.selectedGoals.includes(goal.value)
-            }
-            onChange={handleOnGoalChange}
-            onBlur={handleOnBlurErr}
-            error={signUpErr.fitnessGoals}
-          />
-        ))}
-      </fieldset>
-      {signUpErr.fitnessGoals && (
-        <p className="text-red-500 text-sm flex  relative bottom-4">
-          {signUpErr.fitnessGoals}
-        </p>
-      )}
-
       <div className="border-1 border-text-primary-paragraph px-3 py-4  placeholder:text-slate-400 rounded-md ">
         <label
           htmlFor="avatar"
@@ -269,12 +209,12 @@ export default function SignUpFields({
           />
           {passVisible.password ? (
             <FiEyeOff
-              className="text-accent-dark absolute right-1.5 top-1/2 -translate-y-1/2 cursor-pointer"
+              className="text-accent-dark absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
               onClick={() => handlePassVisibility("password")}
             />
           ) : (
             <FiEye
-              className="text-accent-dark absolute right-1.5 top-1/2 -translate-y-1/2 cursor-pointer"
+              className="text-accent-dark absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
               onClick={() => handlePassVisibility("password")}
             />
           )}
@@ -298,23 +238,23 @@ export default function SignUpFields({
             onChange={handleOnChange}
             onBlur={handleOnBlurErr}
           />
-         
-       {signUpData.password &&
-signUpData.confirmPassword &&
-signUpData.password === signUpData.confirmPassword &&
-!signUpErr.confirmPassword ? (
-  <FaCheck className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500" />
-) : passVisible.confirmPassword ? (
-  <FiEyeOff
-    className="text-accent-dark absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-    onClick={() => handlePassVisibility("confirmPassword")}
-  />
-) : (
-  <FiEye
-    className="text-accent-dark absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-    onClick={() => handlePassVisibility("confirmPassword")}
-  />
-)}
+
+          {signUpData.password &&
+          signUpData.confirmPassword &&
+          signUpData.password === signUpData.confirmPassword &&
+          !signUpErr.confirmPassword ? (
+            <FaCheck className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500" />
+          ) : passVisible.confirmPassword ? (
+            <FiEyeOff
+              className="text-accent-dark absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+              onClick={() => handlePassVisibility("confirmPassword")}
+            />
+          ) : (
+            <FiEye
+              className="text-accent-dark absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+              onClick={() => handlePassVisibility("confirmPassword")}
+            />
+          )}
 
           {signUpErr.confirmPassword && (
             <p className="absolute mt-2 text-sm text-red-500 text-left">

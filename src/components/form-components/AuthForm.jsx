@@ -29,21 +29,6 @@ export default function AuthForm() {
     };
   }, [avatarPreview]);
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [isSignup]);
-
-  const fitnessGoals = [
-    { value: "lose-weight", label: "Lose Weight" },
-    { value: "build-muscle", label: "Build Muscle" },
-    { value: "improve-endurance", label: "Improve Endurance" },
-    { value: "increase-flexibility", label: "Increase Flexibility" },
-    { value: "boost-strength", label: "Boost Strength" },
-    { value: "overall-health", label: "Improve Overall Health" },
-    { value: "balance-mobility", label: "Improve Balance & Mobility" },
-    { value: "rehabilition-recovery", label: "Rehabilitation & Recovery" },
-    { value: "competition", label: "Prepare for a Competition" },
-  ];
 
   return (
     <section aria-labelledby="signup-heading " className="px-6 pt-10 pb-20">
@@ -71,7 +56,6 @@ export default function AuthForm() {
             {isSignup ? (
               <SignUpFields
                 key="signup"
-                fitnessGoals={fitnessGoals}
                 avatarPreview={avatarPreview}
                 onAvatarChange={handleAvatarChange}
               />

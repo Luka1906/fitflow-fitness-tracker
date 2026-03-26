@@ -3,18 +3,23 @@ import HomePage from "./pages/Home";
 import "./index.css";
 import RootLayout from "./pages/Root";
 import SignUpPage from "./pages/SignUp";
+import OnbordingPage from "./pages/Onboarding";
 import ProfilePage from "./pages/Profile";
-import { action as authAction } from "./pages/signup.action";
-import {loader as profileLoader} from "./pages/profile.loader"
+
+import { signUpAction, logoutAction, onboardingAction } from "./pages/auth.action";
+import { onboardingLoader, profileLoader } from "./pages/profile.loader";
 
 const router = createBrowserRouter([
   {
     path: "",
     element: <RootLayout />,
     children: [
-      {index: true, element: <HomePage /> },
-      { path: "auth", element: <SignUpPage />, action:authAction },
-      {path: "profile", element: <ProfilePage/>, loader:profileLoader}
+      { index: true, element: <HomePage /> },
+      { path: "auth", element: <SignUpPage />, action: signUpAction },
+      { path: "onboarding", element: <OnbordingPage />, action: onboardingAction, loader: onboardingLoader},
+      { path: "profile", element: <ProfilePage />, loader: profileLoader },
+
+      { path: "logout", element: <ProfilePage />, action: logoutAction },
     ],
   },
 ]);

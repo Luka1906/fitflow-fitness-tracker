@@ -19,16 +19,6 @@ export const signupSchema = Joi.object({
     "string.min": "Location must be at least 2 characters long.",
     "string.max": "Location cannot exceed 100 characters.",
   }),
-  fitnessGoals: Joi.array()
-    .items(Joi.string())
-    .min(1)
-    .max(3)
-    .required()
-    .messages({
-      "array.min": "Please select at least 1 fitness goal.",
-      "array.max": "You can select up to 3 fitness goals.",
-      "any.required": "Fitness goals are required.",
-    }),
   email: Joi.string().email().required().messages({
     "string.email": "Please enter a valid email address.",
     "string.empty": "Email cannot be empty.",

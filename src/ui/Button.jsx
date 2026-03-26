@@ -5,13 +5,15 @@ export default function Button({
   className = "",
   ...props
 }) {
-  const baseStyles = "px-6 py-2 rounded-md font-semibold cursor-pointer ";
+  const baseStyles = "px-6 py-2 rounded-md font-semibold cursor-pointer focus ";
 
   const variants = {
-    primary:
-      "bg-accent-dark/90 text-text-primary-headings hover:bg-accent-dark",
-    outline: "border-2 border-cta-dark text-cta-dark hover:bg-cta-dark/10",
-  };
+  primary:
+    "bg-accent-dark text-white hover:bg-accent-dark/90 transition",
+
+  outline:
+    "border border-accent-dark text-accent-dark hover:bg-accent-dark/10 transition",
+};
 
   const classes = `${baseStyles} ${
     variants[variant] || variants.primary

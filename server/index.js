@@ -1,9 +1,11 @@
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js"
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { db } from "./config/db.js";
+
 
 import "dotenv/config";
 
@@ -45,6 +47,7 @@ app.use(
 //Routes
 
 app.use("/auth", authRoutes);
+app.use("/users", profileRoutes )
 
 app.listen(port, () => {
   console.log("Server running on port 3000");
