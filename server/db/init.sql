@@ -8,6 +8,7 @@ CREATE TABLE
         password_hash TEXT NOT NULL,
         location VARCHAR(100),
         avatar_url TEXT,
+        onboarding_completed BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );

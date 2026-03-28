@@ -3,6 +3,7 @@ export default function FitnessGoal({
   onChange,
   onBlur,
   checked,
+  defaultChecked,
   disabled,
 }) {
   return (
@@ -15,6 +16,7 @@ export default function FitnessGoal({
         name="fitnessGoals"
         value={goal.value}
         checked={checked}
+        defaultChecked={defaultChecked}
         disabled={disabled}
         onChange={onChange}
         onBlur={onBlur}

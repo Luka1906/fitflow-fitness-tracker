@@ -5,9 +5,15 @@ import RootLayout from "./pages/Root";
 import SignUpPage from "./pages/SignUp";
 import OnbordingPage from "./pages/Onboarding";
 import ProfilePage from "./pages/Profile";
+import EditProfilPage from "./pages/EditProfil.jsx";
 
-import { signUpAction, logoutAction, onboardingAction } from "./pages/auth.action";
-import { onboardingLoader, profileLoader } from "./pages/profile.loader";
+import {
+  signUpAction,
+  logoutAction,
+  onboardingAction,
+  editAction,
+} from "./pages/actions.js";
+import { profileLoader, onboardingLoader } from "./pages/loaders.js";
 
 const router = createBrowserRouter([
   {
@@ -16,13 +22,31 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "auth", element: <SignUpPage />, action: signUpAction },
-      { path: "onboarding", element: <OnbordingPage />, action: onboardingAction, loader: onboardingLoader},
-      { path: "profile", element: <ProfilePage />, loader: profileLoader },
-
-      { path: "logout", element: <ProfilePage />, action: logoutAction },
+      {
+        path: "onboarding",
+        element: <OnbordingPage />,
+        action: onboardingAction,
+        loader: onboardingLoader,
+      },
+      {
+        path: "profile",
+        element: <ProfilePage />,
+        loader: profileLoader,
+      },
+      {
+        path: "profile/edit",
+        element: <EditProfilPage />,
+        loader: profileLoader,
+        action: editAction
+      },
+      {
+        path: "logout",
+        action: logoutAction,
+      },
     ],
   },
 ]);
+
 function App() {
   return (
     <div className="bg-bg-dark min-h-screen text-text-primary-paragraph font-primary">

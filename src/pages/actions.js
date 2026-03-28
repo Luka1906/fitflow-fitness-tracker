@@ -1,5 +1,7 @@
 import { redirect } from "react-router-dom";
 
+// SIGNUP ACTION
+
 export async function signUpAction({ request }) {
   const formData = await request.formData();
   const url = new URL(request.url);
@@ -45,6 +47,8 @@ export async function signUpAction({ request }) {
   }
 }
 
+// ONBOARDING ACTION
+
 export async function onboardingAction({ request }) {
   const formData = await request.formData();
   console.log([...formData.entries()]);
@@ -72,6 +76,8 @@ export async function onboardingAction({ request }) {
   return redirect("/profile");
 }
 
+// LOGOUT ACTION
+
 export async function logoutAction() {
   const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
     method: "POST",
@@ -84,4 +90,31 @@ export async function logoutAction() {
     throw new Error("Failed to logout user");
   }
   return redirect("/");
+}
+
+// EDIT ACTION
+
+export async function editAction({request}) {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  const fitnessGoals = formData.getAll("fitnessGoals");
+  const finalData = { ...data, fitnessGoals };
+
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile/edit`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(finalData),
+      credentials: "include"
+    },
+  );
+
+  if(!response.ok) {
+    throw new Error("Failed to edit user info")
+  };
+
+  return redirect("/profile")
 }

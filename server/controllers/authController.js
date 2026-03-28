@@ -6,6 +6,7 @@ import {
   getGoalIds,
   addUserGoals,
 } from "../models/authModel.js";
+import { updateUserInfo } from "../models/profileModel.js";
 
 export const signupUser = async (req, res) => {
   const { firstName, lastName, location, email, password } = req.body;
@@ -60,7 +61,12 @@ export const onboardingUser = async (req, res) => {
       return res.status(400).json({ error: "Max 3 goals allowed" });
     }
     if (fitnessGoals.length === 0) {
-      return res.status(200).json("No goals selected, onboarding complete");
+      await updateUserInfo(req.session.userId, {
+        onboarding_completed: true,
+      });
+      return res.status(200).json({
+        message: "No goals selected, onboarding complete",
+      });
     }
 
     const goalIds = await getGoalIds(fitnessGoals);
@@ -69,7 +75,13 @@ export const onboardingUser = async (req, res) => {
       await addUserGoals(req.session.userId, goalId);
     }
 
-    return res.status(200).json("User is onboarded successfully");
+    await updateUserInfo(req.session.userId, {
+      onboarding_completed: true,
+    });
+
+    return res.status(200).json({
+      message: "User onboarded successfully",
+    });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
   }

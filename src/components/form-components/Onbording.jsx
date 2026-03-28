@@ -3,20 +3,10 @@ import FitnessGoal from "./FitnessGoal";
 import Card from "../../ui/Card";
 import { useState, useEffect } from "react";
 import Button from "../../ui/Button";
+import { fitnessGoals } from "../utils/fitnessGoals";
 
 
 export default function Onboarding() {
-  const fitnessGoals = [
-    { value: "lose-weight", label: "Lose Weight" },
-    { value: "build-muscle", label: "Build Muscle" },
-    { value: "improve-endurance", label: "Improve Endurance" },
-    { value: "increase-flexibility", label: "Increase Flexibility" },
-    { value: "boost-strength", label: "Boost Strength" },
-    { value: "overall-health", label: "Improve Overall Health" },
-    { value: "balance-mobility", label: "Improve Balance & Mobility" },
-    { value: "rehabilition-recovery", label: "Rehabilitation & Recovery" },
-    { value: "competition", label: "Prepare for a Competition" },
-  ];
 
   const [selectedGoals, setSelectedGoals] = useState([]);
 
@@ -38,7 +28,7 @@ export default function Onboarding() {
   useEffect(() => {
     window.scrollTo({top: 0, behavior: "smooth"})
   },[])
-  
+
   return (
     <Card classes="w-full max-w-2xl mx-auto my-10 p-6 sm:p-8 md:p-10">
       <Form method="POST" className="flex flex-col gap-8">

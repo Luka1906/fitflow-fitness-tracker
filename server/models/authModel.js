@@ -47,3 +47,5 @@ export const addUserGoals = async (userId, goalId) => {
 
   return result.rows[0];
 };
+
+

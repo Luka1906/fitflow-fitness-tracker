@@ -18,7 +18,9 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-  }),
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+     allowedHeaders: ["Content-Type"],
+  })
 );
 
 // Middlewares
