@@ -2,7 +2,7 @@
 
 //  First Name and Last Name Validation
 
-export const validateName = (value, fieldName = "Name") => {
+export const validateName = (value, fieldName = "The field") => {
   if (!value.trim()) {
     return `${fieldName} is required`;
   }

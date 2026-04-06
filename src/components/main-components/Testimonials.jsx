@@ -3,6 +3,7 @@ import user1 from "../../assets/testimonials/testimonial4.jpg";
 import user2 from "../../assets/testimonials/testimonial5.jpg";
 import user3 from "../../assets/testimonials/testimonial6.jpg";
 import mainUser1 from "../../assets/testimonials/testimonial8.jpg";
+import Card from "../../ui/Card";
 import Testimonial from "./Testimonial";
 
 export default function Testimonials() {
@@ -36,7 +37,7 @@ export default function Testimonials() {
   return (
     <section className="font-bold grid-cols-[2fr_3fr] font-accent bg-slate-800 p-6 grid ">
       {/* Left image + heading */}
-      <div className="relative   ">
+      <div className="relative">
         <img
           className="h-[45rem] w-[35rem] rounded-xl "
           src={mainUser1}

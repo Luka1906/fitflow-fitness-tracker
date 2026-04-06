@@ -6,7 +6,7 @@ async function getCurrentUser() {
     `${import.meta.env.VITE_API_URL}/users/profile`,
     {
       credentials: "include",
-    }
+    },
   );
 
   if (response.status === 401) {
@@ -36,10 +36,28 @@ export async function profileLoader() {
 // ONBOARDING LOADER
 export async function onboardingLoader() {
   const user = await getCurrentUser();
+ 
 
   if (user.onboarding_completed) {
     throw redirect("/profile");
   }
 
   return user;
+}
+
+// AUTH LOADER
+
+export async function authLoader() {
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile`,
+    {
+      credentials: "include",
+    },
+  );
+
+  if (response.ok) {
+    return redirect("/profile");
+  }
+
+  return null;
 }

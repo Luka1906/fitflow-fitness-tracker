@@ -11,9 +11,10 @@ import {
   signUpAction,
   logoutAction,
   onboardingAction,
-  editAction,
+  editInfoAction,
+  editImageAction,
 } from "./pages/actions.js";
-import { profileLoader, onboardingLoader } from "./pages/loaders.js";
+import { profileLoader, onboardingLoader, authLoader } from "./pages/loaders.js";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "auth", element: <SignUpPage />, action: signUpAction },
+      { path: "auth", element: <SignUpPage />, action: signUpAction, loader: authLoader },
       {
         path: "onboarding",
         element: <OnbordingPage />,
@@ -32,12 +33,13 @@ const router = createBrowserRouter([
         path: "profile",
         element: <ProfilePage />,
         loader: profileLoader,
+        action: editImageAction
       },
       {
         path: "profile/edit",
         element: <EditProfilPage />,
         loader: profileLoader,
-        action: editAction
+        action: editInfoAction
       },
       {
         path: "logout",

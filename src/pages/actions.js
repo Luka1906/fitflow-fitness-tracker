@@ -94,27 +94,48 @@ export async function logoutAction() {
 
 // EDIT ACTION
 
-export async function editAction({request}) {
+export async function editInfoAction({ request }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   const fitnessGoals = formData.getAll("fitnessGoals");
-  const finalData = { ...data, fitnessGoals };
+  const finalData = { ...data, fitnessGoals};
 
   const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/users/profile/edit`,
+    `${import.meta.env.VITE_API_URL}/users/profile`,
     {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(finalData),
-      credentials: "include"
+      credentials: "include",
     },
   );
 
-  if(!response.ok) {
-    throw new Error("Failed to edit user info")
-  };
+  if (!response.ok) {
+    throw new Error("Failed to edit user info");
+  }
 
-  return redirect("/profile")
+  return redirect("/profile");
+}
+
+// EDIT USER PHOTO
+
+export async function editImageAction({ request }) {
+  const formData = await request.formData();
+
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile/avatar`,
+    {
+      method: "PATCH",
+      body: formData,
+      credentials: "include",
+    },
+  );
+
+  if (!response.ok) {
+    return { error: "Failed to update profile image" };
+  }
+
+  return { success: "Profile photo updated successfully" };
 }

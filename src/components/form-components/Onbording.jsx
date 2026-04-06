@@ -2,13 +2,15 @@ import { Form } from "react-router-dom";
 import FitnessGoal from "./FitnessGoal";
 import Card from "../../ui/Card";
 import { useState, useEffect } from "react";
+import { useLoaderData } from "react-router-dom";
 import Button from "../../ui/Button";
-import { fitnessGoals } from "../utils/fitnessGoals";
+// import { fitnessGoals } from "../utils/fitnessGoals";
 
 
 export default function Onboarding() {
 
   const [selectedGoals, setSelectedGoals] = useState([]);
+  const {goalOptions} = useLoaderData();
 
   const handleOnGoalChange = (event) => {
     const { value, checked } = event.target;
@@ -47,7 +49,7 @@ export default function Onboarding() {
           </legend>
 
           <div className="flex flex-col gap-3">
-            {fitnessGoals.map((goal) => (
+            {goalOptions.map((goal) => (
               <FitnessGoal
                 key={goal.value}
                 goal={goal}

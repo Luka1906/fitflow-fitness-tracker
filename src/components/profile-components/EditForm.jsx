@@ -1,35 +1,82 @@
 import { Form, useLoaderData, Link } from "react-router-dom";
-import { fitnessGoals } from "../utils/fitnessGoals";
 import FitnessGoal from "../form-components/FitnessGoal";
 import { MdArrowBack } from "react-icons/md";
 import { useState } from "react";
+import { validateLocation, validateName } from "../utils/validation";
 
 export default function EditForm() {
-  const user = useLoaderData();
+  const { first_name, last_name, location, selectedGoals, goalOptions } =
+    useLoaderData();
 
-  const selectedGoals = user.goals.map((goal) => goal.key);
+  const userGoals = selectedGoals.map((goal) => goal.id);
 
-  const [goals, setGoals] = useState([...selectedGoals]);
+  const [goals, setGoals] = useState([...userGoals]);
 
-  console.log(goals)
-  
+  const [editData, setEditData] = useState({
+    first_name: first_name,
+    last_name: last_name,
+    location: location,
+  });
+  const [editErr, setEditErr] = useState({});
+
   const handleOnGoalChange = (event) => {
-    const { value, checked } = event.target;
+    const { checked } = event.target;
+    const value = +event.target.value;
+    console.log(value);
 
     setGoals((prev) => {
       if (checked) {
         if (prev.length >= 3 || prev.includes(value)) {
           return prev;
         }
-        return [...prev, value]
+        return [...prev, value];
       }
 
-      return prev.filter((goal) => goal !==value)
-
+      return prev.filter((goal) => goal !== value);
     });
-    console.log(checked);
   };
-  ["flexibility, strenght, balance"]
+
+  const handleOnBlurErr = (event) => {
+    const { name, value } = event.target;
+    let inputErr;
+    switch (name) {
+      case "first_name":
+        inputErr = validateName(value, "First Name");
+
+        break;
+      case "last_name":
+        inputErr = validateName(value, "Last Name");
+
+        break;
+
+      case "location":
+        inputErr = validateLocation(value);
+
+        break;
+
+      default:
+        break;
+    }
+    setEditErr((prev) => ({
+      ...prev,
+      [name]: inputErr,
+    }));
+  };
+
+  const handleOnChangeErr = (event) => {
+    const { name, value } = event.target;
+
+    setEditData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    setEditErr((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
+
+  const errorText = "mt-2 text-sm text-red-400 min-h-[20px]";
 
   return (
     <section className="mx-auto my-16 w-full max-w-2xl px-4">
@@ -68,10 +115,15 @@ export default function EditForm() {
               <input
                 id="firstName"
                 type="text"
+                value={editData.first_name}
                 name="first_name"
-                defaultValue={user.first_name}
                 className="w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-text-primary-paragraph placeholder:text-text-primary-paragraph/35 outline-none transition focus:border-accent-dark/50 focus:ring-2 focus:ring-accent-dark/30"
+                onBlur={handleOnBlurErr}
+                onChange={handleOnChangeErr}
               />
+              {editErr.first_name && (
+                <p className={errorText}>{editErr.first_name}</p>
+              )}
             </div>
 
             <div className="flex flex-col gap-2">
@@ -85,9 +137,14 @@ export default function EditForm() {
                 id="lastName"
                 type="text"
                 name="last_name"
-                defaultValue={user.last_name}
+                value={editData.last_name}
                 className="w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-text-primary-paragraph placeholder:text-text-primary-paragraph/35 outline-none transition focus:border-accent-dark/50 focus:ring-2 focus:ring-accent-dark/30"
+                onBlur={handleOnBlurErr}
+                onChange={handleOnChangeErr}
               />
+              {editErr.last_name && (
+                <p className={errorText}>{editErr.last_name}</p>
+              )}
             </div>
           </div>
 
@@ -102,9 +159,14 @@ export default function EditForm() {
               id="location"
               type="text"
               name="location"
-              defaultValue={user.location}
+              value={editData.location}
               className="w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-text-primary-paragraph placeholder:text-text-primary-paragraph/35 outline-none transition focus:border-accent-dark/50 focus:ring-2 focus:ring-accent-dark/30"
+              onBlur={handleOnBlurErr}
+              onChange={handleOnChangeErr}
             />
+            {editErr.location && (
+              <p className={errorText}>{editErr.location}</p>
+            )}
           </div>
 
           <fieldset className="rounded-2xl border border-white/10 bg-black/10 p-5">
@@ -117,17 +179,16 @@ export default function EditForm() {
             </p>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              {fitnessGoals.map((goal) => (
+              {goalOptions.map((goal) => (
                 <div
-                  key={goal.value}
+                  key={goal.id}
                   className="rounded-xl border border-white/8 bg-white/[0.03] px-3 py-3 transition hover:bg-white/[0.06]"
                 >
                   <FitnessGoal
                     goal={goal}
-                    defaultChecked={selectedGoals.includes(goal.value)}
-             
+                    checked={goals.includes(goal.id)}
                     onChange={handleOnGoalChange}
-                    disabled= {goals.length >=3 && !goals.includes(goal.value) }
+                    disabled={goals.length >= 3 && !goals.includes(goal.id)}
                   />
                 </div>
               ))}

@@ -6,7 +6,7 @@ export default function Input({
   ...props
 }) {
   const classes =
-    "border placeholder:text-slate-400 rounded-md outline-none px-3 py-2 ";
+   "w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-text-primary-paragraph placeholder:text-text-primary-paragraph/40 backdrop-blur-sm transition focus:border-accent-dark focus:ring-2 focus:ring-accent-dark/20 outline-none";
   return (
     <input
       type={type}

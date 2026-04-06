@@ -23,10 +23,6 @@ router.post(
 
 router.post("/onboarding", authUser, onboardingUser);
 
-router.get("/onboarding", authUser, (req,res) => {
-  res.status(200).json({id:req.session.userId, onboarding_completed: true})
-})
-
 router.post("/login", loginValidation(loginSchema), loginUser);
 
 

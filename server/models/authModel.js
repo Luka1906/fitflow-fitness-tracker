@@ -24,9 +24,10 @@ export const existingUser = async (email) => {
 };
 
 export const getGoalIds = async (goalName) => {
-  const result = await db.query("SELECT id from goal_options WHERE key = ANY($1::text[])", [
-    goalName,
-  ]);
+  const result = await db.query(
+    "SELECT id from goal_options WHERE key = ANY($1::text[])",
+    [goalName],
+  );
   return result.rows.map((row) => row.id);
 };
 
@@ -36,16 +37,12 @@ export const addUserGoals = async (userId, goalId) => {
      VALUES ($1, $2)
      ON CONFLICT (user_id, goal_id) DO NOTHING
      RETURNING *`,
-    [userId, goalId]
+    [userId, goalId],
   );
 
   if (result.rows.length === 0) {
     return null; // already existed
   }
 
-  console.log(result.rows[0])
-
   return result.rows[0];
 };
-
-
