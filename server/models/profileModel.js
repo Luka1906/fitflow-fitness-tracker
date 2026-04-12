@@ -110,3 +110,21 @@ export const updateUserImage = async (image, id) => {
 
   return result.rows[0];
 };
+
+//ADD USER WEIGHT
+
+export const addWeightLogger = async (id, weight, unit, date) => {
+  await db.query(
+    "INSERT INTO weight_logs (user_id, weight, unit, logged_at ) VALUES ($1, $2, $3, $4)",
+    [id, weight, unit, date],
+  );
+};
+
+// ADD USER WATER
+
+export const addWaterLogger = async (id, amount, date) => {
+  await db.query(
+    "INSERT INTO water_logs (user_id, amount, logged_at) VALUES ($1, $2, $3)",
+    [id, amount, date],
+  );
+};

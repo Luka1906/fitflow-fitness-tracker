@@ -13,8 +13,15 @@ import {
   onboardingAction,
   editInfoAction,
   editImageAction,
+  addWeightAction,
+  addWaterAction,
+  addWorkoutAction,
 } from "./pages/actions.js";
-import { profileLoader, onboardingLoader, authLoader } from "./pages/loaders.js";
+import {
+  profileLoader,
+  onboardingLoader,
+  authLoader,
+} from "./pages/loaders.js";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +29,12 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "auth", element: <SignUpPage />, action: signUpAction, loader: authLoader },
+      {
+        path: "auth",
+        element: <SignUpPage />,
+        action: signUpAction,
+        loader: authLoader,
+      },
       {
         path: "onboarding",
         element: <OnbordingPage />,
@@ -33,13 +45,22 @@ const router = createBrowserRouter([
         path: "profile",
         element: <ProfilePage />,
         loader: profileLoader,
-        action: editImageAction
+        action: editImageAction,
       },
       {
         path: "profile/edit",
         element: <EditProfilPage />,
         loader: profileLoader,
-        action: editInfoAction
+        action: editInfoAction,
+      },
+      {
+        path: "profile/add-weight",
+        action: addWeightAction,
+      },
+      { path: "profile/add-water", action: addWaterAction },
+      {
+        path: "profile/add-workout",
+        action: addWorkoutAction,
       },
       {
         path: "logout",

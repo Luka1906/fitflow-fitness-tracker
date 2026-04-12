@@ -1,7 +1,7 @@
 import Input from "../../ui/Input";
 import { FaCheck } from "react-icons/fa6";
 import { FiEye, FiEyeOff, FiUploadCloud } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   validateName,
   validateLocation,
@@ -10,7 +10,13 @@ import {
   validateConfirmPassword,
 } from "../utils/validation";
 
-export default function SignUpFields({ avatarPreview, onAvatarChange }) {
+export default function SignUpFields({
+  avatarPreview,
+  onAvatarChange,
+  clearServerErr,
+  setIsValid
+}) {
+
   const [signUpErr, setSignUpErr] = useState({});
   const [passVisible, setPassVisible] = useState({
     password: false,
@@ -36,6 +42,7 @@ export default function SignUpFields({ avatarPreview, onAvatarChange }) {
       ...prev,
       [name]: "",
     }));
+    clearServerErr();
   };
 
   const handleOnBlurErr = (event) => {
@@ -78,6 +85,14 @@ export default function SignUpFields({ avatarPreview, onAvatarChange }) {
     }));
   };
 
+  useEffect(() => {
+    const requiredFields = ["firstName", "lastName", "email", "password", "confirmPassword"];
+    const hasEmptyFields = requiredFields.some(field => !signUpData[field].trim());
+    const hasErrors = Object.values(signUpErr).some(err => err!=="" );
+
+    setIsValid(!hasEmptyFields && !hasErrors)
+  },[signUpData, signUpErr])
+
   const errorText = "mt-2 text-sm text-red-400 min-h-[20px]";
 
   return (
@@ -93,7 +108,7 @@ export default function SignUpFields({ avatarPreview, onAvatarChange }) {
             onBlur={handleOnBlurErr}
             value={signUpData.firstName}
           />
-         <p className={errorText}>{signUpErr.firstName}</p>
+          <p className={errorText}>{signUpErr.firstName}</p>
         </div>
 
         <div className="flex flex-col items-start w-full">
@@ -106,7 +121,7 @@ export default function SignUpFields({ avatarPreview, onAvatarChange }) {
             onBlur={handleOnBlurErr}
             value={signUpData.lastName}
           />
-       <p className={errorText}>{signUpErr.lastName}</p>
+          <p className={errorText}>{signUpErr.lastName}</p>
         </div>
       </div>
 
@@ -120,7 +135,7 @@ export default function SignUpFields({ avatarPreview, onAvatarChange }) {
           onBlur={handleOnBlurErr}
           value={signUpData.location}
         />
-     <p className={errorText}>{signUpErr.location}</p>
+        <p className={errorText}>{signUpErr.location}</p>
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
@@ -172,34 +187,32 @@ export default function SignUpFields({ avatarPreview, onAvatarChange }) {
           onChange={handleOnChange}
           onBlur={handleOnBlurErr}
         />
-    <p className={errorText}>{signUpErr.email}</p>
+        <p className={errorText}>{signUpErr.email}</p>
       </div>
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="flex flex-col items-start ">
-   <div className="relative w-full">
-          <Input
-            className={` pr-11 ${signUpErr.password ? "border-red-500" : ""}`}
-            type={passVisible.password ? "text" : "password"}
-            name="password"
-            placeholder="Password"
-            value={signUpData.password}
-            onChange={handleOnChange}
-            onBlur={handleOnBlurErr}
-          />
-          <button
-            type="button"
-            onClick={() => handlePassVisibility("password")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-accent-dark/80 hover:text-accent-dark transition"
-          >
-            {passVisible.password ? <FiEyeOff /> : <FiEye />}
-          </button>
+          <div className="relative w-full">
+            <Input
+              className={` pr-11 ${signUpErr.password ? "border-red-500" : ""}`}
+              type={passVisible.password ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={signUpData.password}
+              onChange={handleOnChange}
+              onBlur={handleOnBlurErr}
+            />
+            <button
+              type="button"
+              onClick={() => handlePassVisibility("password")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-accent-dark/80 hover:text-accent-dark transition"
+            >
+              {passVisible.password ? <FiEyeOff /> : <FiEye />}
+            </button>
+          </div>
+          <p className={errorText}>{signUpErr.password}</p>
         </div>
-        <p className={errorText}>{signUpErr.password}</p>
 
-        </div>
-     
-      
         <div className="flex flex-col items-start">
           <div className="relative w-full">
             <Input
@@ -229,7 +242,7 @@ export default function SignUpFields({ avatarPreview, onAvatarChange }) {
               </button>
             )}
           </div>
-        <p className={errorText}>{signUpErr.confirmPassword}</p>
+          <p className={errorText}>{signUpErr.confirmPassword}</p>
         </div>
       </div>
     </div>

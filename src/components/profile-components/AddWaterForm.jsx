@@ -1,11 +1,15 @@
-import { Form } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useFetcher } from "react-router-dom";
 import Button from "../../ui/Button";
 
 export function AddWaterForm({ onClose }) {
   const presets = [250, 500, 750, 1000];
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState("");
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const fetcher = useFetcher();
 
   const handlePresetClick = (amount) => {
     setSelectedAmount(amount);
@@ -17,14 +21,20 @@ export function AddWaterForm({ onClose }) {
     setSelectedAmount(null);
   };
 
+  useEffect(() => {
+    if (fetcher.state === "idle" && fetcher.data?.success) {
+      onClose();
+    }
+  }, [fetcher.state, fetcher.data, onClose]);
+
   return (
-    <Form method="POST" className="flex flex-col">
+    <fetcher.Form method="POST" action="/profile/add-water" className="flex flex-col">
       <div className="flex items-center justify-between bg-bg-dark px-5 py-4">
         <h2 className="text-xl font-semibold tracking-wide text-accent-dark">
           Log Water
         </h2>
 
-          <button
+        <button
           type="button"
           onClick={onClose}
           className="flex h-9 w-9  items-center justify-center border border-slate-600 rounded-full text-2xl text-white/70 transition hover:bg-white/10 hover:text-white"
@@ -69,7 +79,7 @@ export function AddWaterForm({ onClose }) {
           <input
             type="number"
             id="amount"
-            name="amount"
+            name= {`${selectedAmount ? undefined : "amount"}`}
             min="0"
             step="1"
             placeholder="e.g. 300"
@@ -80,8 +90,10 @@ export function AddWaterForm({ onClose }) {
         </div>
 
         {selectedAmount && (
-          <input type="hidden" name="amount" value={selectedAmount} />
+          <input name="amount" value={selectedAmount} />
         )}
+        {/* Hidden date */}
+        <input type="hidden" name="date" value={today} />
       </div>
 
       <div className="flex justify-end gap-3 border-t border-black/5 bg-slate-50 px-5 py-4">
@@ -92,6 +104,6 @@ export function AddWaterForm({ onClose }) {
           Save
         </Button>
       </div>
-    </Form>
+    </fetcher.Form>
   );
 }

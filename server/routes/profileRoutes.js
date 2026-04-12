@@ -1,6 +1,9 @@
 import express from "express";
 import {
-    editUserAvatar,
+  addUserWater,
+  addUserWeight,
+  addUserWorkout,
+  editUserAvatar,
   editUserProfile,
   getUserProfile,
 } from "../controllers/profileController.js";
@@ -14,6 +17,14 @@ const router = express.Router();
 
 router.get("/profile", authUser, getUserProfile);
 router.patch("/profile", authUser, editUserProfile);
-router.patch("/profile/avatar", authUser, upload.single("avatar"), editUserAvatar);
+router.patch(
+  "/profile/avatar",
+  authUser,
+  upload.single("avatar"),
+  editUserAvatar,
+);
+router.post("/profile/add-weight", authUser, addUserWeight);
+router.post("/profile/add-water", authUser, addUserWater);
+router.post("/profile/add-workout", authUser, addUserWorkout)
 
 export default router;

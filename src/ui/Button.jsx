@@ -5,7 +5,7 @@ export default function Button({
   className = "",
   ...props
 }) {
-  const baseStyles = "px-6 py-2 rounded-xl font-semibold cursor-pointer focus ";
+  const baseStyles = "px-6 py-2 rounded-xl font-semibold focus ";
 
   const variants = {
     primary: "bg-accent-dark text-white hover:bg-accent-dark/90 transition",

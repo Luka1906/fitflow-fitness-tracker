@@ -4,12 +4,19 @@ import Card from "../../ui/Card";
 import SignUpFields from "./SignUpFields";
 import LoginFields from "./LoginFields";
 import { useEffect, useState } from "react";
+import { useActionData, useNavigation } from "react-router-dom";
 
 export default function AuthForm() {
+  const errors = useActionData();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
   const [searchParams] = useSearchParams();
   const isSignup = searchParams.get("mode") === "signup";
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(null);
+  const [serverErr, setServerErr] = useState({});
+  const [isValid, setIsValid] = useState(false);
 
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];
@@ -29,6 +36,15 @@ export default function AuthForm() {
     };
   }, [avatarPreview]);
 
+  useEffect(() => {
+    setServerErr(errors || {});
+  }, [errors]);
+
+  const handleClearServerErr = () => {
+    setServerErr({});
+  };
+
+  // Disabling button errors
 
   return (
     <section aria-labelledby="signup-heading " className="px-6 pt-10 pb-20">
@@ -58,14 +74,30 @@ export default function AuthForm() {
                 key="signup"
                 avatarPreview={avatarPreview}
                 onAvatarChange={handleAvatarChange}
+                clearServerErr={handleClearServerErr}
+                setIsValid={setIsValid}
               />
             ) : (
-              <LoginFields key="login" />
+              <LoginFields key="login" setIsValid={setIsValid} />
             )}
 
-            <Button className="w-full uppercase" variant="primary">
-              {isSignup ? "Register" : "Login"}
+            <Button
+              disabled={isSubmitting || !isValid}
+              type="submit"
+              className={`w-full uppercase ${!isValid ? "cursor-not-allowed" : ""}`}
+              variant="primary"
+            >
+              {isSubmitting ? "Submitting..." : isSignup ? "Register" : "Login"}
             </Button>
+            <ol>
+              {serverErr &&
+                Object.values(serverErr).map((err) => (
+                  <li key={err} className="  text-red-400 relative">
+                    {" "}
+                    {err}
+                  </li>
+                ))}
+            </ol>
           </Form>
           <div className="text-left text-sm text-slate-500 mt-4">
             {isSignup
@@ -82,5 +114,4 @@ export default function AuthForm() {
       </Card>
     </section>
   );
-  
 }
