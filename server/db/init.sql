@@ -46,6 +46,12 @@ CREATE TABLE
         goal_id INT REFERENCES goal_options (id) ON DELETE CASCADE,
         UNIQUE (user_id, goal_id)
     )
+CREATE TABLE
+    user_profile (
+        id SERIAL PRIMARY KEY,
+        user_id INT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+        water_goal INT
+    )
     --CREATE weight_logs table
 CREATE TABLE
     weight_logs (
@@ -88,6 +94,7 @@ CREATE TABLE
         UNIQUE (workout_id, order_index)
     );
 
+-- CREATE workout_sets table
 CREATE TABLE
     workout_sets (
         id SERIAL PRIMARY KEY,

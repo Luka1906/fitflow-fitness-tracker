@@ -6,21 +6,26 @@ import {
   updateUserGoals,
   updateUserImage,
   updateUserInfo,
-  addWaterLogger
+  addWaterLogger,
+  addWorkoutLogger,
+  getWaterGoal,
+
 } from "../models/profileModel.js";
 import uploadImage from "../util/cloudinary.js";
 
 export const getUserProfile = async (req, res) => {
   try {
     const user = await getUserById(req.session.userId);
+
     if (!user) return res.status(401).json({ error: "Authorization failed" });
 
     const userGoals = await getUserGoals(req.session.userId);
     const allGoals = await getAllGoals();
-
+    const waterGoal = await getWaterGoal(req.session.userId)
+    console.log(waterGoal)
     return res
       .status(200)
-      .json({ ...user, selectedGoals: userGoals, goalOptions: allGoals });
+      .json({ ...user, selectedGoals: userGoals, goalOptions: allGoals, selectedWaterGoal: waterGoal });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
   }
@@ -78,7 +83,7 @@ export const addUserWeight = async (req, res) => {
 export const addUserWater = async (req, res) => {
   const { amount, date } = req.body;
   const userId = req.session.userId;
-  console.log(amount,date)
+  console.log(amount, date);
 
   if (!amount || !date) {
     return res.status(400).json({ message: "Input fields are missing!" });
@@ -86,7 +91,7 @@ export const addUserWater = async (req, res) => {
 
   try {
     const transformedAmount = Number(amount);
-    console.log(transformedAmount)
+    console.log(transformedAmount);
     await addWaterLogger(userId, transformedAmount, date);
     res.status(200).json({ message: "Success" });
   } catch (error) {
@@ -94,14 +99,24 @@ export const addUserWater = async (req, res) => {
   }
 };
 
-export const addUserWorkout = async (req,res) => {
-  const {workouts} = req.body;
-  workouts.forEach((workout) => {
-    console.log(workout)
-  })
+export const addUserWorkout = async (req, res) => {
+  const { workouts, note, date } = req.body;
+  const userId = req.session.userId;
 
- 
- 
-  res.status(200).json({message: "Success"})
-}
+  if (!workouts || !date) {
+    return res.status(400).json({ message: "Input fields are missing!" });
+  }
 
+  try {
+    await addWorkoutLogger({
+      userId,
+      workouts,
+      note,
+      date,
+    });
+
+    res.status(200).json({ message: "Success" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to save workout session" });
+  }
+};

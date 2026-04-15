@@ -18,6 +18,7 @@ async function getCurrentUser() {
   if (!response.ok) {
     throw new Error(data.message || "Failed to load user");
   }
+  console.log(data)
 
   return data;
 }

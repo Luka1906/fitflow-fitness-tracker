@@ -54,9 +54,11 @@ export async function signUpAction({ request }) {
 
 export async function onboardingAction({ request }) {
   const formData = await request.formData();
-  console.log([...formData.entries()]);
-  const selectedGoals = formData.getAll("fitnessGoals");
-  console.log(selectedGoals);
+  const data = {
+    selectedFitnessGoals: formData.getAll("fitnessGoals"),
+    selectedWaterGoal: formData.get("waterGoal")
+  }
+
 
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/auth/onboarding`,
@@ -65,7 +67,7 @@ export async function onboardingAction({ request }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ fitnessGoals: selectedGoals }),
+         body: JSON.stringify(data),
       credentials: "include",
     },
   );
@@ -227,7 +229,7 @@ export async function addWorkoutAction({ request }) {
 
   const data = {
     workouts: workouts,
-    notes: formData.get("note"),
+    note: formData.get("note"),
     date: formData.get("date"),
   };
 

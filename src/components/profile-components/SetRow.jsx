@@ -5,7 +5,7 @@ export default function SetRow({ set, onDelete, onChange }) {
   return (
     <div className="flex items-center rounded-xl border border-slate-200 bg-white p-3 px-2">
       <span className="b min-w-[52px] text-sm font-semibold text-slate-600">
-        {` Set ${set.set}`}
+        {` Set ${set.set_order}`}
       </span>
 
       <div className="flex items-center gap-3">

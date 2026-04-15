@@ -23,13 +23,43 @@ export const getAllGoals = async () => {
 // GET USER GOALS
 
 export const getUserGoals = async (id) => {
-  const result = await db.query(
-    "SELECT * FROM user_goals JOIN goal_options ON user_goals.goal_id = goal_options.id WHERE user_goals.user_id = $1 ",
-    [id],
+ const result = await db.query(
+    `
+    SELECT 
+      user_goals.goal_id,
+      goal_options.name,
+      goal_options.key
+    FROM user_goals
+    JOIN goal_options 
+      ON user_goals.goal_id = goal_options.id
+    WHERE user_goals.user_id = $1
+    `,
+    [id]
   );
+
   return result.rows;
 };
 
+// CREATE USER PROFILE
+
+export const createUserProfile = async (userId, waterGoal) => {
+  const result = await db.query(
+    "INSERT INTO user_profile (user_id, water_goal) VALUES ($1, $2)",
+    [userId, waterGoal],
+  );
+  if (result.rows.length === 0) {
+    return null;
+  }
+  return result.rows[0]
+};
+
+
+// GET USER WATER GOAL
+
+export const getWaterGoal = async (userId) => {
+  const result = await db.query("SELECT * FROM user_profile WHERE user_id=$1", [userId]);
+  return result.rows[0]
+}
 // UPDATE USER INFO
 
 export const updateUserInfo = async (id, updates) => {
@@ -127,4 +157,46 @@ export const addWaterLogger = async (id, amount, date) => {
     "INSERT INTO water_logs (user_id, amount, logged_at) VALUES ($1, $2, $3)",
     [id, amount, date],
   );
+};
+
+// ADD USER WORKOUTS
+
+export const addWorkoutLogger = async ({ userId, workouts, note, date }) => {
+  try {
+    await db.query("BEGIN");
+
+    // Insert workout_log
+
+    const workoutLogResult = await db.query(
+      "INSERT INTO workout_logs (user_id, note, logged_at) VALUES ($1, $2, $3) RETURNING id",
+      [userId, note, date],
+    );
+
+    // Insert workout_exercises
+
+    const workoutLogId = workoutLogResult.rows[0].id;
+    let orderIndex = 1;
+
+    for (const workout of workouts) {
+      const workoutExercisesResult = await db.query(
+        "INSERT INTO workout_exercises (workout_log_id, workout_name, order_index) VALUES ($1, $2, $3) RETURNING id",
+        [workoutLogId, workout.name, orderIndex],
+      );
+      orderIndex++;
+
+      const exerciseId = workoutExercisesResult.rows[0].id;
+
+      for (const set of workout.sets) {
+        await db.query(
+          "INSERT INTO workout_sets (exercise_id, set_order, weight, reps) VALUES ($1, $2, $3, $4)",
+          [exerciseId, set.set_order, set.weight, set.reps],
+        );
+      }
+    }
+
+    await db.query("COMMIT");
+  } catch (error) {
+    await db.query("ROLLBACK");
+    throw error;
+  }
 };

@@ -3,10 +3,9 @@ import bcrypt from "bcrypt";
 import {
   addUser,
   existingUser,
-  getGoalIds,
   addUserGoals,
 } from "../models/authModel.js";
-import { updateUserInfo } from "../models/profileModel.js";
+import { createUserProfile, updateUserInfo } from "../models/profileModel.js";
 
 export const signupUser = async (req, res) => {
   const { firstName, lastName, location, email, password } = req.body;
@@ -51,16 +50,17 @@ export const signupUser = async (req, res) => {
 };
 
 export const onboardingUser = async (req, res) => {
-  const { fitnessGoals = [] } = req.body;
+  const { selectedFitnessGoals = [], selectedWaterGoal } = req.body;
+  console.log("selectedFitnessGoals:", selectedFitnessGoals);
 
   try {
-    if (!Array.isArray(fitnessGoals)) {
+    if (!Array.isArray(selectedFitnessGoals)) {
       return res.status(400).json({ error: "Invalid data" });
     }
-    if (fitnessGoals.length > 3) {
+    if (selectedFitnessGoals.length > 3) {
       return res.status(400).json({ error: "Max 3 goals allowed" });
     }
-    if (fitnessGoals.length === 0) {
+    if (selectedFitnessGoals.length === 0) {
       await updateUserInfo(req.session.userId, {
         onboarding_completed: true,
       });
@@ -69,10 +69,12 @@ export const onboardingUser = async (req, res) => {
       });
     }
 
-    const goalIds = await getGoalIds(fitnessGoals);
-
-    for (const goalId of goalIds) {
+    for (const goalId of selectedFitnessGoals) {
       await addUserGoals(req.session.userId, goalId);
+    }
+
+    if (selectedWaterGoal) {
+      await createUserProfile(req.session.userId, Number(selectedWaterGoal));
     }
 
     await updateUserInfo(req.session.userId, {

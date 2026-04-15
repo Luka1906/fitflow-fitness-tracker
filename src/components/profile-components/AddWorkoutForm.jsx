@@ -27,7 +27,7 @@ export default function AddWorkoutForm({ onClose }) {
 
   const createDefaultSet = (index = 1) => ({
     id: crypto.randomUUID(),
-    set: ` ${index}`,
+    set_order: ` ${index}`,
     weight: 0,
     reps: 0,
   });
@@ -121,7 +121,7 @@ export default function AddWorkoutForm({ onClose }) {
           // Re-label set names after delete
           const normalizedSets = filteredSets.map((set, index) => ({
             ...set,
-            set: `${index + 1}`,
+            set_order: `${index + 1}`,
           }));
 
           return {

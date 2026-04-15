@@ -141,12 +141,12 @@ export default function SignUpFields({
       <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
         <label
           htmlFor="avatar"
-          className="group flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-accent-dark/40 bg-accent-dark/5 text-center transition hover:border-accent-dark hover:bg-accent-dark/10"
+          className="group flex h-60 w-full cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-accent-dark/40 bg-accent-dark/5 text-center transition hover:border-accent-dark hover:bg-accent-dark/10"
         >
           {avatarPreview ? (
             <img
               src={avatarPreview}
-              className="h-full w-full rounded-2xl object-cover"
+          className="h-full w-full rounded-2xl object-contain bg-center bg-black/10"
               alt="Preview profile image"
             />
           ) : (
