@@ -16,6 +16,7 @@ import {
   addWeightAction,
   addWaterAction,
   addWorkoutAction,
+  editWaterGoalAction,
 } from "./pages/actions.js";
 import {
   profileLoader,
@@ -62,6 +63,7 @@ const router = createBrowserRouter([
         path: "profile/add-workout",
         action: addWorkoutAction,
       },
+      { path: "profile/edit-water-goal", action: editWaterGoalAction },
       {
         path: "logout",
         action: logoutAction,

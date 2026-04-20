@@ -56,9 +56,8 @@ export async function onboardingAction({ request }) {
   const formData = await request.formData();
   const data = {
     selectedFitnessGoals: formData.getAll("fitnessGoals"),
-    selectedWaterGoal: formData.get("waterGoal")
-  }
-
+    selectedWaterGoal: formData.get("waterGoal"),
+  };
 
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/auth/onboarding`,
@@ -67,7 +66,7 @@ export async function onboardingAction({ request }) {
       headers: {
         "Content-Type": "application/json",
       },
-         body: JSON.stringify(data),
+      body: JSON.stringify(data),
       credentials: "include",
     },
   );
@@ -253,5 +252,35 @@ export async function addWorkoutAction({ request }) {
       error: responseData.message || "Failed to log workout. Please try again",
     };
   }
+  return { success: true };
+}
+
+// EDIT WATER GOAL
+
+export async function editWaterGoalAction({ request }) {
+  const formData = await request.formData();
+  const waterGoal = formData.get("waterGoal");
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile/water-goal`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({waterGoal}),
+      credentials: "include",
+    },
+  );
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    return {
+      success: false,
+      error:
+        responseData.message || "Failed to edit water goal. Please try again",
+    };
+  }
+
   return { success: true };
 }

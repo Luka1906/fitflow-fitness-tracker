@@ -13,12 +13,15 @@ import { FaDroplet } from "react-icons/fa6";
 
 import { FiLogOut } from "react-icons/fi";
 import EmptyData from "./EmptyData";
+import WaterCard from "./profile-cards/WaterCard";
+
 
 export default function Profile() {
   const user = useLoaderData();
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
+  console.log(navigation.formData)
 
   const joinedDate = new Date(user.created_at);
   const formattedDate = joinedDate.toLocaleDateString("en-US", {
@@ -201,10 +204,10 @@ export default function Profile() {
             {user.selectedGoals?.length > 0 ? (
               user.selectedGoals.map((goal) => (
                 <span
-                  key={goal.goal_id}
+                  key={goal.id}
                   className="rounded-full border border-accent-dark/15 bg-accent-dark/10 px-4 py-2 text-sm font-medium text-accent-dark transition hover:bg-accent-dark/15"
                 >
-                  {goal.name}
+                  {goal.label}
                 </span>
               ))
             ) : (
@@ -234,7 +237,7 @@ export default function Profile() {
           <div className="mt-5 flex items-end justify-between gap-4">
             <div>
               <p className="text-3xl font-bold tracking-tight text-text-primary-paragraph">
-                {user.selectedWaterGoal.water_goal ? `${user.selectedWaterGoal.water_goal  / 1000} L` : "--"}
+                {user.selectedWaterGoal ? `${user.selectedWaterGoal / 1000} L` : "--"}
               </p>
               <p className="mt-1 text-xs uppercase tracking-[0.16em] text-text-primary-paragraph/45">
                 Daily target
@@ -242,7 +245,7 @@ export default function Profile() {
             </div>
 
             <span className="rounded-full border border-accent-dark/15 bg-accent-dark/10 px-3 py-1.5 text-xs font-medium text-accent-dark">
-              {user.waterGoal ? "Set" : "Not set"}
+              {user.selectedWaterGoal  ? "Set" : "Not set"}
             </span>
           </div>
         </div>
@@ -252,6 +255,11 @@ export default function Profile() {
 </div>
       </section>
       <EmptyData />
+      <div className="flex justify-around">
+    <WaterCard/>
+   
+      </div>
+  
     </div>
   );
 }

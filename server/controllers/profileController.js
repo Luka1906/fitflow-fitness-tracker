@@ -9,23 +9,33 @@ import {
   addWaterLogger,
   addWorkoutLogger,
   getWaterGoal,
-
+  getWeightLogs,
+  getWaterLogs,
+  updateWaterGoal,
 } from "../models/profileModel.js";
 import uploadImage from "../util/cloudinary.js";
 
 export const getUserProfile = async (req, res) => {
   try {
     const user = await getUserById(req.session.userId);
+    const userId = req.session.userId;
 
     if (!user) return res.status(401).json({ error: "Authorization failed" });
 
-    const userGoals = await getUserGoals(req.session.userId);
+    const userGoals = await getUserGoals(userId);
     const allGoals = await getAllGoals();
-    const waterGoal = await getWaterGoal(req.session.userId)
-    console.log(waterGoal)
-    return res
-      .status(200)
-      .json({ ...user, selectedGoals: userGoals, goalOptions: allGoals, selectedWaterGoal: waterGoal });
+    const waterGoal = await getWaterGoal(userId);
+    const weightLogs = await getWeightLogs(userId);
+    const waterLogs = await getWaterLogs(userId);
+    console.log(waterGoal);
+    return res.status(200).json({
+      ...user,
+      selectedGoals: userGoals,
+      goalOptions: allGoals,
+      selectedWaterGoal: waterGoal,
+      weightLogs,
+      waterLogs,
+    });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
   }
@@ -91,7 +101,6 @@ export const addUserWater = async (req, res) => {
 
   try {
     const transformedAmount = Number(amount);
-    console.log(transformedAmount);
     await addWaterLogger(userId, transformedAmount, date);
     res.status(200).json({ message: "Success" });
   } catch (error) {
@@ -118,5 +127,37 @@ export const addUserWorkout = async (req, res) => {
     res.status(200).json({ message: "Success" });
   } catch (error) {
     res.status(500).json({ message: "Failed to save workout session" });
+  }
+};
+export const editWaterGoal = async (req, res) => {
+  const { waterGoal } = req.body;
+  console.log(waterGoal)
+  const userId = req.session.userId;
+
+  if (!waterGoal) {
+    return res.status(400).json({
+      message: "Input field is missing",
+    });
+  }
+
+  const transformedData = Number(waterGoal);
+  console.log(transformedData)
+
+  if (!Number.isInteger(transformedData) || transformedData <= 0) {
+    return res.status(400).json({
+      message: "Please enter a valid goal",
+    });
+  }
+
+  try {
+    await updateWaterGoal(transformedData, userId);
+
+    return res.status(200).json({
+      message: "Success",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to update water goal",
+    });
   }
 };

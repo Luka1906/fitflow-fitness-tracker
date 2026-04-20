@@ -1,23 +1,27 @@
-import { Form } from "react-router-dom";
 import Button from "../../ui/Button";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useFetcher } from "react-router-dom";
 import { useEffect } from "react";
 
+
 export function AddWeightForm({ onClose }) {
   const today = new Date().toISOString().split("T")[0];
 
+
   const fetcher = useFetcher();
 
-useEffect(() => {
+  useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data?.success) {
       onClose();
     }
   }, [fetcher.state, fetcher.data, onClose]);
 
-
   return (
-    <fetcher.Form method="POST" action="/profile/add-weight" className="flex flex-col">
+    <fetcher.Form
+      method="POST"
+      action="/profile/add-weight"
+      className="flex flex-col opaci"
+    >
       {/* Header */}
       <div className="flex items-center justify-between bg-bg-dark px-5 py-4">
         <h2 className="text-xl font-semibold tracking-wide text-accent-dark">

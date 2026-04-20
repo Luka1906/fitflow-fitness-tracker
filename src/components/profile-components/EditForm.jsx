@@ -11,6 +11,7 @@ export default function EditForm() {
   const userGoals = selectedGoals.map((goal) => goal.id);
 
   const [goals, setGoals] = useState([...userGoals]);
+  console.log(goals)
 
   const [editData, setEditData] = useState({
     first_name: first_name,
@@ -21,7 +22,7 @@ export default function EditForm() {
 
   const handleOnGoalChange = (event) => {
     const { checked } = event.target;
-    const value = +event.target.value;
+    const value = Number(event.target.value);
     console.log(value);
 
     setGoals((prev) => {
@@ -180,6 +181,7 @@ export default function EditForm() {
 
             <div className="grid gap-3 sm:grid-cols-2">
               {goalOptions.map((goal) => (
+                
                 <div
                   key={goal.id}
                   className="rounded-xl border border-white/8 bg-white/[0.03] px-3 py-3 transition hover:bg-white/[0.06]"

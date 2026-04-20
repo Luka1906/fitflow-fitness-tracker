@@ -5,6 +5,7 @@ import {
   addUserWorkout,
   editUserAvatar,
   editUserProfile,
+  editWaterGoal,
   getUserProfile,
 } from "../controllers/profileController.js";
 import { authUser } from "../middleware/validate.js";
@@ -23,6 +24,7 @@ router.patch(
   upload.single("avatar"),
   editUserAvatar,
 );
+router.patch("/profile/water-goal", authUser, editWaterGoal)
 router.post("/profile/add-weight", authUser, addUserWeight);
 router.post("/profile/add-water", authUser, addUserWater);
 router.post("/profile/add-workout", authUser, addUserWorkout)

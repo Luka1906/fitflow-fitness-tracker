@@ -23,18 +23,18 @@ export const getAllGoals = async () => {
 // GET USER GOALS
 
 export const getUserGoals = async (id) => {
- const result = await db.query(
+  const result = await db.query(
     `
-    SELECT 
-      user_goals.goal_id,
-      goal_options.name,
-      goal_options.key
-    FROM user_goals
-    JOIN goal_options 
-      ON user_goals.goal_id = goal_options.id
-    WHERE user_goals.user_id = $1
+  SELECT 
+  user_goals.goal_id AS id,
+  goal_options.name AS label,
+  goal_options.key AS value
+FROM user_goals
+JOIN goal_options 
+ON user_goals.goal_id = goal_options.id
+WHERE user_goals.user_id = $1
     `,
-    [id]
+    [id],
   );
 
   return result.rows;
@@ -50,16 +50,18 @@ export const createUserProfile = async (userId, waterGoal) => {
   if (result.rows.length === 0) {
     return null;
   }
-  return result.rows[0]
+  return result.rows[0];
 };
-
 
 // GET USER WATER GOAL
 
 export const getWaterGoal = async (userId) => {
-  const result = await db.query("SELECT * FROM user_profile WHERE user_id=$1", [userId]);
-  return result.rows[0]
-}
+  const result = await db.query(
+    "SELECT water_goal FROM user_profile WHERE user_id=$1",
+    [userId],
+  );
+  return result.rows[0]?.water_goal || null;
+};
 // UPDATE USER INFO
 
 export const updateUserInfo = async (id, updates) => {
@@ -144,10 +146,12 @@ export const updateUserImage = async (image, id) => {
 //ADD USER WEIGHT
 
 export const addWeightLogger = async (id, weight, unit, date) => {
-  await db.query(
-    "INSERT INTO weight_logs (user_id, weight, unit, logged_at ) VALUES ($1, $2, $3, $4)",
+  const result = await db.query(
+    "INSERT INTO weight_logs (user_id, weight, unit, logged_at ) VALUES ($1, $2, $3, $4) RETURNING *",
     [id, weight, unit, date],
   );
+
+  return result.rows;
 };
 
 // ADD USER WATER
@@ -200,3 +204,37 @@ export const addWorkoutLogger = async ({ userId, workouts, note, date }) => {
     throw error;
   }
 };
+
+// GET WEIGHT LOGGS
+
+export const getWeightLogs = async (userId) => {
+  const result = await db.query(
+    "SELECT * FROM weight_logs WHERE user_id = $1 ORDER BY logged_at DESC ",
+    [userId],
+  );
+
+  return result.rows;
+};
+
+// GET WATER LOGGS
+
+export const getWaterLogs = async (userId) => {
+  const result = await db.query(
+    "SELECT * FROM water_logs WHERE user_id = $1 ORDER BY logged_at DESC ",
+    [userId],
+  );
+
+  return result.rows;
+};
+
+// EDIT WATER GOAL
+
+export const updateWaterGoal = async (waterGoal, id) => {
+  const result = await db.query("UPDATE user_profile SET water_goal = $1 WHERE user_id = $2", [
+    waterGoal,
+    id,
+  ]);
+
+};
+
+// GET WORKOUT LOGGS

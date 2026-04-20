@@ -165,7 +165,7 @@ export default function AddWorkoutForm({ onClose }) {
         <button
           type="button"
           onClick={onClose}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-600 text-2xl text-white/70 transition hover:bg-white/10 hover:text-white"
+          className="flex h-9 w-9 justify-center rounded-full border border-slate-600 text-2xl text-white/70 transition hover:bg-white/10 hover:text-white"
           aria-label="Close modal"
         >
           ×

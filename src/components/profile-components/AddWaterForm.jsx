@@ -90,10 +90,10 @@ export function AddWaterForm({ onClose }) {
         </div>
 
         {selectedAmount && (
-          <input name="amount" value={selectedAmount} />
+          <input hidden name="amount" value={selectedAmount} />
         )}
         {/* Hidden date */}
-        <input type="hidden" name="date" value={today} />
+        <input hidden name="date" value={today} />
       </div>
 
       <div className="flex justify-end gap-3 border-t border-black/5 bg-slate-50 px-5 py-4">
