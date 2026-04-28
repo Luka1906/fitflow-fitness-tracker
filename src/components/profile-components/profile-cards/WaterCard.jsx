@@ -1,20 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
 import { FiDroplet, FiEdit2, FiPlus, FiMinus } from "react-icons/fi";
 import { useFetcher, useLoaderData } from "react-router-dom";
-import { Modal } from "../../../ui/Modal";
 import EditWaterLogs from "./EditWaterLogs";
+import Drawer from "../../../ui/Drawer";
 export default function WaterCard() {
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toLocaleDateString()
+  console.log(today)
   const data = useLoaderData();
   const addWaterFetcher = useFetcher();
   const goalFetcher = useFetcher();
+  const drawerFetcher = useFetcher();
 
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState(null);
   const [editGoal, setEditGoal] = useState(false);
-  const [activeModal, setActiveModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const consumedWater = data.waterLogs.reduce(
+  const consumedWater = data.todayWaterLogs.reduce(
     (accumulator, currentValue) => accumulator + currentValue.amount,
     0,
   );
@@ -35,6 +37,13 @@ export default function WaterCard() {
 
   //   function handlers
 
+  // Edit Water Logs function
+
+  const handleOpenDrawer = () => {
+    setIsOpen(true);
+    drawerFetcher.load("/profile/water-logs")
+  }
+
   const handlePresetClick = (amount) => {
     setSelectedAmount(amount);
     setCustomAmount("");
@@ -49,7 +58,7 @@ export default function WaterCard() {
   //   incresing custom water amount function
 
   const handleIncreaseWaterAmount = () => {
-    setCustomAmount((prev) => Math.min(Number(prev || 0) + 50, goal));
+    setCustomAmount((prev) => Math.min(Number(prev || 0) + 50, data.selectedWaterGoal));
     setSelectedAmount("");
   };
 
@@ -59,6 +68,7 @@ export default function WaterCard() {
     setCustomAmount((prev) => Math.max(prev - 50, 0));
     setSelectedAmount("");
   };
+  
 
   //   Clean custom amount input when submit effect
   useEffect(() => {
@@ -91,7 +101,7 @@ export default function WaterCard() {
   }, [editGoal]);
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-screen ">
       <div className="border rounded-4xl   border-white/10 bg-white/5  flex flex-col p-5  ">
         {/* top row */}
 
@@ -103,16 +113,16 @@ export default function WaterCard() {
             <p className="text-2xl font-semibold ">Stay hydrated</p>
           </div>
           <button
-            onClick={() => setActiveModal(true)}
+            onClick={handleOpenDrawer}
             className="h-10 w-10  border border-white/10 bg-white/5 text-slate-300 flex items-center justify-center rounded-full hover:bg-white/10  hover:text-white transition"
           >
             <FiEdit2 />
           </button>
-          {activeModal && (
-            <Modal onClose={() => setActiveModal(false)}>
-              <EditWaterLogs />
-            </Modal>
-          )}
+        
+          <Drawer onClose={() => setIsOpen(false)} isOpen={isOpen}>
+  <EditWaterLogs logs={drawerFetcher.data?.waterLogs} onClose={() => setIsOpen(false)} />
+</Drawer>
+          
         </section>
 
         {/* central content */}

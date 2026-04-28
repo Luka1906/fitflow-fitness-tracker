@@ -51,9 +51,11 @@ CREATE TABLE
 CREATE TABLE
     user_profile (
         id SERIAL PRIMARY KEY,
-        user_id INT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-        water_goal INT
-    )
+        user_id INT NOT NULL UNIQUE REFERENCES users (id) ON DELETE CASCADE,
+        water_goal INT,
+        weight_goal NUMERIC (5,2),
+        weight_unit VARCHAR(10)
+    );
     --CREATE weight_logs table
 CREATE TABLE
     weight_logs (

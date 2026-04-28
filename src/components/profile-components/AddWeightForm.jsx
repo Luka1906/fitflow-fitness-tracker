@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 
 export function AddWeightForm({ onClose }) {
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toLocaleDateString()
 
 
   const fetcher = useFetcher();

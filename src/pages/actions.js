@@ -57,6 +57,10 @@ export async function onboardingAction({ request }) {
   const data = {
     selectedFitnessGoals: formData.getAll("fitnessGoals"),
     selectedWaterGoal: formData.get("waterGoal"),
+    currentWeight: formData.get("currentWeight"),
+    weightGoal: formData.get("weightGoal"),
+    unit: formData.get("weightUnit"),
+    date: formData.get("date"),
   };
 
   const response = await fetch(
@@ -185,6 +189,7 @@ export async function addWaterAction({ request }) {
     amount: formData.get("amount"),
     date: formData.get("date"),
   };
+  console.log(data.date);
 
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/users/profile/add-water`,
@@ -267,7 +272,7 @@ export async function editWaterGoalAction({ request }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({waterGoal}),
+      body: JSON.stringify({ waterGoal }),
       credentials: "include",
     },
   );
@@ -279,6 +284,31 @@ export async function editWaterGoalAction({ request }) {
       success: false,
       error:
         responseData.message || "Failed to edit water goal. Please try again",
+    };
+  }
+
+  return { success: true };
+}
+
+// DELETE WATER LOG
+
+export async function deleteWaterLogAction({ params }) {
+  const id = params.id;
+  console.log();
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile/water-logs/${id}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    },
+  );
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    return {
+      success: false,
+      error: responseData.message || "Failed to delete water log",
     };
   }
 

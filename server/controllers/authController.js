@@ -5,7 +5,7 @@ import {
   existingUser,
   addUserGoals,
 } from "../models/authModel.js";
-import { createUserProfile, updateUserInfo } from "../models/profileModel.js";
+import { addWeightLogger, createUserProfile, updateUserInfo } from "../models/profileModel.js";
 
 export const signupUser = async (req, res) => {
   const { firstName, lastName, location, email, password } = req.body;
@@ -50,34 +50,48 @@ export const signupUser = async (req, res) => {
 };
 
 export const onboardingUser = async (req, res) => {
-  const { selectedFitnessGoals = [], selectedWaterGoal } = req.body;
-  console.log("selectedFitnessGoals:", selectedFitnessGoals);
+  const {
+    selectedFitnessGoals = [],
+    selectedWaterGoal,
+    currentWeight,
+    weightGoal,
+    unit,
+    date,
+  } = req.body;
+
+  const userId = req.session.userId;
 
   try {
     if (!Array.isArray(selectedFitnessGoals)) {
       return res.status(400).json({ error: "Invalid data" });
     }
+
     if (selectedFitnessGoals.length > 3) {
       return res.status(400).json({ error: "Max 3 goals allowed" });
     }
-    if (selectedFitnessGoals.length === 0) {
-      await updateUserInfo(req.session.userId, {
-        onboarding_completed: true,
-      });
-      return res.status(200).json({
-        message: "No goals selected, onboarding complete",
-      });
-    }
 
     for (const goalId of selectedFitnessGoals) {
-      await addUserGoals(req.session.userId, goalId);
+      await addUserGoals(userId, goalId);
     }
 
-    if (selectedWaterGoal) {
-      await createUserProfile(req.session.userId, Number(selectedWaterGoal));
+    if (selectedWaterGoal || (weightGoal && unit)) {
+      await createUserProfile(userId, {
+        waterGoal: selectedWaterGoal ? Number(selectedWaterGoal) : null,
+        weightGoal: weightGoal && unit ? Number(weightGoal) : null,
+        unit: weightGoal && unit ? unit : null,
+      });
     }
 
-    await updateUserInfo(req.session.userId, {
+    if (currentWeight && unit) {
+      await addWeightLogger(
+        userId,
+        Number(currentWeight),
+        unit,
+        date || new Date()
+      );
+    }
+
+    await updateUserInfo(userId, {
       onboarding_completed: true,
     });
 
@@ -85,10 +99,10 @@ export const onboardingUser = async (req, res) => {
       message: "User onboarded successfully",
     });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 };
-
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
@@ -135,4 +149,4 @@ export const logoutUser = async (req, res) => {
   }
 };
 
-
+// GET WORKOUT LOGGS

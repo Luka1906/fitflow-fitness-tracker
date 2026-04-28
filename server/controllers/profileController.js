@@ -10,8 +10,10 @@ import {
   addWorkoutLogger,
   getWaterGoal,
   getWeightLogs,
-  getWaterLogs,
   updateWaterGoal,
+  getTodayWaterLogs,
+  getWaterLogs,
+  deleteWaterLog,
 } from "../models/profileModel.js";
 import uploadImage from "../util/cloudinary.js";
 
@@ -26,15 +28,15 @@ export const getUserProfile = async (req, res) => {
     const allGoals = await getAllGoals();
     const waterGoal = await getWaterGoal(userId);
     const weightLogs = await getWeightLogs(userId);
-    const waterLogs = await getWaterLogs(userId);
-    console.log(waterGoal);
+    const todayWaterLogs = await getTodayWaterLogs(userId);
+
     return res.status(200).json({
       ...user,
       selectedGoals: userGoals,
       goalOptions: allGoals,
       selectedWaterGoal: waterGoal,
       weightLogs,
-      waterLogs,
+      todayWaterLogs,
     });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
@@ -56,7 +58,6 @@ export const editUserProfile = async (req, res) => {
 };
 
 export const editUserAvatar = async (req, res) => {
-  console.log(req.file);
   try {
     if (!req.file) {
       return res.status(400).json({ message: "No image uploaded" });
@@ -93,7 +94,6 @@ export const addUserWeight = async (req, res) => {
 export const addUserWater = async (req, res) => {
   const { amount, date } = req.body;
   const userId = req.session.userId;
-  console.log(amount, date);
 
   if (!amount || !date) {
     return res.status(400).json({ message: "Input fields are missing!" });
@@ -131,7 +131,7 @@ export const addUserWorkout = async (req, res) => {
 };
 export const editWaterGoal = async (req, res) => {
   const { waterGoal } = req.body;
-  console.log(waterGoal)
+
   const userId = req.session.userId;
 
   if (!waterGoal) {
@@ -141,7 +141,6 @@ export const editWaterGoal = async (req, res) => {
   }
 
   const transformedData = Number(waterGoal);
-  console.log(transformedData)
 
   if (!Number.isInteger(transformedData) || transformedData <= 0) {
     return res.status(400).json({
@@ -158,6 +157,47 @@ export const editWaterGoal = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: "Failed to update water goal",
+    });
+  }
+};
+
+export const getUserWaterLogs = async (req, res) => {
+  try {
+    const userId = req.session.userId;
+
+    const waterLogs = await getWaterLogs(userId);
+
+    return res.status(200).json({ waterLogs });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Failed to fetch water logs",
+    });
+  }
+};
+
+export const deleteUserWaterLog = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.session.userId;
+  console.log(id)
+
+  try {
+    const deletedWaterLog = await deleteWaterLog(id, userId);
+    console.log(deletedWaterLog);
+
+    if (!deletedWaterLog) {
+      return res.status(404).json({
+        message: "Water log does not exist",
+      });
+    }
+
+    return res.status(200).json({
+      message: `Successfully deleted  water log`,
+      deletedWaterLog,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to delete water log",
     });
   }
 };

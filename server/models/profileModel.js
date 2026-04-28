@@ -42,10 +42,11 @@ WHERE user_goals.user_id = $1
 
 // CREATE USER PROFILE
 
-export const createUserProfile = async (userId, waterGoal) => {
+export const createUserProfile = async (userId, profileData) => {
+  const {waterGoal, weightGoal, unit} = profileData;
   const result = await db.query(
-    "INSERT INTO user_profile (user_id, water_goal) VALUES ($1, $2)",
-    [userId, waterGoal],
+    "INSERT INTO user_profile (user_id, water_goal, weight_goal, weight_unit) VALUES ($1, $2, $3, $4)",
+    [userId, waterGoal, weightGoal, unit],
   );
   if (result.rows.length === 0) {
     return null;
@@ -205,7 +206,7 @@ export const addWorkoutLogger = async ({ userId, workouts, note, date }) => {
   }
 };
 
-// GET WEIGHT LOGGS
+// GET WEIGHT LOGS
 
 export const getWeightLogs = async (userId) => {
   const result = await db.query(
@@ -216,7 +217,18 @@ export const getWeightLogs = async (userId) => {
   return result.rows;
 };
 
-// GET WATER LOGGS
+// GET TODAY WATER LOGS
+
+export const getTodayWaterLogs = async (userId) => {
+  const result = await db.query(
+    "SELECT * FROM water_logs WHERE user_id = $1 AND logged_at = CURRENT_DATE ORDER BY logged_at DESC",
+    [userId],
+  );
+
+  return result.rows;
+};
+
+// GET WATER LOGS
 
 export const getWaterLogs = async (userId) => {
   const result = await db.query(
@@ -230,11 +242,20 @@ export const getWaterLogs = async (userId) => {
 // EDIT WATER GOAL
 
 export const updateWaterGoal = async (waterGoal, id) => {
-  const result = await db.query("UPDATE user_profile SET water_goal = $1 WHERE user_id = $2", [
-    waterGoal,
-    id,
-  ]);
-
+  const result = await db.query(
+    "UPDATE user_profile SET water_goal = $1 WHERE user_id = $2",
+    [waterGoal, id],
+  );
 };
 
-// GET WORKOUT LOGGS
+// DELETTE WATER LOG
+
+export const deleteWaterLog = async (logId, userId) => {
+  const result = await db.query(
+    "DELETE FROM water_logs WHERE id = $1 AND user_id = $2 ",
+    [logId, userId],
+  );
+  return result.rows[0];
+};
+
+

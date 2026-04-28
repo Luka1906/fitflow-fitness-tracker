@@ -1,4 +1,5 @@
 // loaders.js
+
 import { redirect } from "react-router-dom";
 
 async function getCurrentUser() {
@@ -15,11 +16,10 @@ async function getCurrentUser() {
 
   const data = await response.json();
 
-
   if (!response.ok) {
     throw new Error(data.message || "Failed to load user");
   }
-  console.log(data)
+  console.log(data);
 
   return data;
 }
@@ -38,7 +38,6 @@ export async function profileLoader() {
 // ONBOARDING LOADER
 export async function onboardingLoader() {
   const user = await getCurrentUser();
- 
 
   if (user.onboarding_completed) {
     throw redirect("/profile");
@@ -59,6 +58,25 @@ export async function authLoader() {
 
   if (response.ok) {
     return redirect("/profile");
+  }
+
+  return null;
+}
+
+// WATER LOGS LOADER
+
+export async function waterLogsLoader() {
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile/water-logs`,
+    {
+      credentials: "include",
+    },
+  );
+
+  const responseData = await response.json();
+
+  if (response.ok) {
+    return responseData;
   }
 
   return null;

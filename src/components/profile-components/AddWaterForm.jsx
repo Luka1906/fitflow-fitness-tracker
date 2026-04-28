@@ -7,7 +7,7 @@ export function AddWaterForm({ onClose }) {
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState("");
 
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toLocaleDateString()
 
   const fetcher = useFetcher();
 

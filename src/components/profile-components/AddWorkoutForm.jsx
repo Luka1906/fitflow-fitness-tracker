@@ -6,7 +6,7 @@ import { useState } from "react";
 import SetRow from "./SetRow";
 
 export default function AddWorkoutForm({ onClose }) {
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toLocaleDateString()
   const workouts = [
     "Bench Press",
     "Squat",

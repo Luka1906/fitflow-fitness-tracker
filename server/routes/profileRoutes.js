@@ -3,10 +3,12 @@ import {
   addUserWater,
   addUserWeight,
   addUserWorkout,
+  deleteUserWaterLog,
   editUserAvatar,
   editUserProfile,
   editWaterGoal,
   getUserProfile,
+  getUserWaterLogs,
 } from "../controllers/profileController.js";
 import { authUser } from "../middleware/validate.js";
 import multer from "multer";
@@ -24,7 +26,9 @@ router.patch(
   upload.single("avatar"),
   editUserAvatar,
 );
-router.patch("/profile/water-goal", authUser, editWaterGoal)
+router.patch("/profile/water-goal", authUser, editWaterGoal);
+router.get("/profile/water-logs", authUser, getUserWaterLogs)
+router.delete("/profile/water-logs/:id", authUser, deleteUserWaterLog)
 router.post("/profile/add-weight", authUser, addUserWeight);
 router.post("/profile/add-water", authUser, addUserWater);
 router.post("/profile/add-workout", authUser, addUserWorkout)

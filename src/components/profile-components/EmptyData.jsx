@@ -11,10 +11,12 @@ export default function EmptyData() {
   const data = useLoaderData();
   console.log(data);
 
+
+
   return (
     <>
       <div className="flex flex-col items-center text-center gap-6 p-8 rounded-2xl bg-white/5 border border-white/10">
-        {!data.weightLogs || !data.waterLogs ? (
+        { !data.waterLogs ? (
           <h2 className="text-2xl font-semibold">
             Start your fitness journey 💪{" "}
           </h2>

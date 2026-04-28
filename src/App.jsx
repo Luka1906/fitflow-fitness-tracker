@@ -17,11 +17,13 @@ import {
   addWaterAction,
   addWorkoutAction,
   editWaterGoalAction,
+  deleteWaterLogAction,
 } from "./pages/actions.js";
 import {
   profileLoader,
   onboardingLoader,
   authLoader,
+  waterLogsLoader,
 } from "./pages/loaders.js";
 
 const router = createBrowserRouter([
@@ -59,11 +61,13 @@ const router = createBrowserRouter([
         action: addWeightAction,
       },
       { path: "profile/add-water", action: addWaterAction },
+      { path: "profile/water-logs", loader: waterLogsLoader },
       {
         path: "profile/add-workout",
         action: addWorkoutAction,
       },
       { path: "profile/edit-water-goal", action: editWaterGoalAction },
+      {path: "profile/water-logs/:id", action: deleteWaterLogAction},
       {
         path: "logout",
         action: logoutAction,
