@@ -189,7 +189,6 @@ export async function addWaterAction({ request }) {
     amount: formData.get("amount"),
     date: formData.get("date"),
   };
-  console.log(data.date);
 
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/users/profile/add-water`,

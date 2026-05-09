@@ -55,8 +55,6 @@ const groupLogsByDay = (logs) => {
 export default function EditWaterLogs({ logs = [], onClose }) {
   const groupedLogs = groupLogsByDay(logs);
 
-console.log(logs)
-
 
   const todayLogs = logs.filter((log) => {
     const today = new Date().toDateString();

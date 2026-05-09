@@ -5,18 +5,20 @@ import { useState } from "react";
 import { validateLocation, validateName } from "../utils/validation";
 
 export default function EditForm() {
-  const { first_name, last_name, location, selectedGoals, goalOptions } =
+  const {user, goals} =
     useLoaderData();
 
-  const userGoals = selectedGoals.map((goal) => goal.id);
+    const data = useLoaderData()
 
-  const [goals, setGoals] = useState([...userGoals]);
-  console.log(goals)
+  const userGoals = goals.selected.map((goal) => goal.id);
+
+  const [allGoals, setAllGoals] = useState(userGoals);
+  console.log(data)
 
   const [editData, setEditData] = useState({
-    first_name: first_name,
-    last_name: last_name,
-    location: location,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    location: user.location,
   });
   const [editErr, setEditErr] = useState({});
 
@@ -25,7 +27,7 @@ export default function EditForm() {
     const value = Number(event.target.value);
     console.log(value);
 
-    setGoals((prev) => {
+    setAllGoals((prev) => {
       if (checked) {
         if (prev.length >= 3 || prev.includes(value)) {
           return prev;
@@ -180,7 +182,7 @@ export default function EditForm() {
             </p>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              {goalOptions.map((goal) => (
+              {goals.options.map((goal) => (
                 
                 <div
                   key={goal.id}
@@ -188,9 +190,9 @@ export default function EditForm() {
                 >
                   <FitnessGoal
                     goal={goal}
-                    checked={goals.includes(goal.id)}
+                    checked={allGoals.includes(goal.id)}
                     onChange={handleOnGoalChange}
-                    disabled={goals.length >= 3 && !goals.includes(goal.id)}
+                    disabled={allGoals.length >= 3 && !allGoals.includes(goal.id)}
                   />
                 </div>
               ))}

@@ -1,0 +1,103 @@
+import { Line } from "react-chartjs-2";
+
+import {
+  Chart as ChartJS,
+  LineElement,
+  PointElement,
+  LinearScale,
+  CategoryScale,
+  Legend,
+  Title,
+  Tooltip,
+} from "chart.js";
+
+ChartJS.register(
+  LineElement,
+  PointElement,
+  LinearScale,
+  CategoryScale,
+  Legend,
+  Title,
+  Tooltip,
+);
+
+const WeightLineChart = ({ logs }) => {
+  const chartLogs = logs
+    .slice(0, 7)
+    .reverse()
+    .map((log) => ({
+      label: new Date(log.logged_at).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }),
+      value: Number(log.weight),
+      unit: log.unit,
+    }));
+  console.log(logs)
+
+const options = {
+  responsive: true,
+  maintainAspectRatio: false,
+
+  plugins: {
+    legend: {
+      display: false,
+    },
+
+    tooltip: {
+      callbacks: {
+        label: (context) => `${context.raw} lbs`,
+      },
+    },
+      title: {
+        display: true,
+        text: "Last 7 entries",
+        color: "white",
+      },
+  },
+
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+      ticks: {
+        color: "#64748b",
+      },
+    },
+
+    y: {
+      display: false,
+    },
+  },
+
+  elements: {
+    line: {
+      tension: 0.4,
+      borderWidth: 3,
+    },
+
+    point: {
+      radius: 0,
+      hoverRadius: 5,
+    },
+  },
+};
+  const data = {
+    labels: chartLogs.map((log) => log.label),
+    datasets: [
+      {
+        label: "Weight log",
+        data: chartLogs.map((log) => log.value),
+        borderColor: "#38bdf8",
+         tension: 0.4,
+    pointRadius: 3,
+      },
+    ],
+   
+  };
+
+  return <Line options={options} data={data} />;
+};
+
+export default WeightLineChart;

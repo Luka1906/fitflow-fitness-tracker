@@ -14,6 +14,7 @@ import {
   getTodayWaterLogs,
   getWaterLogs,
   deleteWaterLog,
+  getWeightGoal,
 } from "../models/profileModel.js";
 import uploadImage from "../util/cloudinary.js";
 
@@ -27,16 +28,28 @@ export const getUserProfile = async (req, res) => {
     const userGoals = await getUserGoals(userId);
     const allGoals = await getAllGoals();
     const waterGoal = await getWaterGoal(userId);
-    const weightLogs = await getWeightLogs(userId);
     const todayWaterLogs = await getTodayWaterLogs(userId);
+    const weightLogs = await getWeightLogs(userId);
+    const weightGoal = await getWeightGoal(userId);
 
     return res.status(200).json({
-      ...user,
-      selectedGoals: userGoals,
-      goalOptions: allGoals,
-      selectedWaterGoal: waterGoal,
-      weightLogs,
-      todayWaterLogs,
+      user,
+      goals: {
+        selected: userGoals,
+        options: allGoals
+      },
+      water: {
+        goal: waterGoal,
+        todayLogs: todayWaterLogs
+
+      },
+      weight: {
+        goal: weightGoal,
+        logs: weightLogs
+      }
+     
+   
+   
     });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
@@ -179,7 +192,7 @@ export const getUserWaterLogs = async (req, res) => {
 export const deleteUserWaterLog = async (req, res) => {
   const { id } = req.params;
   const userId = req.session.userId;
-  console.log(id)
+  console.log(id);
 
   try {
     const deletedWaterLog = await deleteWaterLog(id, userId);

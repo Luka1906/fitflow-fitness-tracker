@@ -13,7 +13,7 @@ export default function Onboarding() {
   });
    const today = new Date().toLocaleDateString()
 
-  const { goalOptions } = useLoaderData();
+  const { goals } = useLoaderData();
 
   const waterGoalPresets = [
     { label: "2.0 L", value: "2000", description: "Balanced" },
@@ -71,7 +71,7 @@ export default function Onboarding() {
           </legend>
 
           <div className="flex flex-col gap-3">
-            {goalOptions.map((goal) => (
+            {goals.options.map((goal) => (
               <FitnessGoal
                 key={goal.id}
                 goal={goal}

@@ -103,6 +103,7 @@ export const onboardingUser = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
@@ -142,7 +143,7 @@ export const logoutUser = async (req, res) => {
     });
     res.clearCookie("connect.sid");
 
-    return res.status(200).json({ message: "Loget out" });
+    return res.status(200).json({ message: "Logged out" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Logout failed" });

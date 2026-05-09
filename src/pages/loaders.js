@@ -26,24 +26,25 @@ async function getCurrentUser() {
 
 // PROFILE LOADER
 export async function profileLoader() {
-  const user = await getCurrentUser();
+  const data = await getCurrentUser();
 
-  if (!user.onboarding_completed) {
+  if (!data.user.onboarding_completed) {
     throw redirect("/onboarding");
   }
 
-  return user;
+  return data
 }
 
 // ONBOARDING LOADER
 export async function onboardingLoader() {
-  const user = await getCurrentUser();
+  const data = await getCurrentUser();
 
-  if (user.onboarding_completed) {
+
+  if (data.user.onboarding_completed) {
     throw redirect("/profile");
   }
 
-  return user;
+  return data;
 }
 
 // AUTH LOADER

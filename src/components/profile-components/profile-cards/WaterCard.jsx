@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { FiDroplet, FiEdit2, FiPlus, FiMinus } from "react-icons/fi";
 import { useFetcher, useLoaderData } from "react-router-dom";
-import EditWaterLogs from "./EditWaterLogs";
+import EditWaterLogs from "./edit-cards-drawers/EditWaterLogs";
 import Drawer from "../../../ui/Drawer";
 export default function WaterCard() {
   const today = new Date().toLocaleDateString()
   console.log(today)
-  const data = useLoaderData();
+  const {water} = useLoaderData();
   const addWaterFetcher = useFetcher();
   const goalFetcher = useFetcher();
   const drawerFetcher = useFetcher();
@@ -16,16 +16,16 @@ export default function WaterCard() {
   const [editGoal, setEditGoal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const consumedWater = data.todayWaterLogs.reduce(
+  const consumedWater = water.todayLogs.reduce(
     (accumulator, currentValue) => accumulator + currentValue.amount,
     0,
   );
 
   const percentage = Math.min(
-    (consumedWater / data.selectedWaterGoal) * 100,
+    (consumedWater / water.goal) * 100,
     100,
   );
-  const remaining = Math.max(data.selectedWaterGoal - consumedWater, 0);
+  const remaining = Math.max(water.goal - consumedWater, 0);
 
   //   progress ofset function
 
@@ -58,7 +58,7 @@ export default function WaterCard() {
   //   incresing custom water amount function
 
   const handleIncreaseWaterAmount = () => {
-    setCustomAmount((prev) => Math.min(Number(prev || 0) + 50, data.selectedWaterGoal));
+    setCustomAmount((prev) => Math.min(Number(prev || 0) + 50, water.goal));
     setSelectedAmount("");
   };
 
@@ -101,7 +101,7 @@ export default function WaterCard() {
   }, [editGoal]);
 
   return (
-    <div className="min-h-screen ">
+    
       <div className="border rounded-4xl   border-white/10 bg-white/5  flex flex-col p-5  ">
         {/* top row */}
 
@@ -168,7 +168,7 @@ export default function WaterCard() {
                 {consumedWater} ml
               </h2>
               <p className="text-slate-400 text-sm">
-                of {data.selectedWaterGoal} ml daily goal
+                of {water.goal} ml daily goal
               </p>
             </div>
 
@@ -221,8 +221,8 @@ export default function WaterCard() {
               Custom amount
             </p>
 
-            <div className="flex items-center gap-4">
-              <div className="flex gap-2">
+            <div className="flex flex-wrap lg:flex-nowrap items-center justify- gap-4">
+       <div className="flex min-w-0 flex-1 gap-2">
                 <button
                   type="button"
                   onClick={handleDecreaseWaterAmount}
@@ -236,7 +236,7 @@ export default function WaterCard() {
                   value={customAmount}
                   name="amount"
                   onChange={handleCustomAmount}
-                  className="w-48 h-11 rounded-2xl bg-bg-dark border border-white/10 px-4 text-white placeholder:text-slate-500 outline-none"
+                className="min-w-0 flex-1 rounded-2xl bg-bg-dark border border-white/10 px-4 text-white placeholder:text-slate-500 outline-none"
                   placeholder="e.g. 300"
                 />
 
@@ -249,7 +249,7 @@ export default function WaterCard() {
                 </button>
               </div>
 
-              <button className="flex items-center text-sm font-medium cursor-pointer text-text-primary-headings active:scale-115 transition hover:text-text-primary-paragraph">
+              <button className="shrink-0 flex items-center text-sm font-medium cursor-pointer text-text-primary-headings active:scale-115 transition hover:text-text-primary-paragraph">
                 <FiPlus />
                 Add
               </button>
@@ -275,7 +275,7 @@ export default function WaterCard() {
                   autoFocus
                   className=" border border-white/10 py-1 px-3  focus:outline-none  focus:border-white/30 active:scale-95 transition rounded-lg"
                   type="number"
-                  defaultValue={data.selectedWaterGoal}
+                  defaultValue={water.goal}
                   name="waterGoal"
                 />{" "}
                 <button type="submit">
@@ -283,7 +283,7 @@ export default function WaterCard() {
                 </button>
               </goalFetcher.Form>
             ) : (
-              <p className="text-white text-sm">{data.selectedWaterGoal}ml</p>
+              <p className="text-white text-sm">{water.goal}ml</p>
             )}
           </div>
           {!editGoal && (
@@ -296,6 +296,6 @@ export default function WaterCard() {
           )}
         </section>
       </div>
-    </div>
+    
   );
 }

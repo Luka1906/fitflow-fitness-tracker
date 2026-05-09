@@ -13,12 +13,11 @@ import { FaDroplet } from "react-icons/fa6";
 
 import { FiLogOut } from "react-icons/fi";
 import EmptyData from "./EmptyData";
-import WaterCard from "./profile-cards/WaterCard";
 import WeightCard from "./profile-cards/WeightCard";
-import WeightCard1 from "./profile-cards/WeightCard1";
+import WaterCard from "./profile-cards/WaterCard";
 
 export default function Profile() {
-  const user = useLoaderData();
+  const { user, goals, water } = useLoaderData();
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
@@ -224,8 +223,8 @@ export default function Profile() {
                   </p>
 
                   <div className="mt-4 flex flex-wrap gap-3">
-                    {user.selectedGoals?.length > 0 ? (
-                      user.selectedGoals.map((goal) => (
+                    {goals.selected?.length > 0 ? (
+                      goals.selected.map((goal) => (
                         <span
                           key={goal.id}
                           className="rounded-full border border-accent-dark/15 bg-accent-dark/10 px-4 py-2 text-sm font-medium text-accent-dark transition hover:bg-accent-dark/15"
@@ -260,9 +259,7 @@ export default function Profile() {
                   <div className="mt-5 flex items-end justify-between gap-4">
                     <div>
                       <p className="text-3xl font-bold tracking-tight text-text-primary-paragraph">
-                        {user.selectedWaterGoal
-                          ? `${user.selectedWaterGoal / 1000} L`
-                          : "--"}
+                        {water.goal ? `${water.goal / 1000} L` : "--"}
                       </p>
                       <p className="mt-1 text-xs uppercase tracking-[0.16em] text-text-primary-paragraph/45">
                         Daily target
@@ -270,7 +267,7 @@ export default function Profile() {
                     </div>
 
                     <span className="rounded-full border border-accent-dark/15 bg-accent-dark/10 px-3 py-1.5 text-xs font-medium text-accent-dark">
-                      {user.selectedWaterGoal ? "Set" : "Not set"}
+                      {water.goal ? "Set" : "Not set"}
                     </span>
                   </div>
                 </div>
@@ -280,11 +277,11 @@ export default function Profile() {
         </div>
       </section>
       <EmptyData />
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch px-6 min-h-full ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch px-6 min-h-full ">
         <WaterCard />
         <WeightCard />
-        <WeightCard1 />
       </div>
+
     </div>
   );
 }
