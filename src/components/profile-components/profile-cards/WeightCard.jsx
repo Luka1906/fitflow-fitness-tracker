@@ -2,8 +2,11 @@ import { FiPlus, FiEdit2, FiTrendingUp, FiTrendingDown } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useLoaderData, useFetcher } from "react-router-dom";
 import { useState, useEffect } from "react";
+import useToggle from "../../../hooks/useToggle";
 import WeightLineChart from "../../../ui/charts/WeightLineChart";
-import formatWeight from "../../utils/formatWeight";
+import formatWeight from "../../../utils/formatWeight";
+import Drawer from "../../../ui/Drawer";
+import WeightLogsHistory from "./edit-cards-drawers/WeightLogsHistory";
 
 // Helper functions
 
@@ -73,6 +76,9 @@ export default function WeightCard() {
 
   const isLosing = weightDifference < 0;
   const isGaining = weightDifference > 0;
+
+  // Toggling edit weight log drawer
+  const {open,close,isOpen} = useToggle()
  
 
   return (
@@ -87,9 +93,13 @@ export default function WeightCard() {
         </div>
 
         <button className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white">
-          <FiEdit2 />
+          <FiEdit2 onClick={() => open()} />
         </button>
       </section>
+
+      <Drawer onClose={close} isOpen={isOpen}>
+        <WeightLogsHistory onClose={close} logs={weight.logs}/>
+      </Drawer>
 
       {/* main content */}
       <section className=" rounded-3xl bg-bg-dark p-5">

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { FiDroplet, FiTrash2, FiX } from "react-icons/fi";
 import { useFetcher } from "react-router-dom";
+import useToggle from "../../../../hooks/useToggle";
 
 // Get water log date function
 
@@ -52,7 +53,7 @@ const groupLogsByDay = (logs) => {
   return groups;
 };
 
-export default function EditWaterLogs({ logs = [], onClose }) {
+export default function WaterLogsHistory({ logs = [], onClose }) {
   const groupedLogs = groupLogsByDay(logs);
 
 
@@ -162,7 +163,7 @@ export default function EditWaterLogs({ logs = [], onClose }) {
       {/* Footer */}
       <div className="mt-6 border-t border-white/10 pt-4">
         <button
-          type="submit"
+          type="button"
           onClick={onClose}
           className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 font-medium text-white transition hover:bg-white/10"
         >

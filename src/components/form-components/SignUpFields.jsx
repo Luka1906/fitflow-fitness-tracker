@@ -8,7 +8,7 @@ import {
   validateEmail,
   validatePassword,
   validateConfirmPassword,
-} from "../utils/validation";
+} from "../../utils/validation";
 
 export default function SignUpFields({
   avatarPreview,

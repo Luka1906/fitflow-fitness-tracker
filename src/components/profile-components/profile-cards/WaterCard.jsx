@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import useToggle from "../../../hooks/useToggle";
 import { FiDroplet, FiEdit2, FiPlus, FiMinus } from "react-icons/fi";
 import { useFetcher, useLoaderData } from "react-router-dom";
-import EditWaterLogs from "./edit-cards-drawers/EditWaterLogs";
+import WaterLogsHistory from "./edit-cards-drawers/WaterLogsHistory";
 import Drawer from "../../../ui/Drawer";
 export default function WaterCard() {
   const today = new Date().toLocaleDateString()
@@ -14,7 +15,7 @@ export default function WaterCard() {
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState(null);
   const [editGoal, setEditGoal] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const {isOpen,open,close,toggle} = useToggle()
 
   const consumedWater = water.todayLogs.reduce(
     (accumulator, currentValue) => accumulator + currentValue.amount,
@@ -40,7 +41,7 @@ export default function WaterCard() {
   // Edit Water Logs function
 
   const handleOpenDrawer = () => {
-    setIsOpen(true);
+    open();
     drawerFetcher.load("/profile/water-logs")
   }
 
@@ -119,8 +120,8 @@ export default function WaterCard() {
             <FiEdit2 />
           </button>
         
-          <Drawer onClose={() => setIsOpen(false)} isOpen={isOpen}>
-  <EditWaterLogs logs={drawerFetcher.data?.waterLogs} onClose={() => setIsOpen(false)} />
+          <Drawer onClose={() => close()} isOpen={isOpen}>
+  <WaterLogsHistory logs={drawerFetcher.data?.waterLogs} onClose={() => close()} />
 </Drawer>
           
         </section>

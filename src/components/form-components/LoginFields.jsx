@@ -1,7 +1,7 @@
 import Input from "../../ui/Input";
 import { useActionData } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { validateEmail, validatePassword } from "../utils/validation";
+import { validateEmail, validatePassword } from "../../utils/validation";
 
 export default function LoginFields({ setIsValid }) {
   const errData = useActionData();

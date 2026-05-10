@@ -2,7 +2,7 @@ import { Form, useLoaderData, Link } from "react-router-dom";
 import FitnessGoal from "../form-components/FitnessGoal";
 import { MdArrowBack } from "react-icons/md";
 import { useState } from "react";
-import { validateLocation, validateName } from "../utils/validation";
+import { validateLocation, validateName } from "../../utils/validation";
 
 export default function EditForm() {
   const {user, goals} =
