@@ -13,8 +13,8 @@ import { FaDroplet } from "react-icons/fa6";
 
 import { FiLogOut } from "react-icons/fi";
 import EmptyData from "./EmptyData";
-import WeightCard from "./profile-cards/WeightCard";
-import WaterCard from "./profile-cards/WaterCard";
+import WeightCard from "./profile-cards/weight-card/WeightCard";
+import WaterCard from "./profile-cards/water-card/WaterCard";
 
 export default function Profile() {
   const { user, goals, water } = useLoaderData();

@@ -18,7 +18,7 @@ export default function Drawer({ children, isOpen, onClose }) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 ${
+      className={`fixed inset-0 h-full z-50 ${
         isOpen ? "pointer-events-auto" : "pointer-events-none"
       }`}
     >

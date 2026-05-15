@@ -2,11 +2,12 @@ import { FiPlus, FiEdit2, FiTrendingUp, FiTrendingDown } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useLoaderData, useFetcher } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useToggle from "../../../hooks/useToggle";
-import WeightLineChart from "../../../ui/charts/WeightLineChart";
-import formatWeight from "../../../utils/formatWeight";
-import Drawer from "../../../ui/Drawer";
-import WeightLogsHistory from "./edit-cards-drawers/WeightLogsHistory";
+import useToggle from "../../../../hooks/useToggle";
+import WeightLineChart from "../../../../ui/charts/WeightLineChart";
+import formatWeight from "../../../../utils/formatWeight";
+import Drawer from "../../../../ui/Drawer";
+import WeightLogsHistory from "./WeightLogsHistory";
+import { WeightGoalForm } from "./WeightGoalForm";
 
 // Helper functions
 
@@ -31,12 +32,13 @@ const formatDate = (dateString) => {
 
 export default function WeightCard() {
   const { weight } = useLoaderData();
-  const weightFetcher = useFetcher();
+  const weightLogFetcher = useFetcher();
+  console.log(weightLogFetcher)
   const today = new Date().toLocaleDateString();
 
   // Toggling log weight button
   const [isLogging, setIsLogging] = useState(false);
-  const [weightLog, setWeightLog] = useState(null);
+  const [weightLog, setWeightLog] = useState("");
 
   // Extracting weight logs, current weight, and weight goal
 
@@ -62,11 +64,11 @@ export default function WeightCard() {
 
   //   Clean custom amount input when submit effect
   useEffect(() => {
-    if (weightFetcher.state === "idle" && weightFetcher.data?.success) {
+    if (weightLogFetcher.state === "idle" && weightLogFetcher.data?.success) {
       setWeightLog("");
       setIsLogging(false);
     }
-  }, [weightFetcher.state, weightFetcher.data]);
+  }, [weightLogFetcher.state, weightLogFetcher.data]);
 
   //Toggling weight log trend
   const lastSevenWeight = weight?.logs?.slice(0, 7).reverse();
@@ -77,9 +79,11 @@ export default function WeightCard() {
   const isLosing = weightDifference < 0;
   const isGaining = weightDifference > 0;
 
-  // Toggling edit weight log drawer
-  const {open,close,isOpen} = useToggle()
- 
+  // Toggling edit weight logs drawer
+  const { open: openLogs, close: closeLogs, isOpen: isLogsOpen } = useToggle();
+
+  //Toggling edit weight goal form
+  const { open: openGoal, close: closeGoal, isOpen: isGoalOpen } = useToggle();
 
   return (
     <div className="flex flex-col space-y-6 rounded-4xl border border-white/10 bg-white/5 p-5 text-white">
@@ -92,13 +96,13 @@ export default function WeightCard() {
           <h2 className="text-2xl font-semibold">Your journey</h2>
         </div>
 
-        <button className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white">
-          <FiEdit2 onClick={() => open()} />
+        <button onClick={() => openLogs()} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white cursor-pointer">
+          <FiEdit2  />
         </button>
       </section>
 
-      <Drawer onClose={close} isOpen={isOpen}>
-        <WeightLogsHistory onClose={close} logs={weight.logs}/>
+      <Drawer onClose={closeLogs} isOpen={isLogsOpen}>
+        <WeightLogsHistory onClose={closeLogs} logs={weight.logs} />
       </Drawer>
 
       {/* main content */}
@@ -163,7 +167,7 @@ export default function WeightCard() {
       <section className="flex flex-col gap-6">
         <button
           onClick={() => setIsLogging((prev) => !prev)}
-          className="w-full flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-text-primary-headings transition hover:bg-white/10 hover:text-text-primary-paragraph active:scale-[0.98]"
+          className="w-full flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-text-primary-headings transition hover:bg-white/10 hover:text-text-primary-paragraph active:scale-[0.98] cursor-pointer"
         >
           <FiPlus />
           Log weight
@@ -172,7 +176,7 @@ export default function WeightCard() {
         {/* Log Weight form */}
 
         {isLogging && (
-          <weightFetcher.Form
+          <weightLogFetcher.Form
             method="POST"
             action="/profile/add-weight"
             className=" rounded-2xl border border-white/10 bg-white/5 p-4"
@@ -210,25 +214,43 @@ export default function WeightCard() {
                 Save
               </button>
             </div>
-          </weightFetcher.Form>
+          </weightLogFetcher.Form>
         )}
       </section>
 
       {/* bottom stats */}
-      <section className="grid grid-cols-3 gap-3">
-        <div className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-white/5 p-3">
-          <p className="text-xs uppercase tracking-wide text-slate-500">Goal</p>
-          <p className="font-semibold">
-            {weightGoalAmount ? formattedWeightGoal : "No data"}{" "}
-            {weightGoalUnit || ""}
-          </p>
-        </div>
+      <section className="grid grid-cols-3 gap-3 relative">
+ 
+          <div className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-white/5 p-3">
+            <div className="flex justify-between">
+              <p className="text-xs uppercase tracking-wide text-slate-500">
+                Goal
+              </p>
+              <button className="text-slate-400 transition hover:text-white cursor-pointer">
+                <FiEdit2 onClick={openGoal} className="text-sm" />
+              </button>
+            </div>
+
+            <p className="font-semibold">
+              {weightGoalAmount ? formattedWeightGoal : "No data"}{" "}
+              {weightGoalUnit || ""}
+            </p>
+                  <WeightGoalForm key={isGoalOpen} goal={formattedWeightGoal} unit={weightGoal.unit} onClose={closeGoal} isOpen={isGoalOpen} />
+          </div>
+
+    
+      
 
         <div className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-white/5 p-3">
           <p className="text-xs uppercase tracking-wide text-slate-500">Left</p>
           <p className="font-semibold">
-            {weightRemaining !== null ? formattedWeightRemaining : "No data"}{" "}
-            {weightGoalUnit || ""}
+            <p className="font-semibold">
+              {weightRemaining === null
+                ? "No data"
+                : weightRemaining <= 0
+                  ? "Reached 🎉"
+                  : `${formattedWeightRemaining} ${weightGoalUnit || ""}`}
+            </p>
           </p>
         </div>
 

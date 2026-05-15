@@ -176,7 +176,39 @@ export async function addWeightAction({ request }) {
       error: response.message || "Cannot log users weight. Please try again!",
     };
   }
+  return {
+    success: true,
+  };
+}
 
+export async function editWeightGoalAction({ request }) {
+  const formData = await request.formData();
+  const data = {
+    weight: formData.get("weightGoal"),
+    unit: formData.get("unit"),
+  };
+
+  console.log(import.meta.env.VITE_API_URL);
+
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile/weight-goal`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+      credentials: "include",
+    },
+  );
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    return {
+      success: false,
+      error: responseData.message || "Failed to edit weight goal. Please, try",
+    };
+  }
   return { success: true };
 }
 
@@ -293,7 +325,6 @@ export async function editWaterGoalAction({ request }) {
 
 export async function deleteWaterLogAction({ params }) {
   const id = params.id;
-  console.log();
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/users/profile/water-logs/${id}`,
     {
@@ -312,4 +343,27 @@ export async function deleteWaterLogAction({ params }) {
   }
 
   return { success: true };
+}
+
+// DELETE WEIGHT LOG
+
+export async function deleteWeightLogAction({ params }) {
+  const id = params.id;
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile/weight-logs/${id}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    },
+  );
+  const responseData = await response.json();
+  if (!response.ok) {
+    return {
+      success: false,
+      error: responseData.message || "Failed to delete weight log",
+    };
+  }
+  return {
+    success: true,
+  };
 }

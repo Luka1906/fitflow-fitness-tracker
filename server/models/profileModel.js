@@ -215,18 +215,35 @@ export const getWeightGoal = async (userId) => {
     "SELECT weight_goal, weight_unit FROM user_profile WHERE user_id = $1",
     [userId],
   );
-    if (result.rows.length === 0) return null;
+  if (result.rows.length === 0) return null;
 
-    const {weight_goal, weight_unit} = result.rows[0];
+  const { weight_goal, weight_unit } = result.rows[0];
 
-   if (weight_goal == null || weight_unit == null) return null;
+  if (weight_goal == null || weight_unit == null) return null;
 
- return {
+  return {
     weightGoal: weight_goal,
     unit: weight_unit,
   };
+};
 
-    
+// UPDATE WEIGHT GOAL
+
+export const updateWeightGoal = async (weight, unit, id) => {
+  const result = await db.query(
+    "UPDATE user_profile SET weight_goal= $1, weight_unit= $2 WHERE user_id= $3",
+    [weight, unit, id],
+  );
+};
+
+// DELETE WEIGHT LOG
+
+export const deleteWeightLog = async (logId, userId) => {
+  const result = await db.query(
+    "DELETE FROM weight_logs WHERE id=$1 AND user_id=$2 ",
+    [logId, userId],
+  );
+  return result.rows[0]
 };
 
 // GET TODAY WATER LOGS

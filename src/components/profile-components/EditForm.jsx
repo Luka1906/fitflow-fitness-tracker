@@ -8,12 +8,12 @@ export default function EditForm() {
   const {user, goals} =
     useLoaderData();
 
-    const data = useLoaderData()
 
   const userGoals = goals.selected.map((goal) => goal.id);
+  console.log(userGoals)
 
-  const [allGoals, setAllGoals] = useState(userGoals);
-  console.log(data)
+  const [selectedGoals, setSelectedGoals] = useState(userGoals);
+
 
   const [editData, setEditData] = useState({
     first_name: user.first_name,
@@ -190,9 +190,9 @@ export default function EditForm() {
                 >
                   <FitnessGoal
                     goal={goal}
-                    checked={allGoals.includes(goal.id)}
+                    checked={selectedGoals.includes(goal.id)}
                     onChange={handleOnGoalChange}
-                    disabled={allGoals.length >= 3 && !allGoals.includes(goal.id)}
+                    disabled={selectedGoals.length >= 3 && !selectedGoals.includes(goal.id)}
                   />
                 </div>
               ))}

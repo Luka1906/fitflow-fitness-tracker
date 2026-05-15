@@ -4,9 +4,11 @@ import {
   addUserWeight,
   addUserWorkout,
   deleteUserWaterLog,
+  deleteUserWeightLog,
   editUserAvatar,
   editUserProfile,
   editWaterGoal,
+  editWeightGoal,
   getUserProfile,
   getUserWaterLogs,
 } from "../controllers/profileController.js";
@@ -27,8 +29,10 @@ router.patch(
   editUserAvatar,
 );
 router.patch("/profile/water-goal", authUser, editWaterGoal);
-router.get("/profile/water-logs", authUser, getUserWaterLogs)
-router.delete("/profile/water-logs/:id", authUser, deleteUserWaterLog)
+router.patch("/profile/weight-goal", authUser, editWeightGoal);
+router.get("/profile/water-logs", authUser, getUserWaterLogs);
+router.delete("/profile/water-logs/:id", authUser, deleteUserWaterLog);
+router.delete("/profile/weight-logs/:id", authUser, deleteUserWeightLog)
 router.post("/profile/add-weight", authUser, addUserWeight);
 router.post("/profile/add-water", authUser, addUserWater);
 router.post("/profile/add-workout", authUser, addUserWorkout)

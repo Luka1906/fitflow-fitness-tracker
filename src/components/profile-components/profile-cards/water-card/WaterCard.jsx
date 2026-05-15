@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import useToggle from "../../../hooks/useToggle";
+import useToggle from "../../../../hooks/useToggle";
 import { FiDroplet, FiEdit2, FiPlus, FiMinus } from "react-icons/fi";
 import { useFetcher, useLoaderData } from "react-router-dom";
-import WaterLogsHistory from "./edit-cards-drawers/WaterLogsHistory";
-import Drawer from "../../../ui/Drawer";
+import WaterLogsHistory from "./WaterLogsHistory";
+import Drawer from "../../../../ui/Drawer";
 export default function WaterCard() {
   const today = new Date().toLocaleDateString()
   console.log(today)

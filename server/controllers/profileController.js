@@ -15,6 +15,8 @@ import {
   getWaterLogs,
   deleteWaterLog,
   getWeightGoal,
+  updateWeightGoal,
+  deleteWeightLog,
 } from "../models/profileModel.js";
 import uploadImage from "../util/cloudinary.js";
 
@@ -36,20 +38,16 @@ export const getUserProfile = async (req, res) => {
       user,
       goals: {
         selected: userGoals,
-        options: allGoals
+        options: allGoals,
       },
       water: {
         goal: waterGoal,
-        todayLogs: todayWaterLogs
-
+        todayLogs: todayWaterLogs,
       },
       weight: {
         goal: weightGoal,
-        logs: weightLogs
-      }
-     
-   
-   
+        logs: weightLogs,
+      },
     });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
@@ -101,6 +99,51 @@ export const addUserWeight = async (req, res) => {
     res.status(200).json({ message: "Success" });
   } catch (err) {
     res.status(500).json({ message: "Failed to save weight" });
+  }
+};
+
+export const editWeightGoal = async (req, res) => {
+  const { weight, unit } = req.body;
+  console.log(weight);
+  const userId = req.session.userId;
+  const allowedUnits = ["kg", "lbs"];
+
+  if (!weight || !unit) {
+    return res.status(400).json({ message: "Input fields are missing" });
+  }
+  const transformedWeight = Number(weight);
+
+  if (Number.isNaN(transformedWeight) || transformedWeight <= 0) {
+    return res.status(400).json({ message: "Please enter a valid goal" });
+  }
+
+  if (!allowedUnits.includes(unit)) {
+    return res.status(400).json({ message: "Invalid weight unit" });
+  }
+  try {
+    await updateWeightGoal(transformedWeight, unit, userId);
+    return res.status(200).json({ message: "Successful weight goal update" });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to update weight goal" });
+  }
+};
+
+export const deleteUserWeightLog = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.session.userId;
+
+  try {
+    const deletedWeightLog = await deleteWeightLog(id, userId);
+
+    if (!deleteWeightLog) {
+      return res.status(404).json({ message: "Weight log does not exist" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "succesfully delete weight log", deletedWeightLog });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to delete weight log" });
   }
 };
 
