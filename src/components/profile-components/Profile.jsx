@@ -15,6 +15,7 @@ import { FiLogOut } from "react-icons/fi";
 import EmptyData from "./EmptyData";
 import WeightCard from "./profile-cards/weight-card/WeightCard";
 import WaterCard from "./profile-cards/water-card/WaterCard";
+import { WorkoutCard } from "./profile-cards/workout-card/WorkoutCard";
 
 export default function Profile() {
   const { user, goals, water } = useLoaderData();
@@ -280,6 +281,7 @@ export default function Profile() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch px-6 min-h-full ">
         <WaterCard />
         <WeightCard />
+        <WorkoutCard/>
       </div>
 
     </div>

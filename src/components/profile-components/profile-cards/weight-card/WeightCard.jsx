@@ -33,8 +33,9 @@ const formatDate = (dateString) => {
 export default function WeightCard() {
   const { weight } = useLoaderData();
   const weightLogFetcher = useFetcher();
-  console.log(weightLogFetcher)
+  console.log(weightLogFetcher);
   const today = new Date().toLocaleDateString();
+
 
   // Toggling log weight button
   const [isLogging, setIsLogging] = useState(false);
@@ -96,8 +97,11 @@ export default function WeightCard() {
           <h2 className="text-2xl font-semibold">Your journey</h2>
         </div>
 
-        <button onClick={() => openLogs()} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white cursor-pointer">
-          <FiEdit2  />
+        <button
+          onClick={() => openLogs()}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white cursor-pointer"
+        >
+          <FiEdit2 />
         </button>
       </section>
 
@@ -141,12 +145,12 @@ export default function WeightCard() {
               ) : isGaining ? (
                 <FiTrendingUp />
               ) : (
-                <span>--</span>
+                weightDifference !== 0 && <span>--</span>
               )}
 
               <p>
                 {isGaining && "+"}
-                {formatWeight(weightDifference)} {currentWeightUnit}
+                {weight.logs.length > 0 && formatWeight(weightDifference)} {currentWeightUnit}
               </p>
             </div>
             <p
@@ -220,26 +224,28 @@ export default function WeightCard() {
 
       {/* bottom stats */}
       <section className="grid grid-cols-3 gap-3 relative">
- 
-          <div className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-white/5 p-3">
-            <div className="flex justify-between">
-              <p className="text-xs uppercase tracking-wide text-slate-500">
-                Goal
-              </p>
-              <button className="text-slate-400 transition hover:text-white cursor-pointer">
-                <FiEdit2 onClick={openGoal} className="text-sm" />
-              </button>
-            </div>
-
-            <p className="font-semibold">
-              {weightGoalAmount ? formattedWeightGoal : "No data"}{" "}
-              {weightGoalUnit || ""}
+        <div className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-white/5 p-3">
+          <div className="flex justify-between">
+            <p className="text-xs uppercase tracking-wide text-slate-500">
+              Goal
             </p>
-                  <WeightGoalForm key={isGoalOpen} goal={formattedWeightGoal} unit={weightGoal.unit} onClose={closeGoal} isOpen={isGoalOpen} />
+            <button className="text-slate-400 transition hover:text-white cursor-pointer">
+              <FiEdit2 onClick={openGoal} className="text-sm" />
+            </button>
           </div>
 
-    
-      
+          <p className="font-semibold">
+            {weightGoalAmount ? formattedWeightGoal : "No data"}{" "}
+            {weightGoalUnit || ""}
+          </p>
+          <WeightGoalForm
+            key={isGoalOpen}
+            goal={formattedWeightGoal}
+            unit={weightGoal.unit}
+            onClose={closeGoal}
+            isOpen={isGoalOpen}
+          />
+        </div>
 
         <div className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-white/5 p-3">
           <p className="text-xs uppercase tracking-wide text-slate-500">Left</p>

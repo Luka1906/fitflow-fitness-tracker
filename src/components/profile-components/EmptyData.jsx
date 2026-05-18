@@ -60,17 +60,17 @@ export default function EmptyData() {
         </div>
       </div>
       {activeModal === "addWeight" && (
-        <Modal open={activeModal} onClose={() => setActiveModal(null)}>
+        <Modal isOpen={activeModal} onClose={() => setActiveModal(null)}>
           <AddWeightForm onClose={() => setActiveModal(null)} />
         </Modal>
       )}
       {activeModal === "logWater" && (
-        <Modal open={activeModal} onClose={() => setActiveModal(null)}>
+        <Modal isOpen={activeModal} onClose={() => setActiveModal(null)}>
           <AddWaterForm onClose={() => setActiveModal(null)} />
         </Modal>
       )}
       {activeModal === "addWorkout" && (
-        <Modal open={activeModal} onClose={() => setActiveModal(null)}>
+        <Modal isOpen={activeModal} onClose={() => setActiveModal(null)}>
           <AddWorkoutForm onClose={() => setActiveModal(null)} />
         </Modal>
       )}

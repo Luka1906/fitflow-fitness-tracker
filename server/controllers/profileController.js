@@ -17,7 +17,9 @@ import {
   getWeightGoal,
   updateWeightGoal,
   deleteWeightLog,
+  getWorkoutLog,
 } from "../models/profileModel.js";
+import formattedLogs from "../util/formattedLogs.js";
 import uploadImage from "../util/cloudinary.js";
 
 export const getUserProfile = async (req, res) => {
@@ -33,6 +35,9 @@ export const getUserProfile = async (req, res) => {
     const todayWaterLogs = await getTodayWaterLogs(userId);
     const weightLogs = await getWeightLogs(userId);
     const weightGoal = await getWeightGoal(userId);
+    const workoutLogs = await getWorkoutLog(userId);
+    const formattedWorkoutLogs = formattedLogs(workoutLogs);
+
 
     return res.status(200).json({
       user,
@@ -48,6 +53,7 @@ export const getUserProfile = async (req, res) => {
         goal: weightGoal,
         logs: weightLogs,
       },
+      workouts: formattedWorkoutLogs
     });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });

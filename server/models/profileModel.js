@@ -243,7 +243,7 @@ export const deleteWeightLog = async (logId, userId) => {
     "DELETE FROM weight_logs WHERE id=$1 AND user_id=$2 ",
     [logId, userId],
   );
-  return result.rows[0]
+  return result.rows[0];
 };
 
 // GET TODAY WATER LOGS
@@ -295,4 +295,44 @@ export const deleteWaterLog = async (logId, userId) => {
     [logId, userId],
   );
   return result.rows[0];
+};
+
+// GET WORKOUT LOG
+
+export const getWorkoutLog = async (userId) => {
+  const result = await db.query(
+    `
+      SELECT
+        wl.id AS workout_id,
+        wl.note,
+        wl.logged_at,
+
+        we.id AS exercise_id,
+        we.workout_name,
+        we.order_index,
+
+        ws.id AS set_id,
+        ws.set_order,
+        ws.weight,
+        ws.reps
+
+      FROM workout_logs wl
+
+      JOIN workout_exercises we
+        ON wl.id = we.workout_log_id
+
+      JOIN workout_sets ws
+        ON we.id = ws.exercise_id
+
+      WHERE wl.user_id = $1
+
+      ORDER BY
+        wl.logged_at DESC,
+        we.order_index,
+        ws.set_order
+    `,
+    [userId],
+  );
+
+  return result.rows;
 };
