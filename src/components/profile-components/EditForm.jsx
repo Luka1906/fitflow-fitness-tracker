@@ -5,15 +5,12 @@ import { useState } from "react";
 import { validateLocation, validateName } from "../../utils/validation";
 
 export default function EditForm() {
-  const {user, goals} =
-    useLoaderData();
-
+  const { user, goals } = useLoaderData();
 
   const userGoals = goals.selected.map((goal) => goal.id);
-  console.log(userGoals)
+  console.log(userGoals);
 
   const [selectedGoals, setSelectedGoals] = useState(userGoals);
-
 
   const [editData, setEditData] = useState({
     first_name: user.first_name,
@@ -83,23 +80,20 @@ export default function EditForm() {
 
   return (
     <section className="mx-auto my-16 w-full max-w-2xl px-4">
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl">
+      <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
         <div className="mb-8 flex items-start justify-between">
           <div>
-            <p className="mb-2 text-sm font-medium uppercase tracking-[0.2em] text-accent-dark/70">
-              Profile Settings
-            </p>
             <h2 className="text-3xl font-bold tracking-tight text-accent-dark">
               Edit Profile
             </h2>
-            <p className="mt-2 text-sm leading-6 text-text-primary-paragraph/65">
+            <p className="mt-2 text-sm leading-6 text-slate-400">
               Update your basic info and adjust your fitness goals.
             </p>
           </div>
 
           <Link
             to="/profile"
-            className="inline-flex items-center gap-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-text-primary-paragraph/80 transition hover:bg-white/10 hover:text-white"
+            className="inline-flex items-center gap-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/60 transition hover:bg-white/10 hover:text-white/90"
           >
             <MdArrowBack className="text-base" />
             Back
@@ -111,7 +105,7 @@ export default function EditForm() {
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="firstName"
-                className="text-sm font-medium text-text-primary-paragraph/85"
+                className="text-sm font-medium text-slate-300"
               >
                 First Name
               </label>
@@ -120,7 +114,7 @@ export default function EditForm() {
                 type="text"
                 value={editData.first_name}
                 name="first_name"
-                className="w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-text-primary-paragraph placeholder:text-text-primary-paragraph/35 outline-none transition focus:border-accent-dark/50 focus:ring-2 focus:ring-accent-dark/30"
+                className="w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-text-primary-paragraph placeholder:text-text-primary-paragraph/35 outline-none transition focus:border-accent-dark/50"
                 onBlur={handleOnBlurErr}
                 onChange={handleOnChangeErr}
               />
@@ -141,7 +135,7 @@ export default function EditForm() {
                 type="text"
                 name="last_name"
                 value={editData.last_name}
-                className="w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-text-primary-paragraph placeholder:text-text-primary-paragraph/35 outline-none transition focus:border-accent-dark/50 focus:ring-2 focus:ring-accent-dark/30"
+                className="w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-text-primary-paragraph placeholder:text-text-primary-paragraph/35 outline-none transition focus:border-accent-dark/50"
                 onBlur={handleOnBlurErr}
                 onChange={handleOnChangeErr}
               />
@@ -163,7 +157,7 @@ export default function EditForm() {
               type="text"
               name="location"
               value={editData.location}
-              className="w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-text-primary-paragraph placeholder:text-text-primary-paragraph/35 outline-none transition focus:border-accent-dark/50 focus:ring-2 focus:ring-accent-dark/30"
+              className="w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-text-primary-paragraph placeholder:text-text-primary-paragraph/35 outline-none transition focus:border-accent-dark/50"
               onBlur={handleOnBlurErr}
               onChange={handleOnChangeErr}
             />
@@ -177,22 +171,24 @@ export default function EditForm() {
               Fitness Goals
             </legend>
 
-            <p className="mb-4 text-sm text-text-primary-paragraph/60">
+            <p className="mb-4 text-sm text-slate-400">
               Choose up to 3 goals that match your current focus.
             </p>
 
             <div className="grid gap-3 sm:grid-cols-2">
               {goals.options.map((goal) => (
-                
                 <div
                   key={goal.id}
-                  className="rounded-xl border border-white/8 bg-white/[0.03] px-3 py-3 transition hover:bg-white/[0.06]"
+                  className="rounded-xl border border-white/8 bg-white/3 px-3 py-3 transition hover:bg-white/6"
                 >
                   <FitnessGoal
                     goal={goal}
                     checked={selectedGoals.includes(goal.id)}
                     onChange={handleOnGoalChange}
-                    disabled={selectedGoals.length >= 3 && !selectedGoals.includes(goal.id)}
+                    disabled={
+                      selectedGoals.length >= 3 &&
+                      !selectedGoals.includes(goal.id)
+                    }
                   />
                 </div>
               ))}
@@ -202,14 +198,14 @@ export default function EditForm() {
           <div className="mt-2 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
             <Link
               to="/profile"
-              className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-text-primary-paragraph/85 transition hover:bg-white/10"
+              className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10"
             >
               Cancel
             </Link>
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center rounded-xl bg-accent-dark px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-dark/20 transition hover:-translate-y-0.5 hover:bg-accent-dark/90"
+              className="inline-flex items-center justify-center rounded-xl bg-accent-dark px-5 py-3 text-sm font-semibold text-white/95  ransition hover:-translate-y-0.5 hover:bg-accent-dark/90"
             >
               Save Changes
             </button>

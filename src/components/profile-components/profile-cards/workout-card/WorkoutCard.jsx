@@ -2,10 +2,15 @@ import { FiEdit2 } from "react-icons/fi";
 import { useLoaderData } from "react-router-dom";
 import getTodayLogs from "../../../../utils/getTodayLogs";
 import WorkoutBarChart from "../../../../ui/charts/WorkoutBarChart";
+import { createLocalDate } from "../../../../utils/createLocalDate";
+import { Modal } from "../../../../ui/Modal";
+import { useState } from "react";
+import AddWorkoutForm from "../workout-card/AddWorkoutForm";
 
 //find on week period
 //check if logged_at workout propery is within one week period
 //filter logs based on logged_at property
+
 
 const getWeeklyWorkouts = (workouts) => {
   const currentDate = new Date();
@@ -14,7 +19,7 @@ const getWeeklyWorkouts = (workouts) => {
   weekAgoDate.setHours(0, 0, 0, 0);
 
   const filteredWorkouts = workouts.filter((workout) => {
-    const workoutDate = new Date(workout.logged_at).setHours(0, 0, 0, 0);
+    const workoutDate = createLocalDate(workout.logged_at)
     return workoutDate >= weekAgoDate;
   });
   return filteredWorkouts;
@@ -22,10 +27,13 @@ const getWeeklyWorkouts = (workouts) => {
 
 export function WorkoutCard() {
   const { workouts } = useLoaderData();
+  
+  const [activeModal, setActiveModal] = useState(false);
 
 
 
   const weeklyWorkouts = getWeeklyWorkouts(workouts);
+  console.log(weeklyWorkouts)
 
 // Get weekly workout sets 
 
@@ -119,9 +127,12 @@ export function WorkoutCard() {
       </section>
 
       {/* CTA */}
-      <button className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white transition hover:bg-white/10">
+      <button onClick={() => setActiveModal(true)} className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white transition hover:bg-white/10">
         + Log workout
       </button>
+      <Modal onClose={() => setActiveModal(false)} isOpen={activeModal}>
+          <AddWorkoutForm onClose={() => setActiveModal(false)}/>
+      </Modal>
     </div>
   );
 }

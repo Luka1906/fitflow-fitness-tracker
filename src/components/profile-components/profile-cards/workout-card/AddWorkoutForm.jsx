@@ -1,12 +1,12 @@
 import { Form } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 
-import Button from "../../ui/Button";
+import Button from "../../../../ui/Button";
 import { useState } from "react";
 import SetRow from "./SetRow";
 
 export default function AddWorkoutForm({ onClose }) {
-  const today = new Date().toLocaleDateString()
+  const today = new Date().toLocaleDateString();
   const workouts = [
     "Bench Press",
     "Squat",
@@ -152,9 +152,11 @@ export default function AddWorkoutForm({ onClose }) {
     <Form
       method="POST"
       action="/profile/add-workout"
-      className="flex max-h-[90vh] w-full max-w-2xl flex-col rounded-2xl bg-white"
+      className="flex flex-col overflow-hidden max-h-[90vh]
+  rounded-xl border border-slate-500
+  bg-slate-100 "
     >
-      <div className="flex items-center justify-between bg-bg-dark px-5 py-4 shrink-0">
+      <div className="flex items-center justify-between border-b border-slate-300 bg-slate-800 px-5 py-4">
         <div>
           <h2 className="text-xl font-semibold tracking-wide text-accent-dark">
             Log Workout
@@ -186,12 +188,12 @@ export default function AddWorkoutForm({ onClose }) {
                   value={workout}
                   onClick={() => handleSelectedWorkout(workout)}
                   type="button"
-                  className={`rounded-xl border border-accent-dark/20 px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-4 focus:ring-accent-dark/10 active:scale-95 ${
+                  className={`rounded-xl border border-accent-dark/20 px-4 py-2.5 text-[0.8rem] font-semibold transition focus:outline-none active:scale-95 ${
                     selectedWorkouts.some(
                       (selectedWorkout) => selectedWorkout.name === workout,
                     )
                       ? "border-bg-accent-dark bg-accent-dark text-text-primary-headings"
-                      : "bg-white text-slate-600 hover:bg-slate-50"
+                      : "bg-white text-slate-700 hover:bg-slate-50"
                   }`}
                 >
                   {workout}
@@ -203,7 +205,7 @@ export default function AddWorkoutForm({ onClose }) {
                   <div className="flex items-center gap-0.5">
                     <input
                       autoFocus
-                      className="rounded-xl border border-accent-dark/20 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 transition placeholder:font-light placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-accent-dark/10 active:scale-95"
+                      className="rounded-xl border border-accent-dark/20 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 transition placeholder:font-light placeholder:text-slate-400 focus:outline-none  active:scale-95"
                       placeholder="Add new exercise..."
                       type="text"
                       value={enteredWorkout.value}
@@ -238,7 +240,7 @@ export default function AddWorkoutForm({ onClose }) {
               {selectedWorkouts.map((workout) => (
                 <div
                   key={workout.id}
-                  className="space-y-4 rounded-2xl border border-slate-200 bg-white p-4"
+                  className="space-y-4 rounded-2xl border border-slate-200 bg-slate-50 p-4"
                 >
                   <div className="flex items-center justify-between border-b border-slate-200 pb-2">
                     <div>
@@ -287,7 +289,7 @@ export default function AddWorkoutForm({ onClose }) {
             <textarea
               id="note"
               name="note"
-              className="min-h-[96px] w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-accent-dark focus:ring-4 focus:ring-accent-dark/10"
+              className="min-h-[96px] w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-500 focus:border-accent-dark"
               placeholder="Add any notes about your workout..."
             />
           </section>

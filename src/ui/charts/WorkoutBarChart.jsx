@@ -1,4 +1,5 @@
 import { Bar } from "react-chartjs-2";
+import { createLocalDate } from "../../utils/createLocalDate";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -19,20 +20,29 @@ ChartJS.register(
 );
 
 const WorkoutBarChart = ({ weeklyLogs }) => {
-  const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    console.log(weeklyLogs)
+
+  const lastSevenDays = [];
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    lastSevenDays.push(date);
+  }
+  console.log(lastSevenDays);
 
   // Create default chart structure
-  const chartData = weekDays.map((day) => ({
-    label: day,
+  const chartData = lastSevenDays.map((date) => ({
+    label: date.toLocaleDateString("en-US", {
+      day: "numeric",
+      weekday: "short",
+    }),
+    dateKey: date.toLocaleDateString("en-CA"),
     sets: 0,
   }));
-  console.log(chartData);
 
   // Fill chart with workout data
   weeklyLogs.forEach((log) => {
-    const day = new Date(log.logged_at).toLocaleDateString("en-US", {
-      weekday: "short",
-    });
+   const logDateKey = createLocalDate(log.logged_at).toLocaleDateString("en-CA")
 
     // Count total sets for this workout
     const totalSets = log.exercises.reduce(
@@ -41,8 +51,7 @@ const WorkoutBarChart = ({ weeklyLogs }) => {
     );
 
     // Find matching weekday in chartData
-    const existingDay = chartData.find((item) => item.label === day);
-    console.log(existingDay);
+    const existingDay = chartData.find((item) => item.dateKey === logDateKey);
 
     // Add sets to that day
     if (existingDay) {

@@ -15,10 +15,11 @@ export function Modal({ children, onClose, isOpen }) {
     return () => {
       document.removeEventListener("keydown", handleExitPress);
     };
-  }, []);
+  }, [onClose]);
 
   return createPortal(
    <div
+   onClick={handleClickOutside}
   className={`
     fixed inset-0 z-100 flex items-center justify-center
     bg-black/40 px-4 transition-opacity duration-200
@@ -27,7 +28,7 @@ export function Modal({ children, onClose, isOpen }) {
 >
   <div
     className={`
-      w-full max-w-md  border-none rounded-2xl overflow-hidden  shadow-2xl
+      w-full max-w-md border-none rounded-xl overflow-hidden  
       transition-all duration-200
       ${isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"}
     `}

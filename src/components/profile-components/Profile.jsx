@@ -12,10 +12,10 @@ import { FaTrophy, FaRegSave } from "react-icons/fa";
 import { FaDroplet } from "react-icons/fa6";
 
 import { FiLogOut } from "react-icons/fi";
-import EmptyData from "./EmptyData";
 import WeightCard from "./profile-cards/weight-card/WeightCard";
 import WaterCard from "./profile-cards/water-card/WaterCard";
 import { WorkoutCard } from "./profile-cards/workout-card/WorkoutCard";
+import LoginMessage from "./LoginMessage";
 
 export default function Profile() {
   const { user, goals, water } = useLoaderData();
@@ -277,7 +277,7 @@ export default function Profile() {
           </div>
         </div>
       </section>
-      <EmptyData />
+      <LoginMessage/>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch px-6 min-h-full ">
         <WaterCard />
         <WeightCard />

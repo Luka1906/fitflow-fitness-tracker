@@ -4,6 +4,7 @@ import tesimonial3 from "../../assets/testimonials/testimonial3.jpg";
 import banner from "../../assets/banner.png";
 import Button from "../../ui/Button";
 import { Link } from "react-router-dom";
+import DashboardBanner  from "../../ui/mockDashboards/mockCharts/DashboardBanner";
 
 export default function Headline() {
   return (
@@ -54,22 +55,7 @@ export default function Headline() {
         </div>
       </div>
 
-      <div className="relative rounded-xl overflow-hidden w-fit shadow-2xl shadow-black/30 group">
-        {/* Background gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent z-10" />
-
-        {/* The banner image */}
-        <img
-          src={banner}
-          alt="App preview banner"
-          className="h-[45rem] w-[40rem] object-cover rounded-xl transition-transform duration-700 ease-in-out group-hover:scale-105"
-        />
-
-        <div className="absolute bottom-4 right-4 z-20 bg-white/20 backdrop-blur-xl p-4 rounded-lg border border-white/30 text-white shadow-lg shadow-white/10">
-          <p className="text-xs uppercase tracking-widest text-white/80">New</p>
-          <h3 className="text-xl font-semibold">AI Meal Planner</h3>
-        </div>
-      </div>
+      <DashboardBanner/>
     </section>
   );
 }
