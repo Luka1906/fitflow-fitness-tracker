@@ -1,61 +1,61 @@
-import tesimonial1 from "../../assets/testimonials/testimonial1.jpg";
-import tesimonial2 from "../../assets/testimonials/testimonial2.jpg";
-import tesimonial3 from "../../assets/testimonials/testimonial3.jpg";
-import banner from "../../assets/banner.png";
 import Button from "../../ui/Button";
+import DashboardBanner from "../../ui/mockDashboards/mockCharts/DashboardBanner";
 import { Link } from "react-router-dom";
-import DashboardBanner  from "../../ui/mockDashboards/mockCharts/DashboardBanner";
 
 export default function Headline() {
   return (
-    <section className="px-6 mt-2 grid grid-cols-1 lg:grid-cols-2 items-center gap-10">
+    <section className="mt-2 grid grid-cols-1 items-center gap-14 px-6 lg:grid-cols-2">
       <div>
-        <h1 className="text-5xl text-text-primary-headings sm:text-6xl lg:text-7xl font-bold max-w-2xl leading-tight font-accent">
+        <h1 className="max-w-2xl font-accent text-5xl font-bold leading-tight text-text-primary-headings sm:text-6xl lg:text-7xl">
           Track. Train. Thrive. Your Fitness,{" "}
           <span className="text-cta-dark">All in One Place.</span>
         </h1>
 
-        <div className="flex items-center gap-10 mt-8">
-          {/* Testimonial images */}
-          <div className="w-fit flex flex-col items-center">
-            <img
-              className="md:w-[4.5rem] w-[5rem] md:h-[4.5rem] h-[5rem] object-cover rounded-full border-2 border-accent-dark relative top-[1.1rem]"
-              src={tesimonial3}
-              alt="Happy user testimonial image - Mike"
-            />
-            <div className="flex -space-x-3  w-[9rem]">
-              <img
-                className="md:w-[4.5rem] w-[5rem] md:h-[4.5rem] h-[5rem]  object-cover z-30 rounded-full border-2 border-accent-dark"
-                src={tesimonial1}
-                alt="Happy user testimonial image - Jess"
-              />
-              <img
-                className="md:w-[4.5rem] w-[5rem] md:h-[4.5rem] h-[5rem]  object-cover z-20 rounded-full border-2 border-accent-dark"
-                src={tesimonial2}
-                alt="Happy user testimonial image - Sarah"
-              />
-            </div>
-            <h2 className="text-4xl mt-3 text-cta-dark font-bold">100k+</h2>
-            <p className="text-text-secondary-dark">Active Users</p>
-          </div>
+        <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">
+          Build better habits with workout tracking, hydration goals,
+          progress analytics, and clean dashboards designed to keep you
+          consistent.
+        </p>
 
-          {/* Description & CTA */}
-          <div>
-            <h3 className="w-[20rem] text-lg text-text-secondary-dark leading-snug">
-              Track workouts, hydration, and meals – with personalized insights
-              to help you stay consistent.
-            </h3>
-            <div className="mt-6 flex gap-6 font-accent">
-              <Button variant="primary" as={Link} to="auth?mode=signup">
-                Sign Up
-              </Button>
-              <Button variant="outline" as={Link} to="auth?mode=login">Log In</Button>
-            </div>
-          </div>
+      <div className="mt-10 grid max-w-2xl grid-cols-3 gap-3">
+  <div className="rounded-2xl border border-white/10 bg-white/4 p-5 ">
+    <p className="text-2xl font-semibold text-accent-dark">12k+</p>
+    <p className="mt-1 text-sm text-slate-400">
+      Workouts logged
+    </p>
+  </div>
+
+  <div className="rounded-2xl border border-white/10 bg-white/4 p-5">
+    <p className="text-2xl font-semibold text-blue-400">85%</p>
+    <p className="mt-1 text-sm text-slate-400">
+      Weekly consistency
+    </p>
+  </div>
+
+  <div className="rounded-2xl border border-white/10 bg-white/4 p-5">
+    <p className="text-2xl font-semibold bg-gradient-to-t from-orange-400 to-amber-200 bg-clip-text text-transparent">7d</p>
+    <p className="mt-1 text-sm text-slate-400">
+      Average streak
+    </p>
+  </div>
+</div>
+
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link to="/auth/?mode=signup">
+            <Button variant="primary">
+              Start Tracking
+            </Button>
+          </Link>
+
+          <Link to="/auth">
+            <Button variant="ghost">
+              Log In
+            </Button>
+          </Link>
         </div>
       </div>
 
-      <DashboardBanner/>
+      <DashboardBanner />
     </section>
   );
 }

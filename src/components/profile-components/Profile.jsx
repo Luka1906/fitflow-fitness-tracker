@@ -16,9 +16,10 @@ import WeightCard from "./profile-cards/weight-card/WeightCard";
 import WaterCard from "./profile-cards/water-card/WaterCard";
 import { WorkoutCard } from "./profile-cards/workout-card/WorkoutCard";
 import LoginMessage from "./LoginMessage";
+import { StreakStats } from "./StreakStats";
 
 export default function Profile() {
-  const { user, goals, water } = useLoaderData();
+  const { user, goals, water, workouts } = useLoaderData();
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
@@ -81,8 +82,8 @@ export default function Profile() {
   };
 
   return (
-    <div className="space-y-16">
-      <section className="relative overflow-hidden rounded-3xl  border border-white/10 bg-white/[0.04] backdrop-blur-3xl shadow-[0_20px_60px_rgba(0,0,0,0.25)] px-6 py-8 sm:px-8 sm:py-10">
+    <div className="space-y-16 p-6">
+      <section className="relative overflow-hidden rounded-3xl  border border-white/10 bg-white/[0.04] backdrop-blur-3xl shadow-[0_20px_60px_rgba(0,0,0,0.25)] px-6 py-8 sm:px-8 sm:py-10 ">
         <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-accent-dark/10 pointer-events-none" />
 
         <div className="relative flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
@@ -277,6 +278,7 @@ export default function Profile() {
           </div>
         </div>
       </section>
+      <StreakStats workouts={workouts}/>
       <LoginMessage/>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch px-6 min-h-full ">
         <WaterCard />

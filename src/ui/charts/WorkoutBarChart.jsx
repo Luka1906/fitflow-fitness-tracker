@@ -36,13 +36,13 @@ const WorkoutBarChart = ({ weeklyLogs }) => {
       day: "numeric",
       weekday: "short",
     }),
-    dateKey: date.toLocaleDateString("en-CA"),
+    dateKey: date.toLocaleDateString("en-US"),
     sets: 0,
   }));
 
   // Fill chart with workout data
   weeklyLogs.forEach((log) => {
-   const logDateKey = createLocalDate(log.logged_at).toLocaleDateString("en-CA")
+   const logDateKey = createLocalDate(log.logged_at).toLocaleDateString("en-US")
 
     // Count total sets for this workout
     const totalSets = log.exercises.reduce(
@@ -58,6 +58,19 @@ const WorkoutBarChart = ({ weeklyLogs }) => {
       existingDay.sets += totalSets;
     }
   });
+
+  const data = {
+    labels: chartData.map((item) => item.label),
+
+    datasets: [
+      {
+        label: "Weekly Sets",
+        data: chartData.map((item) => item.sets),
+        backgroundColor: "#2563eb",
+        borderRadius: "3",
+      },
+    ],
+  };
 
   const options = {
     responsive: true,
@@ -92,18 +105,7 @@ const WorkoutBarChart = ({ weeklyLogs }) => {
     },
   };
 
-  const data = {
-    labels: chartData.map((item) => item.label),
-
-    datasets: [
-      {
-        label: "Weekly Sets",
-        data: chartData.map((item) => item.sets),
-        backgroundColor: "#2563eb",
-        borderRadius: "3",
-      },
-    ],
-  };
+  
 
   return <Bar data={data} options={options} />;
 };

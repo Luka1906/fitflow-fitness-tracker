@@ -6,24 +6,8 @@ import { createLocalDate } from "../../../../utils/createLocalDate";
 import { Modal } from "../../../../ui/Modal";
 import { useState } from "react";
 import AddWorkoutForm from "../workout-card/AddWorkoutForm";
+import { getWeeklyWorkouts } from "../../../../utils/getWeeklyWorkouts";
 
-//find on week period
-//check if logged_at workout propery is within one week period
-//filter logs based on logged_at property
-
-
-const getWeeklyWorkouts = (workouts) => {
-  const currentDate = new Date();
-  const weekAgoDate = new Date(currentDate);
-  weekAgoDate.setDate(weekAgoDate.getDate() - 7);
-  weekAgoDate.setHours(0, 0, 0, 0);
-
-  const filteredWorkouts = workouts.filter((workout) => {
-    const workoutDate = createLocalDate(workout.logged_at)
-    return workoutDate >= weekAgoDate;
-  });
-  return filteredWorkouts;
-};
 
 export function WorkoutCard() {
   const { workouts } = useLoaderData();
@@ -33,7 +17,7 @@ export function WorkoutCard() {
 
 
   const weeklyWorkouts = getWeeklyWorkouts(workouts);
-  console.log(weeklyWorkouts)
+
 
 // Get weekly workout sets 
 

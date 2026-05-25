@@ -6,7 +6,7 @@ export default function WorkingStep({
   setActiveStep,
 }) {
   return (
-    <article className="w-64  p-6 shadow text-center flex flex-col items-center justify-center gap-2">
+    <article className="max-w-sm p-6 shadow text-center  flex flex-col items-center justify-center gap-2">
       <div className="flex">
         <button
          onClick={() => setActiveStep(step)}

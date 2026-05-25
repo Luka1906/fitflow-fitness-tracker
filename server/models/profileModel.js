@@ -157,15 +157,15 @@ export const addWaterLogger = async (id, amount, date) => {
 
 // ADD USER WORKOUTS
 
-export const addWorkoutLogger = async ({ userId, workouts, note, date }) => {
+export const addWorkoutLogger = async ({ userId, workouts, note, date, workoutDuration }) => {
   try {
     await db.query("BEGIN");
 
     // Insert workout_log
 
     const workoutLogResult = await db.query(
-      "INSERT INTO workout_logs (user_id, note, logged_at) VALUES ($1, $2, $3) RETURNING id",
-      [userId, note, date],
+      "INSERT INTO workout_logs (user_id, note, logged_at, workout_duration) VALUES ($1, $2, $3, $4) RETURNING id",
+      [userId, note, date, workoutDuration],
     );
 
     // Insert workout_exercises
@@ -306,6 +306,7 @@ export const getWorkoutLog = async (userId) => {
         wl.id AS workout_id,
         wl.note,
         wl.logged_at,
+        wl.workout_duration,
 
         we.id AS exercise_id,
         we.workout_name,

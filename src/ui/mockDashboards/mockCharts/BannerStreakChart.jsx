@@ -6,10 +6,10 @@ export default function BannerStreakChart() {
 
   return (
     <div className="  flex flex-col items-center justify-center h-full ">
-        <div className="px-8 py-6 bg-white/5 rounded-xl">
+        <div className="px-6 py-5 bg-white/5  border border-white/10 rounded-xl">
   <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-400/15">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-400/10">
             <MdLocalFireDepartment className="text-lg text-white/70" />
           </div>
 
@@ -22,14 +22,14 @@ export default function BannerStreakChart() {
         </div>
       </div>
 
-      <div className="flex items-end gap-2">
+      <div className="flex items-end gap-2.5">
         {weeklyStreakData.map((data) => (
           <div className="flex flex-col items-center gap-1.5" key={data.day}>
             <div
-              className={`h-10 w-2.5 rounded-full ${
+              className={`h-11 w-2 rounded-full ${
                 data.checked
                   ? "bg-gradient-to-t from-orange-500 to-amber-300"
-                  : "bg-white/8"
+                  : "bg-white/6"
               }`}
             />
 

@@ -4,6 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import Button from "../../../../ui/Button";
 import { useState } from "react";
 import SetRow from "./SetRow";
+import { DurationRow } from "./DurationRow";
 
 export default function AddWorkoutForm({ onClose }) {
   const today = new Date().toLocaleDateString();
@@ -152,11 +153,11 @@ export default function AddWorkoutForm({ onClose }) {
     <Form
       method="POST"
       action="/profile/add-workout"
-      className="flex flex-col overflow-hidden max-h-[90vh]
+      className="flex flex-col h-[90vh] overflow-y-auto
   rounded-xl border border-slate-500
   bg-slate-100 "
     >
-      <div className="flex items-center justify-between border-b border-slate-300 bg-slate-800 px-5 py-4">
+      <div className="flex items-center justify-between border-b border-slate-300 bg-slate-800 px-5 py-3">
         <div>
           <h2 className="text-xl font-semibold tracking-wide text-accent-dark">
             Log Workout
@@ -236,7 +237,7 @@ export default function AddWorkoutForm({ onClose }) {
           </section>
 
           {selectedWorkouts.length > 0 && (
-            <section className="space-y-5">
+            <section className="space-y-5 ">
               {selectedWorkouts.map((workout) => (
                 <div
                   key={workout.id}
@@ -273,9 +274,16 @@ export default function AddWorkoutForm({ onClose }) {
                       />
                     ))}
                   </div>
+
                 </div>
               ))}
             </section>
+          )}
+
+          {selectedWorkouts.length > 0 && (
+      
+              <DurationRow/>
+      
           )}
 
           <section className="space-y-2">

@@ -1,60 +1,54 @@
-import { dailyWaterData } from "../mockData/mockDashbordData";
 import { FiDroplet } from "react-icons/fi";
+import { dailyWaterData } from "../mockData/mockDashbordData";
 
-const radius = 54;
+const radius = 46;
 const circumference = 2 * Math.PI * radius;
 
-const percentage = Math.round((dailyWaterData.consumed / dailyWaterData.goal) * 100);
-
-const remaining = dailyWaterData.goal - dailyWaterData.consumed;
-
-const progressOffset = circumference - (percentage / 100) * circumference;
-
 export default function WaterBannerRing() {
+  const percentage = Math.round(
+    (dailyWaterData.consumed / dailyWaterData.goal) * 100,
+  );
+
+  const progressOffset = circumference - (percentage / 100) * circumference;
+
   return (
-    <div className="flex gap-5">
+    <div className="flex flex-col items-center justify-center gap-3">
       <div className="relative">
-        <svg className="-rotate-90 w-40 h-40" viewBox="0 0 120 120 ">
+        <svg className="-rotate-90 h-30 w-30" viewBox="0 0 120 120">
           <circle
             cx="60"
             cy="60"
-            r="54"
+            r={radius}
             fill="none"
             stroke="rgba(255,255,255,0.08)"
-            strokeWidth="10"
+            strokeWidth="9"
           />
+
           <circle
             cx="60"
             cy="60"
-            r="54"
+            r={radius}
             fill="none"
             stroke="currentColor"
-            strokeWidth="10"
+            strokeWidth="9"
             strokeLinecap="round"
-            className="text-sky-400/60 "
+            className="text-sky-400"
             strokeDasharray={circumference}
             strokeDashoffset={progressOffset}
           />
         </svg>
-        <div className="flex flex-col items-center justify-center w-full absolute top-1/2 -translate-y-1/2 gap-1.5  ">
-          <div className="bg-white/10 h-9 w-9 flex items-center justify-center rounded-full ">
-            <FiDroplet className="text-sky-400/60" />
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-xl font-semibold text-white">{percentage}%</p>
-            <p className="text-xs text-slate-400">completed</p>
-          </div>
+
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <FiDroplet className="mb-1 text-lg text-sky-400" />
+          <p className="text-xl font-semibold text-white">{percentage}%</p>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-4">
-        <div className="flex flex-col items-center justify-center">
-      <p className="text-xl text-white font-semibold">{dailyWaterData.consumed} {dailyWaterData.unit}</p>
-      <p className="text-xs text-slate-400">of {dailyWaterData.goal} {dailyWaterData.unit} daily goal</p>
-        </div>
-        <div className="bg-bg-dark p-4 space-y-2 rounded-xl">
-            <p className="text-xs tracking-wide uppercase text-slate-400">Remaining</p>
-            <p className="text text-white font-semibold ">{remaining} {dailyWaterData.unit} left</p>
-        </div>
+
+      <div className="text-center">
+        <p className="text-sm font-semibold text-white">Water Goal</p>
+        <p className="text-xs text-slate-400">
+          {dailyWaterData.consumed}/{dailyWaterData.goal} {dailyWaterData.unit}
+        </p>
       </div>
     </div>
   );

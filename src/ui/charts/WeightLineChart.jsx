@@ -35,6 +35,20 @@ const WeightLineChart = ({ logs }) => {
     }));
   console.log(logs);
 
+   const data = {
+    labels: chartLogs.map((log) => log.label),
+    datasets: [
+      {
+        label: "Weight log",
+        data: chartLogs.map((log) => log.value),
+        borderColor: "#38bdf8",
+        tension: 0.4,
+        pointRadius: 3,
+        hoverRadius:5
+      },
+    ],
+  };
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -72,19 +86,7 @@ const WeightLineChart = ({ logs }) => {
     },
 
   };
-  const data = {
-    labels: chartLogs.map((log) => log.label),
-    datasets: [
-      {
-        label: "Weight log",
-        data: chartLogs.map((log) => log.value),
-        borderColor: "#38bdf8",
-        tension: 0.4,
-        pointRadius: 3,
-        hoverRadius:5
-      },
-    ],
-  };
+ 
 
   return <Line options={options} data={data} />;
 };

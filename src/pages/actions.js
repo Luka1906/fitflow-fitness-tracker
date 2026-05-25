@@ -266,6 +266,9 @@ export async function addWorkoutAction({ request }) {
     workouts: workouts,
     note: formData.get("note"),
     date: formData.get("date"),
+    hours: formData.get("hours"),
+    minutes: formData.get("minutes")
+
   };
 
   const response = await fetch(

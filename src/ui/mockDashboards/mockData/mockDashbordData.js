@@ -1,3 +1,5 @@
+// get last seven dates helper function
+
 const getLastSevenDates = () => {
   const lastSevenDays = [];
 
@@ -11,6 +13,7 @@ const getLastSevenDates = () => {
 };
 
 // Weekly Weight Mock Data
+
 export const weeklyWeightData = {
   labels: getLastSevenDates().map((date) =>
     date.toLocaleDateString("en-US", {
@@ -19,6 +22,7 @@ export const weeklyWeightData = {
     }),
   ),
   data: [181, 180.6, 180, 179.5, 179.4, 179, 178.6],
+  unit: "lbs"
 };
 
 // Daily Water Consumed Mock Data
@@ -64,19 +68,37 @@ export const weeklyStreakData = [
 
 // Today Workout Mock Data
 
-const workouts = [
+export const todaysWorkouts = [
   {
-    exercise: {
-      name: "Bench Press",
-      sets: 3,
-    },
-    exercise: {
-      name: "Shoulder Press",
-      sets: 2,
-    },
-    exercise: {
-      name: "Deadlift",
-      sets: 3,
-    },
+    exercises: [
+      {
+        name: "Bench Press",
+        sets: 3,
+      },
+      {
+        name: "Shoulder Press",
+        sets: 2,
+      },
+      {
+        name: "Deadlift",
+        sets: 3,
+      },
+       {
+        name: "Biceps Curl",
+        sets: 3,
+      },
+    ],
   },
 ];
+
+// Weekly Workouts Mock Data
+
+export const weeklyWorkouts = {
+  label: getLastSevenDates().map((date) =>
+    date.toLocaleDateString("en-US", {
+      day: "numeric",
+      weekday: "short",
+    }),
+  ),
+  data: [9, 6, 12, 0, 0, 15, 0],
+};

@@ -10,6 +10,7 @@ export default function formattedLogs (workoutLogs) {
           id: log.workout_id,
           note: log.note,
           logged_at: log.logged_at,
+          workout_duration: log.workout_duration,
           exercises: [],
         };
         groupedWorkouts.push(workout);

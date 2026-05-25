@@ -23,31 +23,36 @@ export default function WorkingSteps() {
   ];
 
   return (
-    <section className="flex flex-col items-center py-20  gap-10">
-      <h2 className="text-3xl font-bold text-accent-dark font-accent tracking-wide">
-        How It Works
-      </h2>
-      <p className=" w-1/2 text-center text-lg text-text-primary-headings">
-        Clear, actionable steps designed to keep you on track and achieve your
-        fitness goals.
-      </p>
-      <div className="flex justify-center gap-8 w-full">
+    <section className="px-6 py-20">
+      <div className="mx-auto max-w-3xl text-center">
+        <h2 className="font-accent text-3xl font-bold tracking-wide text-accent-dark sm:text-4xl">
+          How It Works
+        </h2>
+
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-text-primary-paragraph sm:text-lg">
+          Clear, actionable steps designed to keep you on track and achieve your
+          fitness goals.
+        </p>
+      </div>
+
+      <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center gap-6 lg:flex-row lg:justify-center">
         {steps.map((step, index) => (
-          <div key={step.title} className="flex items-center gap-4 ">
+          <div
+            key={step.title}
+            className="flex w-full flex-col items-center gap-4 lg:w-auto lg:flex-row"
+          >
             <WorkingStep
-              step={index + 1} 
+              step={index + 1}
               title={step.title}
               description={step.description}
               isActive={activeStep === index + 1}
               setActiveStep={setActiveStep}
             />
-            {index < steps.length - 1 && (
-             <div className={`flex text-2xl space-x-1 ${index + 1 === activeStep ? "text-accent-dark" : "text-gray-700"}`}>
-  <RiArrowRightDoubleLine />
-  <RiArrowRightDoubleLine />
-  <RiArrowRightDoubleLine />
-</div>
 
+            {index < steps.length - 1 && (
+              <RiArrowRightDoubleLine
+                className={`hidden text-4xl ${index + 1 === activeStep ? "text-accent-dark" : "text-white/20"}  lg:block`}
+              />
             )}
           </div>
         ))}
@@ -55,5 +60,3 @@ export default function WorkingSteps() {
     </section>
   );
 }
-
-

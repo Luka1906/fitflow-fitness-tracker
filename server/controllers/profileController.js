@@ -53,7 +53,7 @@ export const getUserProfile = async (req, res) => {
         goal: weightGoal,
         logs: weightLogs,
       },
-      workouts: formattedWorkoutLogs
+      workouts: formattedWorkoutLogs,
     });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
@@ -171,12 +171,25 @@ export const addUserWater = async (req, res) => {
 };
 
 export const addUserWorkout = async (req, res) => {
-  const { workouts, note, date } = req.body;
+  const { workouts, note, date, hours, minutes } = req.body;
   const userId = req.session.userId;
+  console.log(hours, minutes)
 
   if (!workouts || !date) {
     return res.status(400).json({ message: "Input fields are missing!" });
   }
+
+  // Convert to numbers
+
+  const parsedHours = Number(hours || 0);
+  const parsedMinutes = Number(minutes || 0);
+
+  if (parsedHours < 0 || parsedHours > 23 || parsedMinutes < 0 || parsedMinutes > 59) {
+    return res.status(400).json({message: "Invalid workout duration"})
+  };
+
+  const workoutDuration = parsedHours * 60 + parsedMinutes;
+  console.log(workoutDuration)
 
   try {
     await addWorkoutLogger({
@@ -184,6 +197,7 @@ export const addUserWorkout = async (req, res) => {
       workouts,
       note,
       date,
+      workoutDuration
     });
 
     res.status(200).json({ message: "Success" });

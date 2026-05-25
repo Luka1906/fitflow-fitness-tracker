@@ -32,16 +32,16 @@ const features = [
 export default function Features() {
   return (
     <section className="flex flex-col items-center pt-20  gap-10 ">
-    
- <h2 className="text-3xl font-bold text-accent-dark font-accent tracking-wide">
-        Track Workouts, Hydration, and Nutrition
+      <div className="mx-auto text-center max-w-3xl">
+<h2 className="text-3xl sm:text-4xl font-bold text-accent-dark font-accent tracking-wide">
+        Everything you need to stay consistent
       </h2>
       
-      <p className="w-1/2 text-center text-lg text-text-primary-headings">
+      <p className="mt-4 text-lg text-text-primary-paragraph leading-relaxed">
         Log your exercise, monitor your daily water intake, and receive
         personalized meal recommendations powered by AI
       </p>
-      <article className="flex gap-4">
+<article className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-5 md:grid-cols-2">
         {features.map((feature) => (
           <Feature
             key={feature.title}
@@ -52,6 +52,9 @@ export default function Features() {
           />
         ))}
       </article>
+      </div>
+    
+ 
     </section>
   );
 }
