@@ -201,7 +201,7 @@ export const addWorkoutLogger = async ({ userId, workouts, note, date, workoutDu
 
 export const getWeightLogs = async (userId) => {
   const result = await db.query(
-    "SELECT * FROM weight_logs WHERE user_id = $1 ORDER BY created_at DESC ",
+    "SELECT * FROM weight_logs WHERE user_id = $1 ORDER BY created_at ASC ",
     [userId],
   );
 

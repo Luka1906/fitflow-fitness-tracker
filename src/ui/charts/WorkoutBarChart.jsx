@@ -1,5 +1,6 @@
 import { Bar } from "react-chartjs-2";
 import { createLocalDate } from "../../utils/createLocalDate";
+import { getTrendDays } from "../../utils/getTrendDates";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,16 +21,9 @@ ChartJS.register(
 );
 
 const WorkoutBarChart = ({ weeklyLogs }) => {
-    console.log(weeklyLogs)
 
-  const lastSevenDays = [];
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    lastSevenDays.push(date);
-  }
-  console.log(lastSevenDays);
 
+  const lastSevenDays =  getTrendDays(7)
   // Create default chart structure
   const chartData = lastSevenDays.map((date) => ({
     label: date.toLocaleDateString("en-US", {

@@ -29,9 +29,27 @@ const formatDate = (dateString) => {
     day: "numeric",
   });
 };
+// Get Latest Logs
+
+const getLatestLogs = (logs) => {
+    const latestByDay = {};
+    logs.forEach((log) => {
+        const day = log.logged_at.slice(0,10);
+        const existingLog = latestByDay[day];
+
+
+        if(!existingLog || log.id > existingLog.id) {
+            latestByDay[day] = log
+        }
+    })
+    return Object.values(latestByDay)
+}
+
+
 
 export default function WeightCard() {
   const { weight } = useLoaderData();
+  const latestWeightLogs = getLatestLogs(weight.logs)
   const weightLogFetcher = useFetcher();
   console.log(weightLogFetcher);
   const today = new Date().toLocaleDateString();
@@ -43,9 +61,11 @@ export default function WeightCard() {
 
   // Extracting weight logs, current weight, and weight goal
 
-  const currentWeightLog = weight?.logs?.[0];
+  const currentWeightLog = latestWeightLogs?.at(-1);
+
 
   const currentWeight = currentWeightLog?.weight;
+
   const currentWeightUnit = currentWeightLog?.unit;
 
   const weightGoal = weight?.goal;
@@ -72,9 +92,10 @@ export default function WeightCard() {
   }, [weightLogFetcher.state, weightLogFetcher.data]);
 
   //Toggling weight log trend
-  const lastSevenWeight = weight?.logs?.slice(0, 7).reverse();
-  const latestWeightLog = lastSevenWeight[lastSevenWeight.length - 1]?.weight;
-  const oldestWeightLog = lastSevenWeight[0]?.weight;
+ const lastSevenWeightLogs = latestWeightLogs?.slice(-7);
+  const latestWeightLog = lastSevenWeightLogs[lastSevenWeightLogs.length - 1]?.weight;
+  const oldestWeightLog = lastSevenWeightLogs[0]?.weight;
+  console.log(lastSevenWeightLogs)
   const weightDifference = latestWeightLog - oldestWeightLog;
 
   const isLosing = weightDifference < 0;
@@ -163,7 +184,7 @@ export default function WeightCard() {
 
         {/* chart area */}
         <div className="  mt-6 flex  items-center justify-center rounded-2xl border border-white/10 bg-white/5  text-sm text-slate-500">
-          <WeightLineChart logs={weight.logs} />
+          <WeightLineChart logs={latestWeightLogs} />
         </div>
       </section>
 

@@ -153,7 +153,7 @@ export default function AddWorkoutForm({ onClose }) {
     <Form
       method="POST"
       action="/profile/add-workout"
-      className="flex flex-col h-[90vh] overflow-y-auto
+      className="flex flex-col max-h-[80vh] overflow-y-auto
   rounded-xl border border-slate-500
   bg-slate-100 "
     >

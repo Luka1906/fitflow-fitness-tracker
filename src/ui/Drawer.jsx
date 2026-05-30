@@ -30,7 +30,7 @@ export default function Drawer({ children, isOpen, onClose }) {
       />
 
       <aside
-        className={`absolute right-0 top-0 h-full w-full max-w-md border-l border-white/10 bg-bg-dark p-6 shadow-2xl transition-transform duration-300 ${
+        className={`absolute right-0 top-0 h-full w-full max-w-md border-l border-white/10 bg-bg-dark p-6 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

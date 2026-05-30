@@ -1,5 +1,5 @@
 import { MdLocalFireDepartment } from "react-icons/md";
-import { getWeeklyWorkouts } from "../../utils/getWeeklyWorkouts";
+import { getFilteredData } from "../../utils/getFilteredData";
 import {FiTrendingUp, FiActivity } from "react-icons/fi";
 import { CiDumbbell } from "react-icons/ci";
 import { FaRegClock } from "react-icons/fa6";
@@ -43,7 +43,7 @@ const getFormattedTrainingTime = (trainingTime) => {
 }
 
 export function StreakStats({ workouts }) {
-  const weeklyWorkouts = getWeeklyWorkouts(workouts)
+  const weeklyWorkouts = getFilteredData(workouts, 7)
   const activeDays = getActiveDays(weeklyWorkouts);
 
   const activeDaysCount = activeDays.size;
@@ -60,7 +60,7 @@ export function StreakStats({ workouts }) {
       : "0min";
 
 return (
-    <section className="w-full rounded-2xl border border-white/10 bg-slate-800/10 p-3">
+    <section className="w-full rounded-2xl border border-white/10 bg-slate-800/10 px-3 py-5">
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-6 xl:gap-0  justify-center ">
         {/* Active Days */}
         <div className="flex items-center justify-center">

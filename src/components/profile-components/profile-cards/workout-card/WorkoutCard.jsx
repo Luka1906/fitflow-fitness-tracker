@@ -6,8 +6,7 @@ import { createLocalDate } from "../../../../utils/createLocalDate";
 import { Modal } from "../../../../ui/Modal";
 import { useState } from "react";
 import AddWorkoutForm from "../workout-card/AddWorkoutForm";
-import { getWeeklyWorkouts } from "../../../../utils/getWeeklyWorkouts";
-
+import { getFilteredData } from "../../../../utils/getFilteredData";
 
 export function WorkoutCard() {
   const { workouts } = useLoaderData();
@@ -16,7 +15,7 @@ export function WorkoutCard() {
 
 
 
-  const weeklyWorkouts = getWeeklyWorkouts(workouts);
+  const weeklyWorkouts = getFilteredData(workouts, 7);
 
 
 // Get weekly workout sets 

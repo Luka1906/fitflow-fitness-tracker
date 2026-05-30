@@ -22,9 +22,8 @@ ChartJS.register(
 );
 
 const WeightLineChart = ({ logs }) => {
-  const chartLogs = logs
-    .slice(0, 7)
-    .reverse()
+
+  const chartLogs = logs.slice(-7)
     .map((log) => ({
       label: new Date(log.logged_at).toLocaleDateString("en-US", {
         month: "short",

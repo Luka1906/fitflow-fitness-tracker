@@ -109,3 +109,38 @@ CREATE TABLE
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE (exercise_id, set_order)
     );
+
+    -- DEMO DAT
+
+    INSERT INTO weight_logs (user_id, weight, unit, logged_at)
+VALUES
+(17, 185.2, 'lbs', CURRENT_DATE - INTERVAL '29 days'),
+(17, 184.8, 'lbs', CURRENT_DATE - INTERVAL '28 days'),
+(17, 185.0, 'lbs', CURRENT_DATE - INTERVAL '27 days'),
+(17, 184.5, 'lbs', CURRENT_DATE - INTERVAL '26 days'),
+(17, 184.1, 'lbs', CURRENT_DATE - INTERVAL '25 days'),
+(17, 184.4, 'lbs', CURRENT_DATE - INTERVAL '24 days'),
+(17, 183.9, 'lbs', CURRENT_DATE - INTERVAL '23 days'),
+(17, 183.6, 'lbs', CURRENT_DATE - INTERVAL '22 days'),
+(17, 183.8, 'lbs', CURRENT_DATE - INTERVAL '21 days'),
+(17, 183.4, 'lbs', CURRENT_DATE - INTERVAL '20 days'),
+(17, 183.0, 'lbs', CURRENT_DATE - INTERVAL '19 days'),
+(17, 183.2, 'lbs', CURRENT_DATE - INTERVAL '18 days'),
+(17, 182.7, 'lbs', CURRENT_DATE - INTERVAL '17 days'),
+(17, 182.5, 'lbs', CURRENT_DATE - INTERVAL '16 days'),
+(17, 182.8, 'lbs', CURRENT_DATE - INTERVAL '15 days'),
+(17, 182.2, 'lbs', CURRENT_DATE - INTERVAL '14 days'),
+(17, 181.9, 'lbs', CURRENT_DATE - INTERVAL '13 days'),
+(17, 182.1, 'lbs', CURRENT_DATE - INTERVAL '12 days'),
+(17, 181.6, 'lbs', CURRENT_DATE - INTERVAL '11 days'),
+(17, 181.2, 'lbs', CURRENT_DATE - INTERVAL '10 days'),
+(17, 181.4, 'lbs', CURRENT_DATE - INTERVAL '9 days'),
+(17, 180.9, 'lbs', CURRENT_DATE - INTERVAL '8 days'),
+(17, 180.5, 'lbs', CURRENT_DATE - INTERVAL '7 days'),
+(17, 180.7, 'lbs', CURRENT_DATE - INTERVAL '6 days'),
+(17, 180.2, 'lbs', CURRENT_DATE - INTERVAL '5 days'),
+(17, 179.8, 'lbs', CURRENT_DATE - INTERVAL '4 days'),
+(17, 179.5, 'lbs', CURRENT_DATE - INTERVAL '3 days'),
+(17, 179.1, 'lbs', CURRENT_DATE - INTERVAL '2 days'),
+(17, 178.8, 'lbs', CURRENT_DATE - INTERVAL '1 day'),
+(17, 178.4, 'lbs', CURRENT_DATE);
