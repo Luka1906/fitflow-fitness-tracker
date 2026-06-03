@@ -14,6 +14,7 @@ export const getTrendDays = (filterCriteria) => {
 }
 
 export const getTrendMonths = (logs = []) => {
+  console.log(logs.length)
   if (!logs.length) return [];
 
   const firstLogDate = new Date(logs[0].logged_at);
@@ -24,6 +25,7 @@ export const getTrendMonths = (logs = []) => {
   const date = new Date(
     firstLogDate.getFullYear(),
     firstLogDate.getMonth(),
+    1
   );
   
   while (date <= today) {

@@ -5,7 +5,7 @@ export const getFilteredData = (data, days) => {
   
   const currentDate = new Date();
   const cutOffDate = new Date(currentDate);
-  cutOffDate.setDate(cutOffDate.getDate() - days);
+  cutOffDate.setDate(cutOffDate.getDate() - (days - 1));
   cutOffDate.setHours(0, 0, 0, 0);
 
   const filteredData = data.filter((item) => {

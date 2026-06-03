@@ -25,20 +25,6 @@ ChartJS.register(
 
 );
 
-const getLatestLogPerDay = (logs = []) => {
-  const latestByDay = {};
-
-  logs.forEach((log) => {
-    const day = log.logged_at.slice(0, 10);
-    const existingLog = latestByDay[day];
-
-    if (!existingLog || log.id > existingLog.id) {
-      latestByDay[day] = log;
-    }
-  });
-
-  return Object.values(latestByDay);
-};
 
 const formatWeightChartLabel = (date, filterCriteria) => {
   if (filterCriteria === 7) {
@@ -60,21 +46,22 @@ const formatWeightChartLabel = (date, filterCriteria) => {
 };
 
 export default function WeightTrendChart({ weightLogs = [], filterCriteria }) {
-  const latestLogs = getLatestLogPerDay(weightLogs);
 
   const trendDates =
     filterCriteria === "all"
       ? getTrendMonths(weightLogs)
       : getTrendDays(filterCriteria);
+      console.log(trendDates)
 
   const weightsByDay = {};
   const weightsByMonth = {};
 
-  latestLogs.forEach((log) => {
+  weightLogs.forEach((log) => {
     const date = new Date(log.logged_at);
 
     const dayKey = log.logged_at.slice(0, 10);
     weightsByDay[dayKey] = Number(log.weight);
+    
 
     const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
     weightsByMonth[monthKey] = Number(log.weight);
@@ -94,7 +81,7 @@ export default function WeightTrendChart({ weightLogs = [], filterCriteria }) {
     return weightsByDay[dayKey] ?? null;
   });
 
-  console.log(chartData);
+  const lastDataIndex = chartData.findLastIndex((value) => value !==null)
 
   const data = {
     labels,
@@ -127,7 +114,7 @@ export default function WeightTrendChart({ weightLogs = [], filterCriteria }) {
         display: false,
       },
        datalabels: {
-    display: (context) => context.dataIndex === chartData.length - 1,
+    display: (context) => context.dataIndex === lastDataIndex,
     align: "right",
 
     anchor: "end",
@@ -171,8 +158,8 @@ color: "#cbd5e1",
   };
 
   return (
-    <div className="h-[320px] w-full mt-4">
+    
       <Line data={data} options={options} plugins={[ChartDataLabels]} />
-    </div>
+
   );
 }

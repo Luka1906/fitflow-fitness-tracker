@@ -32,6 +32,7 @@ export const getUserProfile = async (req, res) => {
     const userGoals = await getUserGoals(userId);
     const allGoals = await getAllGoals();
     const waterGoal = await getWaterGoal(userId);
+    const waterLogs = await getWaterLogs(userId);
     const todayWaterLogs = await getTodayWaterLogs(userId);
     const weightLogs = await getWeightLogs(userId);
     const weightGoal = await getWeightGoal(userId);
@@ -48,6 +49,7 @@ export const getUserProfile = async (req, res) => {
       water: {
         goal: waterGoal,
         todayLogs: todayWaterLogs,
+        logs: waterLogs
       },
       weight: {
         goal: weightGoal,

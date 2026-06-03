@@ -261,7 +261,7 @@ export const getTodayWaterLogs = async (userId) => {
 
 export const getWaterLogs = async (userId) => {
   const result = await db.query(
-    "SELECT * FROM water_logs WHERE user_id = $1 ORDER BY logged_at DESC ",
+    "SELECT * FROM water_logs WHERE user_id = $1 ORDER BY logged_at ASC ",
     [userId],
   );
 
