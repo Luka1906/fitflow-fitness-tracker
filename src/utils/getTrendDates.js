@@ -11,10 +11,21 @@ export const getTrendDays = (filterCriteria) => {
   }
 
   return filterDays;
-}
+};
+
+export const getTrendWeeks = (weekCount) => {
+  const weeks = [];
+  for (let i = weekCount - 1; i >= 0; i--) {
+    const weekStart = new Date();
+    weekStart.setDate(weekStart.getDate() - i * 7);
+    weekStart.setHours(0, 0, 0, 0);
+    weeks.push(weekStart);
+  }
+  return weeks;
+};
 
 export const getTrendMonths = (logs = []) => {
-  console.log(logs.length)
+  console.log(logs.length);
   if (!logs.length) return [];
 
   const firstLogDate = new Date(logs[0].logged_at);
@@ -22,12 +33,8 @@ export const getTrendMonths = (logs = []) => {
 
   const months = [];
 
-  const date = new Date(
-    firstLogDate.getFullYear(),
-    firstLogDate.getMonth(),
-    1
-  );
-  
+  const date = new Date(firstLogDate.getFullYear(), firstLogDate.getMonth(), 1);
+
   while (date <= today) {
     months.push(new Date(date));
     date.setMonth(date.getMonth() + 1);

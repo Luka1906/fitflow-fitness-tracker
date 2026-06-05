@@ -1,5 +1,10 @@
-import { getTrendDays, getTrendMonths } from "../../utils/getTrendDates";
+import {
+  getTrendDays,
+  getTrendMonths,
+  getTrendWeeks,
+} from "../../utils/getTrendDates";
 import { Bar } from "react-chartjs-2";
+import annotationPlugin from "chartjs-plugin-annotation";
 
 import {
   Chart as ChartJS,
@@ -10,6 +15,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { callback } from "chart.js/helpers";
+import { getWaterTrendData } from "../../utils/getWaterTrendData";
 
 ChartJS.register(
   CategoryScale,
@@ -18,19 +25,27 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  annotationPlugin,
 );
 
 const formatWaterChartLabel = (date, filterCriteria, waterGoal) => {
   if (filterCriteria === 7)
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString("en-CA", {
       weekday: "short",
+      day: "numeric",
     });
 
-  if (filterCriteria === 30 || filterCriteria === 90) {
+  if (filterCriteria === 30) {
     return date.toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
     });
+  }
+
+  if (filterCriteria === 90) {
+    const weekEndDate = new Date(date);
+    weekEndDate.setDate(weekEndDate.getDate() + 6);
+    return `${date.getMonth() + 1}/${date.getDate()}-${weekEndDate.getMonth() + 1}/${weekEndDate.getDate()}`;
   }
 
   return date.toLocaleDateString("en-US", {
@@ -38,50 +53,26 @@ const formatWaterChartLabel = (date, filterCriteria, waterGoal) => {
   });
 };
 
+const getWeekKey = (weekStart) => {
+  const date = new Date(weekStart);
+  const weekEnd = new Date(date);
+  weekEnd.setDate(weekEnd.getDate() + 6);
+  const weekKey = `${weekStart.getMonth() + 1}/${weekStart.getDate()}-${weekEnd.getMonth() + 1}/${weekEnd.getDate()}`;
+  return weekKey;
+};
+
 export default function WaterTrendChart({
   waterLogs,
   filterCriteria,
   waterGoal,
 }) {
-  const trendDates =
-    filterCriteria === "all"
-      ? getTrendMonths(waterLogs)
-      : getTrendDays(filterCriteria);
-
-  const waterByDay = {};
-  const waterByMonth = {};
-
-  waterLogs.forEach((log) => {
-    const date = new Date(log.logged_at);
-    console.log(date);
-    const dayKey = log.logged_at.slice(0, 10);
-    const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
-    if (!waterByDay[dayKey]) {
-      waterByDay[dayKey] = 0;
-    }
-
-    if (!waterByMonth[monthKey]) {
-      waterByMonth[monthKey] = 0;
-    }
-
-    waterByDay[dayKey] += log.amount;
-    waterByMonth[monthKey] += log.amount;
-  });
-  console.log(waterByMonth);
-  console.log(trendDates);
-
+  const { trendDates, chartData } = getWaterTrendData(
+    waterLogs,
+    filterCriteria,
+  );
   const labels = trendDates.map((date) =>
     formatWaterChartLabel(date, filterCriteria),
   );
-
-  const chartData = trendDates.map((date) => {
-    if (filterCriteria === "all") {
-      const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
-      return waterByMonth[monthKey] ?? 0;
-    }
-    const dayKey = date.toLocaleDateString("en-CA");
-    return waterByDay[dayKey] ?? 0;
-  });
 
   const data = {
     labels: labels,
@@ -90,6 +81,7 @@ export default function WaterTrendChart({
         label: "Water Log",
         data: chartData,
         backgroundColor: "#2563eb",
+        borderRadius: 5,
       },
     ],
   };
@@ -101,22 +93,39 @@ export default function WaterTrendChart({
       legend: {
         display: false,
       },
+      annotation:
+        filterCriteria !== "all" && filterCriteria !== 90
+          ? {
+              annotations: {
+                waterGoalLine: {
+                  type: "line",
+                  yMin: waterGoal,
+                  yMax: waterGoal,
+                  borderColor: "#38bdf8",
+                  borderDash: [6, 6],
+                  borderWidth: 2,
+                },
+              },
+            }
+          : {},
     },
     scales: {
       x: {
         grid: {
           display: false,
         },
-         ticks: {
+        ticks: {
           color: "#94a3b8",
-           maxTicksLimit: 8
+          maxTicksLimit: 8,
         },
       },
       y: {
         grid: {
           color: "rgba(148, 163, 184, 0.12)",
         },
+        grace: "10%",
         ticks: {
+          callback: (value) => `${value} ml`,
           color: "#94a3b8",
           padding: 10,
         },

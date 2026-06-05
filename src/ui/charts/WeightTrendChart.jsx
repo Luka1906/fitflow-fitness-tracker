@@ -28,8 +28,9 @@ ChartJS.register(
 
 const formatWeightChartLabel = (date, filterCriteria) => {
   if (filterCriteria === 7) {
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString("en-CA", {
       weekday: "short",
+            day: "numeric"
     });
   }
 
@@ -140,6 +141,7 @@ color: "#cbd5e1",
         ticks: {
           color: "#94a3b8",
            padding: 10,
+           callback: (value) => `${value} lbs`
         },
       },
       x: {

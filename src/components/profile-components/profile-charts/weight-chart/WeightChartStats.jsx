@@ -14,7 +14,7 @@ export default function WeightChartStats({ weightLogs, weightUnit, filterCriteri
   const lastWeightLog = weightLogs?.at(-1)?.weight;
 
   // Weight Change
-  const weightDifference = Number(firstWeightLog) - Number(lastWeightLog);
+  const weightDifference = Number(lastWeightLog) - Number(firstWeightLog);
   
 
   // Lowest Weight
@@ -31,12 +31,13 @@ export default function WeightChartStats({ weightLogs, weightUnit, filterCriteri
       <div className="flex flex-col items-center  border-r border-white/15 ">
       <div className="flex flex-col items-center">
  <div
-          className={`flex ${weightDifference > 0 ? "text-emerald-300" : "text-red-400"} items-center gap-1 font-semibold text-sm`}
+          className={`flex ${weightDifference < 0 ? "text-emerald-300" : "text-red-400"} items-center gap-1 font-semibold text-sm`}
         >
-          {weightDifference > 0 ? <FaArrowDown /> : <FaArrowUp />}
+          {weightDifference < 0 ? <FaArrowDown /> : <FaArrowUp />}
           <p>
+              {weightDifference > 0 ? "+" : ""}
             {formatWeight(weightDifference)}{" "}
-            <span className="font-normal text-emerald-300/80">
+            <span className="font-semibold">
               {weightUnit}
             </span>
           </p>
@@ -66,3 +67,4 @@ export default function WeightChartStats({ weightLogs, weightUnit, filterCriteri
     </div>
   );
 }
+
