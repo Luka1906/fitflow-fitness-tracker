@@ -42,3 +42,14 @@ export const getTrendMonths = (logs = []) => {
 
   return months;
 };
+export const getYearDates = (year) => {
+  const dates = [];
+  const beginning = new Date(year, 0, 1);
+  const end = new Date (year, 11, 31);
+
+  while (beginning <= end) {
+    dates.push(new Date(beginning));
+    beginning.setDate(beginning.getDate() +1);
+  }
+  return dates;
+}

@@ -53,13 +53,6 @@ const formatWaterChartLabel = (date, filterCriteria, waterGoal) => {
   });
 };
 
-const getWeekKey = (weekStart) => {
-  const date = new Date(weekStart);
-  const weekEnd = new Date(date);
-  weekEnd.setDate(weekEnd.getDate() + 6);
-  const weekKey = `${weekStart.getMonth() + 1}/${weekStart.getDate()}-${weekEnd.getMonth() + 1}/${weekEnd.getDate()}`;
-  return weekKey;
-};
 
 export default function WaterTrendChart({
   waterLogs,

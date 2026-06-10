@@ -24,7 +24,6 @@ export default function WaterTrends() {
   const { water } = useLoaderData();
   const totalWaterLogPerDay = totalLogPerDay(water.logs);
 
-  // [{amount:500, logged_at: "2026-05-30T05:00:00.000Z"}, {amount:100, logged_at: "2026-05-30T05:00:00.000Z"}]
 
   const [filterCriteria, setFilterCriteria] = useState(7);
   return (

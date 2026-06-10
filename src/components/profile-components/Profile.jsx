@@ -11,7 +11,12 @@ export default function Profile() {
   const { user, goals, water, workouts } = useLoaderData();
   return (
     <div className="space-y-16 p-6">
-      <ProfileInfo user={user}  goals={goals} water={water} workouts={workouts} />
+      <ProfileInfo
+        user={user}
+        goals={goals}
+        water={water}
+        workouts={workouts}
+      />
       <StreakStats workouts={workouts} />
 
       <div className="flex flex-col gap-10 border border-white/10 rounded-2xl p-10 bg-slate-800/10">
@@ -22,9 +27,7 @@ export default function Profile() {
           <WorkoutCard />
         </div>
       </div>
-     <div className="flex flex-col gap-10 ">
-        <TrendCharts/>
-      </div>
+      <TrendCharts />
     </div>
   );
 }
