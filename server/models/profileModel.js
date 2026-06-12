@@ -328,7 +328,7 @@ export const getWorkoutLog = async (userId) => {
       WHERE wl.user_id = $1
 
       ORDER BY
-        wl.logged_at DESC,
+        wl.logged_at ASC,
         we.order_index,
         ws.set_order
     `,

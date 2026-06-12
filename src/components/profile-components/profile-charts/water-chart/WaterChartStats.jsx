@@ -65,7 +65,6 @@ export default function WaterChartStats({
       value: getGoalValue(filterCriteria, chartData, waterGoal, total),
     },
   ];
-  console.log(stats);
   return (
     <div className="grid grid-cols-3 bg-accent-dark/10 py-3 rounded-xl">
       {stats.map((stat) => (

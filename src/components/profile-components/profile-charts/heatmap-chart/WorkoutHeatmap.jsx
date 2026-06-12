@@ -1,7 +1,10 @@
 import { useLoaderData } from "react-router-dom";
 import { getYearDates } from "../../../../utils/getTrendDates";
+import { useState } from "react";
+import Tooltip from "../../../../ui/Tooltip";
+import HeatmapStats from "./HeatmapStats";
 
-const weeks = [
+const months = [
   "Jan",
   "Feb",
   "Mar",
@@ -19,28 +22,21 @@ const weeks = [
 const days = ["Mon", "Wed", "Fri"];
 
 const allDates = getYearDates(new Date().getFullYear());
-const datesObj = {};
-allDates.forEach((date) => {
-  const transformedDate = date.toLocaleDateString("en-CA");
-  datesObj[transformedDate] = 0;
-});
 
 const getWorkoutLogs = (logs) => {
   const workoutLogs = {};
+
   logs.forEach((log) => {
     const logDate = log.logged_at.slice(0, 10);
-    if (workoutLogs[logDate]) {
-      workoutLogs[logDate] += 1;
-    } else {
-      workoutLogs[logDate] = 1;
-    }
+    workoutLogs[logDate] = (workoutLogs[logDate] || 0) + 1;
   });
 
   return workoutLogs;
 };
 
 const weekSquares = [];
-for (let i = 0; i < Object.keys(datesObj).length; i += 7) {
+
+for (let i = 0; i < allDates.length; i += 7) {
   weekSquares.push(allDates.slice(i, i + 7));
 }
 
@@ -54,65 +50,84 @@ const getSquareColor = (activity) => {
 
 export default function WorkoutHeatMap() {
   const { workouts } = useLoaderData();
+  console.log(workouts);
   const workoutLogs = getWorkoutLogs(workouts);
 
+  const [tooltip, setTooltip] = useState(null);
+
   return (
-    // Header Section
+    <div className="flex justify-between">
+      <div className="flex flex-col gap-5">
+        {/* Header */}
+        <div className="flex flex-col gap-1">
+          <h2 className="font-semibold text-white">Activity Heatmap</h2>
+          <p className="text-sm text-slate-500">
+            Your workout activity over the last 365 days
+          </p>
+        </div>
 
-    <div className="flex flex-col gap-5">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-white font-semibold">Activity Heatmap</h2>
-        <p className="text-sm text-slate-500">
-          Your workout activity over the last 365 days
-        </p>
-      </div>
+        {/* Heatmap + Side Panel */}
 
-      {/* Heatmap Section */}
-
-      <div>
-        <ul className="flex text-xs gap-12.5 ml-8">
-          {weeks.map((week) => (
-            <li key={week}>{week}</li>
-          ))}
-        </ul>
-
-        <div className="flex">
-          <ul className="flex flex-col text-xs gap-5">
-            {days.map((day) => (
-              <li key={day}>{day}</li>
+        <div>
+          <ul className="ml-8 flex gap-14 text-[0.8rem]">
+            {months.map((month) => (
+              <li key={month}>{month}</li>
             ))}
           </ul>
-          {/* Heatmap */}
-          <div className="flex px-2 py-1 gap-1">
-            {weekSquares.map((week, index) => (
-              <div key={index} className="flex flex-col gap-1">
-                {week.map((day) => {
-                  const dateKey = day.toLocaleDateString("en-CA");
-                  const activity = workoutLogs[dateKey] || 0;
 
-                  return (
-                    <div
-                      key={dateKey}
-                      className={`h-3 w-3 rounded-sm ${getSquareColor(activity)}`}
-                    />
-                  );
-                })}
-              </div>
-            ))}
+          <div className="flex">
+            <ul className="flex flex-col gap-5 text-[0.8rem]">
+              {days.map((day) => (
+                <li key={day}>{day}</li>
+              ))}
+            </ul>
+
+            <div className="flex gap-1 px-2 py-1">
+              {weekSquares.map((week, index) => (
+                <div key={index} className="flex flex-col gap-1">
+                  {week.map((day) => {
+                    const dateKey = day.toLocaleDateString("en-CA");
+                    const activity = workoutLogs[dateKey] || 0;
+
+                    return (
+                      <div
+                        key={dateKey}
+                        onMouseEnter={(e) => {
+                          setTooltip({
+                            x: e.clientX,
+                            y: e.clientY,
+                            day,
+                            activity,
+                          });
+                        }}
+                        onMouseLeave={() => setTooltip(null)}
+                        className={`h-3.5 w-3.5 rounded-sm ${getSquareColor(
+                          activity,
+                        )}`}
+                      />
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+
+            {tooltip && <Tooltip tooltip={tooltip} />}
+          </div>
+
+          {/* Legend */}
+          <div className="mt-5 flex items-center gap-1 text-[0.8rem]">
+            <span className="mr-1">Less</span>
+            <div className="h-3 w-3 rounded-xs bg-slate-700" />
+            <div className="h-3 w-3 rounded-xs bg-sky-950" />
+            <div className="h-3 w-3 rounded-xs bg-sky-800" />
+            <div className="h-3 w-3 rounded-xs bg-sky-600" />
+            <div className="h-3 w-3 rounded-xs bg-sky-400" />
+            <span className="ml-1">More</span>
           </div>
         </div>
       </div>
-
-      {/* Legend */}
-      <div className="flex gap-1 text-xs items-center">
-        <span className="mr-1">Less</span>
-        <div className="h-3 w-3 bg-slate-700 rounded-xs " />
-        <div className="h-3 w-3 bg-sky-950 rounded-xs" />
-        <div className="h-3 w-3 bg-sky-800 rounded-xs" />
-        <div className="h-3 w-3 bg-sky-600 rounded-xs" />
-        <div className="h-3 w-3 bg-sky-400 rounded-xs" />
-        <span className="ml-1">More</span>
-      </div>
+      {/* Side Insights */}
+      <HeatmapStats logs={workoutLogs} />
     </div>
   );
 }

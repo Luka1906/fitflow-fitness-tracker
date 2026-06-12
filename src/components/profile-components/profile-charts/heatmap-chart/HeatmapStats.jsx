@@ -1,0 +1,127 @@
+import { FaTrophy, FaFire, FaRegCalendarCheck } from "react-icons/fa6";
+import { createLocalDate } from "../../../../utils/createLocalDate";
+import { MdLocalFireDepartment } from "react-icons/md";
+
+// Returning workouts amounts per month
+
+const getMonthActivity = (logs) => {
+  const workoutsByMonth = {};
+  Object.entries(logs).forEach(([date, activity]) => {
+    const monthKey = date.slice(0, 7);
+    workoutsByMonth[monthKey] = (workoutsByMonth[monthKey] || 0) + activity;
+  });
+  return workoutsByMonth;
+};
+
+// Get current workout streak
+
+const getCurrentStreak = (logs) => {
+  const dates = Object.keys(logs);
+  const lastWorkout = dates.at(-1);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const lastDate = createLocalDate(lastWorkout);
+  lastDate.setHours(0, 0, 0, 0);
+
+  const difference = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
+
+  if (difference > 1) return 0;
+
+  let streak = 1;
+
+  for (let i = dates.length - 1; i > 0; i--) {
+    const current = createLocalDate(dates[i]);
+    const previous = createLocalDate(dates[i - 1]);
+    const diffDays = (current - previous) / (1000 * 60 * 60 * 24);
+
+    if (diffDays === 1) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+};
+
+export default function HeatmapStats({ logs }) {
+  const workoutsByMonth = getMonthActivity(logs);
+  const currentStreak = getCurrentStreak(logs);
+  //    Get Most Active Month
+  const [month, count] = Object.entries(workoutsByMonth).reduce((max, curr) =>
+    curr[1] > max[1] ? curr : max,
+  );
+
+  const [year, monthNumber] = month.split("-");
+
+  const mostActiveMonth = new Date(
+    Number(year),
+    Number(monthNumber) - 1,
+    1,
+  ).toLocaleDateString("en-US", {
+    month: "long",
+  });
+
+  return (
+    <>
+      <div className="border-l border-slate-700/60 pl-6 w-[25%]">
+        <h3 className="text font-semibold text-white">Activity Insights</h3>
+
+        {/* Most Active Month */}
+
+        <div className="mt-4 space-y-5">
+          <div className="rounded-lg bg-white/5 p-3 space-y-1 track">
+            <div className="flex items-center gap-2">
+              <FaTrophy className="text-amber-400 text-xl " />
+              <p className="text-sm text-slate-400 tracking-widest">
+                Most Active Month
+              </p>
+            </div>
+
+            <p className="font-semibold text-white">
+              {mostActiveMonth}{" "}
+              <span>
+                ({`${count === 1 ? `${count} workout` : `${count} workouts`}`})
+              </span>
+            </p>
+          </div>
+
+          {/* Current Streak */}
+
+          <div className="rounded-lg bg-white/5 p-3 space-y-1 track">
+            <div className="flex items-center gap-2">
+              <MdLocalFireDepartment className="text-orange-400 text-2xl " />
+              <p className="text-sm text-slate-400 tracking-widest">
+                Current Streak
+              </p>
+            </div>
+
+            <p className="font-semibold text-white">
+              {`${currentStreak < 1 ? "No current streak" : `${currentStreak === 1 ? `${currentStreak} day` : `${currentStreak} days`}`}`}
+            </p>
+          </div>
+
+          {/* Total Workouts */}
+
+          <div className="rounded-lg bg-white/5 p-3 space-y-1 track">
+            <div className="flex items-center gap-2">
+              <FaRegCalendarCheck className="text-sky-400 text-xl " />
+              <p className="text-sm text-slate-400 tracking-widest">
+                Total Active Days
+              </p>
+            </div>
+
+            <p className="font-semibold text-white">
+              {Object.keys(logs).length < 1
+                ? "No active day"
+                : Object.keys(logs).length === 1
+                  ? `${Object.keys(logs).length} day`
+                  : `${Object.keys(logs).length} days`}
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

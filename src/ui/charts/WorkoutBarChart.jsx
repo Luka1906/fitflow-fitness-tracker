@@ -26,7 +26,7 @@ const WorkoutBarChart = ({ weeklyLogs }) => {
   const lastSevenDays =  getTrendDays(7)
   // Create default chart structure
   const chartData = lastSevenDays.map((date) => ({
-    label: date.toLocaleDateString("en-US", {
+    label: date.toLocaleDateString("en-CA", {
       day: "numeric",
       weekday: "short",
     }),

@@ -25,7 +25,6 @@ export const getTrendWeeks = (weekCount) => {
 };
 
 export const getTrendMonths = (logs = []) => {
-  console.log(logs.length);
   if (!logs.length) return [];
 
   const firstLogDate = new Date(logs[0].logged_at);

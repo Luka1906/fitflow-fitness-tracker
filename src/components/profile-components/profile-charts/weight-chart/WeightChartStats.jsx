@@ -8,63 +8,61 @@ const getTotalDifferenceText = (filterCriteria) => {
   if (filterCriteria === "all") return "Total Change";
 };
 
-export default function WeightChartStats({ weightLogs, weightUnit, filterCriteria }) {
-  console.log(weightLogs);
-  const firstWeightLog = weightLogs?.[0]?.weight;
-  const lastWeightLog = weightLogs?.at(-1)?.weight;
+export default function WeightChartStats({
+  weightLogs = [],
+  weightUnit,
+  filterCriteria,
+}) {
+  const hasData = weightLogs.length > 0;
 
-  // Weight Change
-  const weightDifference = Number(lastWeightLog) - Number(firstWeightLog);
-  
+  const weights = hasData
+    ? weightLogs.map((log) => Number(log.weight))
+    : [];
 
-  // Lowest Weight
+  const firstWeightLog = hasData ? weights[0] : null;
+  const lastWeightLog = hasData ? weights.at(-1) : null;
 
-  const lowestWeight = Math.min(...weightLogs.map((log) => Number(log.weight)))
-
-  // Highest Weight
-  const highestWeight = Math.max(...weightLogs.map((log) => Number(log.weight)))
+  const weightDifference = hasData ? lastWeightLog - firstWeightLog : null;
+  const lowestWeight = hasData ? Math.min(...weights) : null;
+  const highestWeight = hasData ? Math.max(...weights) : null;
 
   return (
-    <div className="grid grid-cols-3 bg-accent-dark/10 py-3 rounded-xl">
-
-        {/* Total Change */}
-      <div className="flex flex-col items-center  border-r border-white/15 ">
-      <div className="flex flex-col items-center">
- <div
-          className={`flex ${weightDifference < 0 ? "text-emerald-300" : "text-red-400"} items-center gap-1 font-semibold text-sm`}
-        >
-          {weightDifference < 0 ? <FaArrowDown /> : <FaArrowUp />}
-          <p>
-              {weightDifference > 0 ? "+" : ""}
-            {formatWeight(weightDifference)}{" "}
-            <span className="font-semibold">
-              {weightUnit}
-            </span>
-          </p>
-        </div>
-        <p className="text-xs text-slate-400">{getTotalDifferenceText(filterCriteria)}</p>
-      </div>
-      </div>
-
-      {/* Lowest Weight */}
+    <div className="grid grid-cols-3 rounded-xl bg-accent-dark/10 py-3">
       <div className="flex flex-col items-center border-r border-white/15">
-        <p className="text-sm font-semibold text-text-primary-paragraph"> {lowestWeight} <span>{weightUnit}</span></p>
+        {hasData ? (
+          <div
+            className={`flex items-center gap-1 text-sm font-semibold ${
+              weightDifference < 0 ? "text-emerald-300" : "text-red-400"
+            }`}
+          >
+            {weightDifference < 0 ? <FaArrowDown /> : <FaArrowUp />}
+            <p>
+              {weightDifference > 0 ? "+" : ""}
+              {formatWeight(weightDifference)} <span>{weightUnit}</span>
+            </p>
+          </div>
+        ) : (
+          <p className="text-sm font-semibold">No data</p>
+        )}
+
+        <p className="text-xs text-slate-400">
+          {getTotalDifferenceText(filterCriteria)}
+        </p>
+      </div>
+
+      <div className="flex flex-col items-center border-r border-white/15">
+        <p className="text-sm font-semibold text-text-primary-paragraph">
+          {hasData ? `${formatWeight(lowestWeight)} ${weightUnit}` : "No data"}
+        </p>
         <p className="text-xs text-slate-400">Lowest</p>
       </div>
 
-         {/* Highest Weight */}
-      <div className="flex flex-col items-center border-white/15">
-        <p className="text-sm font-semibold text-text-primary-paragraph"> {highestWeight} <span>{weightUnit}</span></p>
+      <div className="flex flex-col items-center">
+        <p className="text-sm font-semibold text-text-primary-paragraph">
+          {hasData ? `${formatWeight(highestWeight)} ${weightUnit}` : "No data"}
+        </p>
         <p className="text-xs text-slate-400">Highest</p>
       </div>
-
-
-
-      <div>
-
-      </div>
-       
     </div>
   );
 }
-
