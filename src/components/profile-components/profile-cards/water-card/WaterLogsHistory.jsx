@@ -43,7 +43,7 @@ const groupLogsByDay = (logs) => {
   const groups = {};
 
   for (const log of logs) {
-    const key = formatLogDate(log.created_at);
+    const key = formatLogDate(log.logged_at);
 
     if (!groups[key]) groups[key] = [];
 

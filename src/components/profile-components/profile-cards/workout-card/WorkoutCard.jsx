@@ -7,11 +7,16 @@ import { Modal } from "../../../../ui/Modal";
 import { useState } from "react";
 import AddWorkoutForm from "../workout-card/AddWorkoutForm";
 import { getFilteredData } from "../../../../utils/getFilteredData";
+import Drawer from "../../../../ui/Drawer";
+import WorkoutLogsHistory from "./WorkoutLogsHistory";
+import useToggle from "../../../../hooks/useToggle";
 
 export function WorkoutCard() {
-  const { workouts } = useLoaderData();
+  const { workouts, weight } = useLoaderData();
+  
   
   const [activeModal, setActiveModal] = useState(false);
+  const {open: handleOpen, close: handleClose, isOpen } = useToggle()
 
 
 
@@ -52,10 +57,15 @@ export function WorkoutCard() {
           <h2 className="text-2xl font-semibold">Track your training</h2>
         </div>
 
-        <button className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white cursor-pointer">
-          <FiEdit2 />
+        <button onClick={handleOpen} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white cursor-pointer">
+          <FiEdit2  />
         </button>
       </section>
+
+      {/* Manage workouts Drawer */}
+      <Drawer isOpen={isOpen} onClose={handleClose} >
+        <WorkoutLogsHistory workouts={workouts} weightLogs={weight} onClose={handleClose}/>
+      </Drawer>
 
       {/* Weekly Stats */}
       <section className="grid grid-cols-2 gap-4 rounded-3xl bg-bg-dark p-5">

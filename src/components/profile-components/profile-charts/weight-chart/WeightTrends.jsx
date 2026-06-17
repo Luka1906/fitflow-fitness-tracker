@@ -23,7 +23,6 @@ const getLatestLogPerDay = (logs = []) => {
 export default function WeightTrends() {
   const { weight} = useLoaderData();
   const latestLogs = getLatestLogPerDay(weight.logs);
-  console.log(latestLogs)
   const [filterCriteria, setFilterCriteria] = useState(30);
   return (
     <div className="border border-white/10 p-3 rounded-2xl bg-slate-800/20 shadow-2xl">

@@ -56,7 +56,6 @@ export default function AddWorkoutForm({ onClose }) {
 
   const handleAddNewWorkout = () => {
     const value = enteredWorkout.value.trim();
-    console.log(value);
 
     if (!value) {
       setEnteredWorkout((prev) => ({

@@ -44,7 +44,6 @@ export default function WaterChartStats({
   waterGoal,
 }) {
   const { chartData } = getWaterTrendData(waterLogs, filterCriteria);
-  console.log(chartData);
   const total = chartData.reduce((sum, amount) => sum + amount, 0);
   const average = Math.round(total / chartData.length);
   const best = Math.max(...chartData);

@@ -8,7 +8,6 @@ export default function EditForm() {
   const { user, goals } = useLoaderData();
 
   const userGoals = goals.selected.map((goal) => goal.id);
-  console.log(userGoals);
 
   const [selectedGoals, setSelectedGoals] = useState(userGoals);
 
@@ -22,7 +21,6 @@ export default function EditForm() {
   const handleOnGoalChange = (event) => {
     const { checked } = event.target;
     const value = Number(event.target.value);
-    console.log(value);
 
     setAllGoals((prev) => {
       if (checked) {

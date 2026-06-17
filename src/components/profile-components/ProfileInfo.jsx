@@ -10,14 +10,12 @@ export default function ProfileInfo({ user, goals, water, workouts }) {
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
-  console.log(navigation.formData);
 
   const joinedDate = new Date(user.created_at);
   const formattedDate = joinedDate.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
   });
-  console.log(user);
 
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(null);

@@ -50,7 +50,6 @@ const getSquareColor = (activity) => {
 
 export default function WorkoutHeatMap() {
   const { workouts } = useLoaderData();
-  console.log(workouts);
   const workoutLogs = getWorkoutLogs(workouts);
 
   const [tooltip, setTooltip] = useState(null);

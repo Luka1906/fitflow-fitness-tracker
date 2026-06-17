@@ -51,7 +51,6 @@ export default function WeightCard() {
   const { weight } = useLoaderData();
   const latestWeightLogs = getLatestLogs(weight.logs)
   const weightLogFetcher = useFetcher();
-  console.log(weightLogFetcher);
   const today = new Date().toLocaleDateString();
 
 
@@ -95,7 +94,6 @@ export default function WeightCard() {
  const lastSevenWeightLogs = latestWeightLogs?.slice(-7);
   const latestWeightLog = lastSevenWeightLogs[lastSevenWeightLogs.length - 1]?.weight;
   const oldestWeightLog = lastSevenWeightLogs[0]?.weight;
-  console.log(lastSevenWeightLogs)
   const weightDifference = latestWeightLog - oldestWeightLog;
 
   const isLosing = weightDifference < 0;

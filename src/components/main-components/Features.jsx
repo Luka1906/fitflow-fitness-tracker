@@ -25,7 +25,7 @@ const features = [
     icon: FaChartLine,
     title: "Progress charts",
     description:
-      "Visualize your fitness journey with dynamic, real-time progress charts.",
+      "Track weight, hydration, and workout trends with interactive analytics.",
   },
 ];
 

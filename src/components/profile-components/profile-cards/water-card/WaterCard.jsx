@@ -7,7 +7,6 @@ import Drawer from "../../../../ui/Drawer";
 import confetti from "canvas-confetti";
 export default function WaterCard() {
   const today = new Date().toLocaleDateString();
-  console.log(today);
   const { water } = useLoaderData();
   const addWaterFetcher = useFetcher();
   const goalFetcher = useFetcher();
@@ -100,7 +99,7 @@ export default function WaterCard() {
 
   // add confetti effect when goal is completed
   const todayKey = new Date().toISOString().split("T")[0];
-  console.log(todayKey)
+
 
   useEffect(() => {
     const celebrationKey = `water-goal-celebrated-${todayKey}`;
