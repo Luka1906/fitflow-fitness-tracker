@@ -31,6 +31,7 @@ export default function AddWorkoutForm({ onClose }) {
     set_order: ` ${index}`,
     weight: 0,
     reps: 0,
+    unit: "lbs"
   });
 
   //   Workout handlers
@@ -303,7 +304,7 @@ export default function AddWorkoutForm({ onClose }) {
         </div>
       </div>
       <input
-        type="hidden"
+       type="hidden"
         name="workoutData"
         value={JSON.stringify(selectedWorkouts)}
       />

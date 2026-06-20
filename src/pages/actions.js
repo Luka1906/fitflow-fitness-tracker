@@ -260,16 +260,17 @@ export async function addWorkoutAction({ request }) {
       success: false,
       error: "Invalid workout data",
     };
-  }
+  };
+  console.log(workouts)
 
   const data = {
     workouts: workouts,
     note: formData.get("note"),
     date: formData.get("date"),
     hours: formData.get("hours"),
-    minutes: formData.get("minutes")
-
+    minutes: formData.get("minutes"),
   };
+  
 
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/users/profile/add-workout`,
@@ -284,6 +285,7 @@ export async function addWorkoutAction({ request }) {
   );
 
   const responseData = await response.json();
+  console.log(responseData)
 
   if (!response.ok) {
     return {

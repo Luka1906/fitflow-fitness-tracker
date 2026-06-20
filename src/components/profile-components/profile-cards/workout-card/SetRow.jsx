@@ -22,6 +22,7 @@ export default function SetRow({ set, onDelete, onChange }) {
               className="appearance-none bg-transparent px-3 py-2 pr-8 text-sm text-slate-600 outline-none"
               name="unit"
               defaultValue="lbs"
+               onChange={(e) => onChange("unit", e.target.value)}
             >
               <option value="lbs">lbs</option>
               <option value="kg">kg</option>

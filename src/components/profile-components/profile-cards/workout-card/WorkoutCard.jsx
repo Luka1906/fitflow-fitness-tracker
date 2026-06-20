@@ -8,7 +8,7 @@ import { useState } from "react";
 import AddWorkoutForm from "../workout-card/AddWorkoutForm";
 import { getFilteredData } from "../../../../utils/getFilteredData";
 import Drawer from "../../../../ui/Drawer";
-import WorkoutLogsHistory from "./WorkoutLogsHistory";
+import WorkoutLogsHistory from "./workout-drawer/WorkoutLogsHistory";
 import useToggle from "../../../../hooks/useToggle";
 
 export function WorkoutCard() {
@@ -16,6 +16,7 @@ export function WorkoutCard() {
   
   
   const [activeModal, setActiveModal] = useState(false);
+    const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
   const {open: handleOpen, close: handleClose, isOpen } = useToggle()
 
 
@@ -63,8 +64,8 @@ export function WorkoutCard() {
       </section>
 
       {/* Manage workouts Drawer */}
-      <Drawer isOpen={isOpen} onClose={handleClose} >
-        <WorkoutLogsHistory workouts={workouts} weightLogs={weight} onClose={handleClose}/>
+      <Drawer disableEscClose = {deleteModalIsOpen} isOpen={isOpen} onClose={handleClose} >
+        <WorkoutLogsHistory deleteModalIsOpen={deleteModalIsOpen} setDeleteModalIsOpen={setDeleteModalIsOpen} workouts={workouts} weightLogs={weight} onClose={handleClose}/>
       </Drawer>
 
       {/* Weekly Stats */}

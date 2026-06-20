@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 
-export default function Drawer({ children, isOpen, onClose }) {
+export default function Drawer({ children, isOpen, onClose, disableEscClose=false }) {
   const handleClickOutside = (event) => {
     if (event.target === event.currentTarget) onClose();
   };
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || disableEscClose) return;
 
     const handleEscClose = (event) => {
       if (event.key === "Escape") onClose();
@@ -14,7 +14,7 @@ export default function Drawer({ children, isOpen, onClose }) {
     document.addEventListener("keydown", handleEscClose);
 
     return () => document.removeEventListener("keydown", handleEscClose);
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, disableEscClose]);
 
   return (
     <div

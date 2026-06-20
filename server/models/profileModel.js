@@ -157,7 +157,13 @@ export const addWaterLogger = async (id, amount, date) => {
 
 // ADD USER WORKOUTS
 
-export const addWorkoutLogger = async ({ userId, workouts, note, date, workoutDuration }) => {
+export const addWorkoutLogger = async ({
+  userId,
+  workouts,
+  note,
+  date,
+  workoutDuration,
+}) => {
   try {
     await db.query("BEGIN");
 
@@ -184,8 +190,8 @@ export const addWorkoutLogger = async ({ userId, workouts, note, date, workoutDu
 
       for (const set of workout.sets) {
         await db.query(
-          "INSERT INTO workout_sets (exercise_id, set_order, weight, reps) VALUES ($1, $2, $3, $4)",
-          [exerciseId, set.set_order, set.weight, set.reps],
+          "INSERT INTO workout_sets (exercise_id, set_order, weight, reps, unit) VALUES ($1, $2, $3, $4, $5)",
+          [exerciseId, set.set_order, set.weight, set.reps, set.unit],
         );
       }
     }
@@ -201,7 +207,7 @@ export const addWorkoutLogger = async ({ userId, workouts, note, date, workoutDu
 
 export const getWeightLogs = async (userId) => {
   const result = await db.query(
-    "SELECT * FROM weight_logs WHERE user_id = $1 ORDER BY created_at ASC ",
+    "SELECT * FROM weight_logs WHERE user_id = $1 ORDER BY logged_at DESC ",
     [userId],
   );
 
@@ -261,7 +267,7 @@ export const getTodayWaterLogs = async (userId) => {
 
 export const getWaterLogs = async (userId) => {
   const result = await db.query(
-    "SELECT * FROM water_logs WHERE user_id = $1 ORDER BY logged_at ASC ",
+    "SELECT * FROM water_logs WHERE user_id = $1 ORDER BY logged_at DESC ",
     [userId],
   );
 
@@ -315,7 +321,8 @@ export const getWorkoutLog = async (userId) => {
         ws.id AS set_id,
         ws.set_order,
         ws.weight,
-        ws.reps
+        ws.reps,
+        ws.unit
 
       FROM workout_logs wl
 
@@ -327,10 +334,11 @@ export const getWorkoutLog = async (userId) => {
 
       WHERE wl.user_id = $1
 
-      ORDER BY
-        wl.logged_at ASC,
-        we.order_index,
-        ws.set_order
+     ORDER BY
+  wl.logged_at DESC,
+  wl.id DESC,
+  we.order_index,
+  ws.set_order
     `,
     [userId],
   );

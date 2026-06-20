@@ -49,7 +49,8 @@ const getLatestLogs = (logs) => {
 
 export default function WeightCard() {
   const { weight } = useLoaderData();
-  const latestWeightLogs = getLatestLogs(weight.logs)
+  const latestWeightLogs = getLatestLogs(weight.logs);
+  console.log(latestWeightLogs);
   const weightLogFetcher = useFetcher();
   const today = new Date().toLocaleDateString();
 
@@ -60,7 +61,7 @@ export default function WeightCard() {
 
   // Extracting weight logs, current weight, and weight goal
 
-  const currentWeightLog = latestWeightLogs?.at(-1);
+  const currentWeightLog = latestWeightLogs?.[0];
 
 
   const currentWeight = currentWeightLog?.weight;
@@ -91,9 +92,9 @@ export default function WeightCard() {
   }, [weightLogFetcher.state, weightLogFetcher.data]);
 
   //Toggling weight log trend
- const lastSevenWeightLogs = latestWeightLogs?.slice(-7);
-  const latestWeightLog = lastSevenWeightLogs[lastSevenWeightLogs.length - 1]?.weight;
-  const oldestWeightLog = lastSevenWeightLogs[0]?.weight;
+ const lastSevenWeightLogs = latestWeightLogs?.slice(0,7);
+  const latestWeightLog = lastSevenWeightLogs?.[0]?.weight;
+  const oldestWeightLog = lastSevenWeightLogs?.at(-1)?.weight;
   const weightDifference = latestWeightLog - oldestWeightLog;
 
   const isLosing = weightDifference < 0;
@@ -104,6 +105,13 @@ export default function WeightCard() {
 
   //Toggling edit weight goal form
   const { open: openGoal, close: closeGoal, isOpen: isGoalOpen } = useToggle();
+
+  //Delete  and edit weight log confirmation modal
+  const [modalState, setModalState] = useState({
+    type: null,
+    log: null
+  });
+
 
   return (
     <div className="flex flex-col space-y-6 rounded-4xl border border-white/10 bg-white/5 p-5 text-white">
@@ -124,8 +132,8 @@ export default function WeightCard() {
         </button>
       </section>
 
-      <Drawer onClose={closeLogs} isOpen={isLogsOpen}>
-        <WeightLogsHistory onClose={closeLogs} logs={weight.logs} />
+      <Drawer disableEscClose={modalState.deleteModalIsOpen || modalState.editModalIsOpen} onClose={closeLogs} isOpen={isLogsOpen}>
+        <WeightLogsHistory modalState={modalState} setModalState={setModalState} logs={weight.logs} onClose={closeLogs}/>
       </Drawer>
 
       {/* main content */}
@@ -182,7 +190,7 @@ export default function WeightCard() {
 
         {/* chart area */}
         <div className="  mt-6 flex  items-center justify-center rounded-2xl border border-white/10 bg-white/5  text-sm text-slate-500">
-          <WeightLineChart logs={latestWeightLogs} />
+          <WeightLineChart logs={[...latestWeightLogs].reverse()} />
         </div>
       </section>
 

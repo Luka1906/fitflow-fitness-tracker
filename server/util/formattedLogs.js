@@ -33,6 +33,7 @@ export default function formattedLogs (workoutLogs) {
         set_order: log.set_order,
         weight: log.weight,
         reps: log.reps,
+        unit: log.unit
       });
     };
     return groupedWorkouts

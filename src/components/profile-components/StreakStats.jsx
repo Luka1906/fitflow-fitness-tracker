@@ -35,10 +35,10 @@ const getActiveDays = (weeklyWorkouts) => {
 
 const getFormattedTrainingTime = (trainingTime) => {
     const totalHours = Math.floor(trainingTime / 60);
-    const totalMinutes = trainingTime % 60;
+    const totalMinutes = (trainingTime % 60).toFixed(0);
     if (trainingTime <= 0) return "0min";
     if(trainingTime <= 60) return trainingTime + "min"
-    return totalHours + "h" + " " + totalMinutes + "min"
+    return totalHours + "h" + " " + String(totalMinutes).padStart(2, "0") + "min"
 
 }
 

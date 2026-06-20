@@ -7,8 +7,12 @@ export function Modal({ children, onClose, isOpen }) {
   };
 
   useEffect(() => {
+      if (!isOpen) return;
     const handleExitPress = (event) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") {
+        
+onClose();
+      } 
     };
     document.addEventListener("keydown", handleExitPress);
 
