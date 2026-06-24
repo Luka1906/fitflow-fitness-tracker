@@ -5,6 +5,7 @@ import {
   addUserWorkout,
   deleteUserWaterLog,
   deleteUserWeightLog,
+  deleteUserWorkoutLog,
   editUserAvatar,
   editUserProfile,
   editWaterGoal,
@@ -32,9 +33,10 @@ router.patch("/profile/water-goal", authUser, editWaterGoal);
 router.patch("/profile/weight-goal", authUser, editWeightGoal);
 router.get("/profile/water-logs", authUser, getUserWaterLogs);
 router.delete("/profile/water-logs/:id", authUser, deleteUserWaterLog);
-router.delete("/profile/weight-logs/:id", authUser, deleteUserWeightLog)
+router.delete("/profile/weight-logs/:id", authUser, deleteUserWeightLog);
+router.delete("/profile/workout-logs/:id", authUser, deleteUserWorkoutLog);
 router.post("/profile/add-weight", authUser, addUserWeight);
 router.post("/profile/add-water", authUser, addUserWater);
-router.post("/profile/add-workout", authUser, addUserWorkout)
+router.post("/profile/add-workout", authUser, addUserWorkout);
 
 export default router;

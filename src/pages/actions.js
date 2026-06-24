@@ -260,8 +260,8 @@ export async function addWorkoutAction({ request }) {
       success: false,
       error: "Invalid workout data",
     };
-  };
-  console.log(workouts)
+  }
+  console.log(workouts);
 
   const data = {
     workouts: workouts,
@@ -270,7 +270,6 @@ export async function addWorkoutAction({ request }) {
     hours: formData.get("hours"),
     minutes: formData.get("minutes"),
   };
-  
 
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/users/profile/add-workout`,
@@ -285,7 +284,7 @@ export async function addWorkoutAction({ request }) {
   );
 
   const responseData = await response.json();
-  console.log(responseData)
+  console.log(responseData);
 
   if (!response.ok) {
     return {
@@ -366,6 +365,29 @@ export async function deleteWeightLogAction({ params }) {
     return {
       success: false,
       error: responseData.message || "Failed to delete weight log",
+    };
+  }
+  return {
+    success: true,
+  };
+}
+
+// DELETE WORKOUT LOG
+
+export async function deleteWorkoutLogAction({ params }) {
+  const id = params.id;
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile/workout-logs/${id}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    },
+  );
+  const responseData = await response.json();
+  if (!response.ok) {
+    return {
+      success: false,
+      error: responseData || "Failed to delete workout log",
     };
   }
   return {

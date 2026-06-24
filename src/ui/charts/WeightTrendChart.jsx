@@ -52,6 +52,7 @@ export default function WeightTrendChart({ weightLogs = [], filterCriteria }) {
     filterCriteria === "all"
       ? getTrendMonths(weightLogs)
       : getTrendDays(filterCriteria);
+      console.log(trendDates)
 
   const weightsByDay = {};
   const weightsByMonth = {};

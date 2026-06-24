@@ -32,7 +32,6 @@ const WeightLineChart = ({ logs }) => {
       value: Number(log.weight),
       unit: log.unit,
     }));
-  console.log(logs);
 
    const data = {
     labels: chartLogs.map((log) => log.label),

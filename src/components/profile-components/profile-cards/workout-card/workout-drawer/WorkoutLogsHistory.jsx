@@ -3,7 +3,7 @@ import { PiDotOutlineFill } from "react-icons/pi";
 import { FaArrowLeft, FaRegClock } from "react-icons/fa6";
 import WorkoutLogCard from "./WorkoutLogCard";
 import WorkoutDetails from "./WorkoutDetails";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createLocalDate } from "../../../../../utils/createLocalDate";
 import { getWorkoutStats } from "../../../../../utils/getWorkoutStats";
 
@@ -18,20 +18,41 @@ const groupWorkoutLogs = (logs) => {
   return groupedLogs;
 };
 
-export default function WorkoutLogsHistory({ onClose, workouts, weightLogs, deleteModalIsOpen, setDeleteModalIsOpen }) {
+export default function WorkoutLogsHistory({
+  onClose,
+  workouts,
+  weightLogs,
+  deleteModalIsOpen,
+  setDeleteModalIsOpen,
+  drawerIsOpen,
+}) {
   const [viewDetails, setViewDetails] = useState({
     selectedDate: null,
   });
 
   const setSelectedDate = (date) => {
-    setViewDetails((prev) => ({
-      ...prev,
+    setViewDetails({
       selectedDate: date,
-    }));
+    });
   };
 
+  const setUnSelectedDate = () => {
+    setViewDetails({
+      selectedDate: null,
+    });
+  };
+  useEffect(() => {
+    if (!drawerIsOpen) {
+      setViewDetails({
+        selectedDate: null,
+      });
+    }
+  }, [drawerIsOpen]);
+
   const groupedWorkouts = useMemo(() => groupWorkoutLogs(workouts), [workouts]);
-  const selectedWorkout = groupedWorkouts[viewDetails.selectedDate];
+  const selectedWorkoutDay = viewDetails.selectedDate
+    ? (groupedWorkouts[viewDetails.selectedDate] ?? [])
+    : [];
 
   const formattedSelectedDate = viewDetails.selectedDate
     ? createLocalDate(viewDetails.selectedDate).toLocaleDateString("en-US", {
@@ -41,8 +62,8 @@ export default function WorkoutLogsHistory({ onClose, workouts, weightLogs, dele
       })
     : null;
 
-  const { formattedTime = "0min" } = selectedWorkout
-    ? getWorkoutStats(selectedWorkout)
+  const { formattedTime = "0min" } = selectedWorkoutDay
+    ? getWorkoutStats(selectedWorkoutDay)
     : {};
 
   return (
@@ -53,12 +74,7 @@ export default function WorkoutLogsHistory({ onClose, workouts, weightLogs, dele
           {viewDetails.selectedDate ? (
             <>
               <button
-                onClick={() =>
-                  setViewDetails({
-                    selectedDate: null,
-                    selectedWorkoutId: null,
-                  })
-                }
+                onClick={setUnSelectedDate}
                 className="cursor-pointer flex items-center gap-2 text-slate-300 mb-2"
               >
                 <FaArrowLeft />
@@ -69,7 +85,7 @@ export default function WorkoutLogsHistory({ onClose, workouts, weightLogs, dele
               <div className="flex text-slate-400 text-sm">
                 <div className="flex gap-1 items-center">
                   <FiCalendar />
-                  <p >{formattedSelectedDate}</p>
+                  <p>{formattedSelectedDate}</p>
                 </div>
                 <PiDotOutlineFill className="text-lg" />
                 <div className="flex gap-1 items-center">
@@ -95,8 +111,9 @@ export default function WorkoutLogsHistory({ onClose, workouts, weightLogs, dele
       <div className="flex flex-col gap-6 overflow-auto">
         {viewDetails.selectedDate ? (
           <WorkoutDetails
-           selectedWorkoutDay={selectedWorkout}
-           selectedDate={viewDetails.selectedDate}
+            selectedWorkoutDay={selectedWorkoutDay}
+            setUnSelectedDate={setUnSelectedDate}
+            selectedDate={viewDetails.selectedDate}
             groupedLogs={groupedWorkouts}
             deleteModalIsOpen={deleteModalIsOpen}
             setDeleteModalIsOpen={setDeleteModalIsOpen}

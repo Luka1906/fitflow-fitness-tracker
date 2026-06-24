@@ -27,7 +27,7 @@ export const getTrendWeeks = (weekCount) => {
 export const getTrendMonths = (logs = []) => {
   if (!logs.length) return [];
 
-  const firstLogDate = new Date(logs[0].logged_at);
+  const firstLogDate = new Date(logs.at(-1).logged_at);
   const today = new Date();
 
   const months = [];
@@ -44,11 +44,11 @@ export const getTrendMonths = (logs = []) => {
 export const getYearDates = (year) => {
   const dates = [];
   const beginning = new Date(year, 0, 1);
-  const end = new Date (year, 11, 31);
+  const end = new Date(year, 11, 31);
 
   while (beginning <= end) {
     dates.push(new Date(beginning));
-    beginning.setDate(beginning.getDate() +1);
+    beginning.setDate(beginning.getDate() + 1);
   }
   return dates;
-}
+};

@@ -50,7 +50,6 @@ const getLatestLogs = (logs) => {
 export default function WeightCard() {
   const { weight } = useLoaderData();
   const latestWeightLogs = getLatestLogs(weight.logs);
-  console.log(latestWeightLogs);
   const weightLogFetcher = useFetcher();
   const today = new Date().toLocaleDateString();
 
@@ -132,7 +131,7 @@ export default function WeightCard() {
         </button>
       </section>
 
-      <Drawer disableEscClose={modalState.deleteModalIsOpen || modalState.editModalIsOpen} onClose={closeLogs} isOpen={isLogsOpen}>
+      <Drawer disableEscClose={modalState.type !==null} onClose={closeLogs} isOpen={isLogsOpen}>
         <WeightLogsHistory modalState={modalState} setModalState={setModalState} logs={weight.logs} onClose={closeLogs}/>
       </Drawer>
 

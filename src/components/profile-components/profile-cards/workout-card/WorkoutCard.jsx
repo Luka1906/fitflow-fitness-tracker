@@ -65,7 +65,7 @@ export function WorkoutCard() {
 
       {/* Manage workouts Drawer */}
       <Drawer disableEscClose = {deleteModalIsOpen} isOpen={isOpen} onClose={handleClose} >
-        <WorkoutLogsHistory deleteModalIsOpen={deleteModalIsOpen} setDeleteModalIsOpen={setDeleteModalIsOpen} workouts={workouts} weightLogs={weight} onClose={handleClose}/>
+        <WorkoutLogsHistory drawerIsOpen={isOpen} deleteModalIsOpen={deleteModalIsOpen} setDeleteModalIsOpen={setDeleteModalIsOpen} workouts={workouts} weightLogs={weight} onClose={handleClose}/>
       </Drawer>
 
       {/* Weekly Stats */}

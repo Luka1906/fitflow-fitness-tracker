@@ -5,9 +5,16 @@ import { createLocalDate } from "../../../../../utils/createLocalDate";
 
 import { useEffect } from "react";
 
-const WorkoutDeleteConfirm = ({ selectedDate, onClose }) => {
+const WorkoutDeleteConfirm = ({
+  selectedDate,
+  selectedWorkout,
+  onClose,
+  deleteModalIsOpen,
+  onDeleteSuccess
+}) => {
+  console.log(selectedWorkout)
   const deleteFetcher = useFetcher();
-  const formatedDate = createLocalDate(selectedDate).toLocaleDateString(
+  const formattedDate = createLocalDate(selectedDate).toLocaleDateString(
     "en-US",
     {
       month: "short",
@@ -16,12 +23,14 @@ const WorkoutDeleteConfirm = ({ selectedDate, onClose }) => {
     },
   );
 
-  //   useEffect(() => {
-  //     if (!isOpen) return;
+  useEffect(() => {
+    if (!deleteModalIsOpen) return;
 
-  //     if (deleteFetcher.state === "idle" && deleteFetcher.data?.success)
-  //       onClose();
-  //   }, [isOpen, deleteFetcher.state, deleteFetcher.data, onClose]);
+    if (deleteFetcher.state === "idle" && deleteFetcher.data?.success) {
+      onDeleteSuccess();
+    }
+  }, [deleteModalIsOpen, deleteFetcher.state, deleteFetcher.data, onDeleteSuccess]);
+
 
   return (
     <div className=" bg-bg-dark/90 border brightness-125 border-red-400/20 rounded-2xl  backdrop-blur-2xl flex flex-col items-center gap-4  text-white px-6 py-7 relative">
@@ -30,24 +39,20 @@ const WorkoutDeleteConfirm = ({ selectedDate, onClose }) => {
         <h2 className="font-semibold text-red-300/90">Delete Workout Log</h2>
       </div>
       <IoMdClose
-     onClick={onClose} 
+        onClick={onClose}
         className="absolute right-4 w-8 h-8 transition p-2 bg-white/10 rounded-full text-slate-300 border border-white/10  hover:text-white hover:border-white/5 cursor-pointer"
       />
 
       <div className="px-10 text-center">
         <p className="text-sm text-slate-300">
           Are you sure you want to delete your
-          <span className="text-white font-medium">
-            {" "}
-            {/* {formatWeight(log?.weight)} {log?.unit} */}
-          </span>{" "}
-          log from
-          <span className="text-white font-medium"> {formatedDate}</span>?
+          <span className="text-white font-medium"> </span> log from
+          <span className="text-white font-medium"> {formattedDate}</span>?
         </p>
       </div>
       <div className="flex gap-3  w-full font-semibold">
         <button
-            onClick={onClose}
+          onClick={onClose}
           className="flex-1 bg-white/10 hover:bg-white/15 py-2 rounded-lg"
         >
           Cancel
@@ -55,7 +60,7 @@ const WorkoutDeleteConfirm = ({ selectedDate, onClose }) => {
         <deleteFetcher.Form
           className="flex-1"
           method="DELETE"
-          //   action={`/profile/weight-logs/${log?.id}`}
+          action={`/profile/workout-logs/${selectedWorkout?.id}`}
         >
           <button
             type="submit"

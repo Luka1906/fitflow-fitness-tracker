@@ -18,6 +18,7 @@ import {
   updateWeightGoal,
   deleteWeightLog,
   getWorkoutLog,
+  deleteWorkoutLog,
 } from "../models/profileModel.js";
 import formattedLogs from "../util/formattedLogs.js";
 import uploadImage from "../util/cloudinary.js";
@@ -39,7 +40,6 @@ export const getUserProfile = async (req, res) => {
     const workoutLogs = await getWorkoutLog(userId);
     const formattedWorkoutLogs = formattedLogs(workoutLogs);
 
-
     return res.status(200).json({
       user,
       goals: {
@@ -49,7 +49,7 @@ export const getUserProfile = async (req, res) => {
       water: {
         goal: waterGoal,
         todayLogs: todayWaterLogs,
-        logs: waterLogs
+        logs: waterLogs,
       },
       weight: {
         goal: weightGoal,
@@ -175,7 +175,7 @@ export const addUserWater = async (req, res) => {
 export const addUserWorkout = async (req, res) => {
   const { workouts, note, date, hours, minutes } = req.body;
   const userId = req.session.userId;
-  console.log(hours, minutes)
+  console.log(hours, minutes);
 
   if (!workouts || !date) {
     return res.status(400).json({ message: "Input fields are missing!" });
@@ -186,12 +186,17 @@ export const addUserWorkout = async (req, res) => {
   const parsedHours = Number(hours || 0);
   const parsedMinutes = Number(minutes || 0);
 
-  if (parsedHours < 0 || parsedHours > 23 || parsedMinutes < 0 || parsedMinutes > 59) {
-    return res.status(400).json({message: "Invalid workout duration"})
-  };
+  if (
+    parsedHours < 0 ||
+    parsedHours > 23 ||
+    parsedMinutes < 0 ||
+    parsedMinutes > 59
+  ) {
+    return res.status(400).json({ message: "Invalid workout duration" });
+  }
 
   const workoutDuration = parsedHours * 60 + parsedMinutes;
-  console.log(workoutDuration)
+  console.log(workoutDuration);
 
   try {
     await addWorkoutLogger({
@@ -199,7 +204,7 @@ export const addUserWorkout = async (req, res) => {
       workouts,
       note,
       date,
-      workoutDuration
+      workoutDuration,
     });
 
     res.status(200).json({ message: "Success" });
@@ -257,11 +262,9 @@ export const getUserWaterLogs = async (req, res) => {
 export const deleteUserWaterLog = async (req, res) => {
   const { id } = req.params;
   const userId = req.session.userId;
-  console.log(id);
 
   try {
     const deletedWaterLog = await deleteWaterLog(id, userId);
-    console.log(deletedWaterLog);
 
     if (!deletedWaterLog) {
       return res.status(404).json({
@@ -276,6 +279,28 @@ export const deleteUserWaterLog = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: "Failed to delete water log",
+    });
+  }
+};
+
+export const deleteUserWorkoutLog = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.session.userId;
+
+  try {
+    const deletedWorkoutLog = await deleteWorkoutLog(id, userId);
+    if (!deleteUserWorkoutLog) {
+      res.status(404).json({
+        message: "Workout log does not exist",
+      });
+    }
+    return res.status(200).json({
+      message: "Successfully deleted workout log",
+      deletedWorkoutLog,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to delete workout log",
     });
   }
 };

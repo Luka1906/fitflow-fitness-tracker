@@ -345,3 +345,13 @@ export const getWorkoutLog = async (userId) => {
 
   return result.rows;
 };
+
+//DELETE WORKOUT LOG
+
+export const deleteWorkoutLog = async (logId, userId) => {
+  const result = await db.query(
+    "DELETE FROM workout_logs WHERE id=$1 AND user_id=$2 ",
+    [logId, userId],
+  );
+  return result.rows[0];
+};

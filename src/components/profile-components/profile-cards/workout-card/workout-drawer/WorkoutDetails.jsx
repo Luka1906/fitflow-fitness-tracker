@@ -5,9 +5,26 @@ import { useRef, useEffect, useState } from "react";
 import { Modal } from "../../../../../ui/Modal";
 import WorkoutDeleteConfirm from "./WorkoutDeleteConfirm";
 
-export default function WorkoutDetails({ selectedWorkoutDay, selectedDate, deleteModalIsOpen, setDeleteModalIsOpen }) {
+export default function WorkoutDetails({
+  selectedWorkoutDay = [],
+  selectedDate,
+  deleteModalIsOpen,
+  setDeleteModalIsOpen,
+  setUnSelectedDate,
+}) {
   const contentRef = useRef(null);
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
 
+  const closeDeleteModal = () => {
+    setDeleteModalIsOpen(false);
+    setSelectedWorkout(null);
+  };
+
+  const handleDeleteSuccess = () => {
+    setDeleteModalIsOpen(false);
+    setSelectedWorkout(null);
+    setUnSelectedDate();
+  };
 
   useEffect(() => {
     contentRef.current?.scrollTo({
@@ -19,8 +36,14 @@ export default function WorkoutDetails({ selectedWorkoutDay, selectedDate, delet
   return (
     <div className="flex flex-col gap-6 overflow-auto" ref={contentRef}>
       {selectedWorkoutDay.map((workout) => {
-        const { formattedTime, totalExercises, totalSets, firstExercise, totalVolume, unit } =
-          getWorkoutStats([workout]);
+        const {
+          formattedTime,
+          totalExercises,
+          totalSets,
+          firstExercise,
+          totalVolume,
+          unit,
+        } = getWorkoutStats([workout]);
 
         return (
           <section
@@ -50,7 +73,11 @@ export default function WorkoutDetails({ selectedWorkoutDay, selectedDate, delet
                   <PiDotOutlineFill className="text-lg" />
                   <span>{totalSets === 1 ? "1 set" : `${totalSets} sets`}</span>
                 </div>
-                <div className="text-xs mt-1 text-slate-400">{totalVolume.toLocaleString()} {unit} total volume</div>
+
+                <div className="text-xs mt-1 text-slate-400">
+                  {totalVolume.toLocaleString()} {unit} total volume
+                </div>
+
                 {workout.note && (
                   <div className="mt-3 rounded-xl border border-white/10 bg-black/10 p-3">
                     <p className="text-xs tracking-wider text-slate-500">
@@ -62,22 +89,24 @@ export default function WorkoutDetails({ selectedWorkoutDay, selectedDate, delet
                   </div>
                 )}
               </div>
-              <button onClick={() => setDeleteModalIsOpen(true)} className="text-red-400 border border-red-400/20 transition hover:text-red-300 hover:border-red-400/40 cursor-pointer  bg-red-400/10 p-2 rounded-full">
+
+              <button
+                onClick={() => {
+                  setSelectedWorkout(workout);
+                  setDeleteModalIsOpen(true);
+                }}
+                className="text-red-400 border border-red-400/20 transition hover:text-red-300 hover:border-red-400/40 cursor-pointer bg-red-400/10 p-2 rounded-full"
+              >
                 <FiTrash2 />
               </button>
             </header>
 
-            <Modal onClose={() => setDeleteModalIsOpen(false)} isOpen={deleteModalIsOpen}>
-                <WorkoutDeleteConfirm onClose={() => setDeleteModalIsOpen(false)}    selectedDate={selectedDate}  />
-            </Modal>
-            
-
             <div className="flex flex-col gap-4 mt-6">
-              {workout.exercises.map((exercise, index) => (
+              {workout.exercises.map((exercise) => (
                 <div key={exercise.id}>
                   <div className="mb-3 flex items-center justify-between">
                     <p className="font-medium text-white">
-                       {exercise.workout_name}
+                      {exercise.workout_name}
                     </p>
 
                     <span className="rounded-full bg-white/5 px-2 py-1 text-xs text-slate-400">
@@ -109,6 +138,16 @@ export default function WorkoutDetails({ selectedWorkoutDay, selectedDate, delet
           </section>
         );
       })}
+
+      <Modal onClose={closeDeleteModal} isOpen={deleteModalIsOpen}>
+        <WorkoutDeleteConfirm
+          onClose={closeDeleteModal}
+          onDeleteSuccess={handleDeleteSuccess}
+          selectedDate={selectedDate}
+          selectedWorkout={selectedWorkout}
+          deleteModalIsOpen={deleteModalIsOpen}
+        />
+      </Modal>
     </div>
   );
 }
