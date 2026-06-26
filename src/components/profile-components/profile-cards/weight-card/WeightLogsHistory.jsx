@@ -8,6 +8,7 @@ import formatWeight from "../../../../utils/formatWeight";
 import WeightEditModal from "./WeightEditModal";
 import WeightDeleteConfirm from "./WeightDeleteConfirm";
 import { Modal } from "../../../../ui/Modal";
+import WeightEditConfirm from "./WeightEditConfirm";
 
 const formattedDate = (date) => {
   if (!date) return "";
@@ -147,6 +148,15 @@ export default function WeightLogsHistory({
           logDate={formattedDate(modalState.log?.logged_at)}
           onClose={closeModal}
           isOpen={modalState.type === "delete"}
+        />
+      </Modal>
+
+         <Modal isOpen={modalState.type === "edit"} onClose={closeModal}>
+        <WeightEditConfirm
+          key={modalState.log?.id}
+          log={modalState.log}
+          onClose={closeModal}
+          isOpen={modalState.type === "edit"}
         />
       </Modal>
 

@@ -19,6 +19,7 @@ import {
   deleteWeightLog,
   getWorkoutLog,
   deleteWorkoutLog,
+  editWeightLog,
 } from "../models/profileModel.js";
 import formattedLogs from "../util/formattedLogs.js";
 import uploadImage from "../util/cloudinary.js";
@@ -152,6 +153,63 @@ export const deleteUserWeightLog = async (req, res) => {
       .json({ message: "succesfully delete weight log", deletedWeightLog });
   } catch (error) {
     return res.status(500).json({ message: "Failed to delete weight log" });
+  }
+};
+
+export const updateUserWeightLog = async (req, res) => {
+  const { id } = req.params;
+  const { weight, unit, logDate } = req.body;
+  const userId = req.session.userId;
+
+  const today = new Date().toISOString().split("T")[0];
+  const formattedWeight = Number(weight);
+
+  try {
+    if (logDate > today) {
+      return res.status(400).json({
+        success: false,
+        message: "Weight log date cannot be in future.",
+      });
+    }
+
+    if (!formattedLogs || formattedWeight < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Weight must be greater than 0",
+      });
+    }
+
+    if (!["lbs", "kg"].includes(unit)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid weight unit",
+      });
+    }
+
+    const updatedLog = await editWeightLog(
+      id,
+      userId,
+      formattedWeight,
+      unit,
+      logDate,
+    );
+
+    if (!updatedLog) {
+      return res.status(404).json({
+        success: false,
+        message: "Weight log not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "You successfully updated the log",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update weight log",
+    });
   }
 };
 

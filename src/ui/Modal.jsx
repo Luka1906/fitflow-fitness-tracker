@@ -26,13 +26,13 @@ onClose();
    onClick={handleClickOutside}
   className={`
     fixed inset-0 z-100 flex items-center justify-center
-    bg-black/40 px-4 transition-opacity duration-200
+    bg-black/40 px-4 font-primary transition-opacity duration-200
     ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
   `}
 >
   <div
     className={`
-      w-full max-w-md border-none rounded-xl overflow-hidden  
+      w-full max-w-md border-none rounded-xl   
       transition-all duration-200
       ${isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"}
     `}

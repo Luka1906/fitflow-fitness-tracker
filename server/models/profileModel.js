@@ -252,6 +252,16 @@ export const deleteWeightLog = async (logId, userId) => {
   return result.rows[0];
 };
 
+// EDIT WEIGHT LOG
+
+export const editWeightLog = async (logId, userId, weight, unit, date) => {
+  const result = await db.query(
+    "UPDATE weight_logs SET weight= $1, unit = $2, logged_at = $3 WHERE id= $4 AND user_id = $5",
+    [weight, unit, date, logId, userId],
+  );
+  return result.rowCount > 0;
+};
+
 // GET TODAY WATER LOGS
 
 export const getTodayWaterLogs = async (userId) => {

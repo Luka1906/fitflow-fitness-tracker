@@ -20,6 +20,7 @@ import {
   deleteWaterLogAction,
   deleteWeightLogAction,
   deleteWorkoutLogAction,
+  updateWeightLogAction,
 } from "./pages/actions.js";
 import {
   profileLoader,
@@ -74,7 +75,8 @@ const router = createBrowserRouter([
 
       { path: "profile/edit-water-goal", action: editWaterGoalAction },
       { path: "profile/edit-weight-goal", action: editWeightGoalAction },
-      { path: "profile/weight-logs/:id", action: deleteWeightLogAction },
+      { path: "profile/weight-logs/:id/delete", action: deleteWeightLogAction },
+      { path: "profile/weight-logs/:id/edit", action: updateWeightLogAction },
 
       {
         path: "logout",

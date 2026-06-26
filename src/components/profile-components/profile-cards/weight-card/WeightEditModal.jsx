@@ -3,7 +3,7 @@ import { Modal } from "../../../../ui/Modal";
 import WeightDeleteConfirm from "./WeightDeleteConfirm";
 import useToggle from "../../../../hooks/useToggle";
 
-const WeightEditModal = ({ onClose, goal, onDelete}) => {
+const WeightEditModal = ({ onClose, goal, onDelete, onEdit}) => {
   const menuRef = useRef();
   const { open, isOpen, close } = useToggle();
 
@@ -25,7 +25,7 @@ const WeightEditModal = ({ onClose, goal, onDelete}) => {
         ref={menuRef}
         className="absolute right-0 top-2  z-50 w-36 rounded-2xl border border-white/10 bg-slate-900/95 p-2 shadow-2xl backdrop-blur-xl"
       >
-        <button className="w-full rounded-xl px-3 py-2 text-left text-sm text-slate-200 transition hover:bg-white/10">
+        <button onClick={onEdit} className="w-full rounded-xl px-3 py-2 text-left text-sm text-slate-200 transition hover:bg-white/10">
           Edit log
         </button>
 

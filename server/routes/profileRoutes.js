@@ -12,6 +12,7 @@ import {
   editWeightGoal,
   getUserProfile,
   getUserWaterLogs,
+  updateUserWeightLog,
 } from "../controllers/profileController.js";
 import { authUser } from "../middleware/validate.js";
 import multer from "multer";
@@ -31,6 +32,7 @@ router.patch(
 );
 router.patch("/profile/water-goal", authUser, editWaterGoal);
 router.patch("/profile/weight-goal", authUser, editWeightGoal);
+router.patch("/profile/weight-logs/:id", authUser, updateUserWeightLog)
 router.get("/profile/water-logs", authUser, getUserWaterLogs);
 router.delete("/profile/water-logs/:id", authUser, deleteUserWaterLog);
 router.delete("/profile/weight-logs/:id", authUser, deleteUserWeightLog);

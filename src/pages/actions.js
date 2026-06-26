@@ -372,6 +372,42 @@ export async function deleteWeightLogAction({ params }) {
   };
 }
 
+// UPDATE WEIGHT LOG
+
+export async function updateWeightLogAction({ params, request }) {
+  const id = params.id;
+  const formData = await request.formData();
+  const data = {
+    logDate: formData.get("logDate"),
+    weight: formData.get("weightCount"),
+    unit: formData.get("unit"),
+  };
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile/weight-logs/${id}`,
+    {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    },
+  );
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    return {
+      success: responseData.success,
+      error: responseData.message || "Failed to update weight log",
+    };
+  }
+
+  return {
+    success: true,
+  };
+}
+
 // DELETE WORKOUT LOG
 
 export async function deleteWorkoutLogAction({ params }) {
