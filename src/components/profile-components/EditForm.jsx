@@ -22,7 +22,7 @@ export default function EditForm() {
     const { checked } = event.target;
     const value = Number(event.target.value);
 
-    setAllGoals((prev) => {
+    setSelectedGoals((prev) => {
       if (checked) {
         if (prev.length >= 3 || prev.includes(value)) {
           return prev;

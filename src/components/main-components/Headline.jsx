@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 export default function Headline() {
   return (
     <section className="mt-2 grid grid-cols-1 items-center gap-14 px-6 lg:grid-cols-2">
+  
+
       <div>
         <h1 className="max-w-2xl font-accent text-5xl font-bold leading-tight text-text-primary-headings sm:text-6xl lg:text-7xl">
           Track. Train. Thrive. Your Fitness,{" "}
