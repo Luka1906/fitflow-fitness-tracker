@@ -1,61 +1,78 @@
+import { useState } from "react";
+import { FiTarget, FiTrendingUp, FiUserPlus } from "react-icons/fi";
 import WorkingStep from "./WorkingStep";
 
-import { useState } from "react";
-import { RiArrowRightDoubleLine } from "react-icons/ri";
+const steps = [
+  {
+    icon: FiUserPlus,
+    title: "Create Your Account",
+    description: "Sign up in seconds and set your fitness preferences.",
+  },
+  {
+    icon: FiTarget,
+    title: "Set Your Goals",
+    description: "Choose your workout, hydration, and weight targets.",
+  },
+  {
+    icon: FiTrendingUp,
+    title: "Start Tracking",
+    description: "Log your progress and build consistency every day.",
+  },
+];
 
 export default function WorkingSteps() {
   const [activeStep, setActiveStep] = useState(1);
-  const steps = [
-    {
-      title: "Create Your Acount",
-      description: "Sign up in seconds and set your fitness preferences.",
-    },
-    {
-      title: "Track Everything",
-      description:
-        "Log workouts, hydration, meals, and more - all in on one place.",
-    },
-    {
-      title: "Thrive with AI",
-      description:
-        "Get personalized insights and smart meal suggestions powered by AI.",
-    },
-  ];
 
   return (
-    <section className="px-6 py-20">
-      <div className="mx-auto max-w-3xl text-center">
-        <h2 className="font-accent text-3xl font-bold tracking-wide text-accent-dark sm:text-4xl">
-          How It Works
-        </h2>
+    <section className="relative overflow-hidden py-24">
+      <div className="pointer-events-none absolute left-1/2 top-24 h-[240px] w-[620px] -translate-x-1/2 rounded-full bg-cta-dark/10 blur-[120px]" />
 
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-text-primary-paragraph sm:text-lg">
-          Clear, actionable steps designed to keep you on track and achieve your
-          fitness goals.
-        </p>
-      </div>
+      <div className="relative mx-auto max-w-6xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="inline-flex rounded-full border border-cta-dark/35 bg-cta-dark/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-cta-dark brightness-125">
+            How it works
+          </span>
 
-      <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center gap-6 lg:flex-row lg:justify-center">
-        {steps.map((step, index) => (
-          <div
-            key={step.title}
-            className="flex w-full flex-col items-center gap-4 lg:w-auto lg:flex-row"
-          >
-            <WorkingStep
-              step={index + 1}
-              title={step.title}
-              description={step.description}
-              isActive={activeStep === index + 1}
-              setActiveStep={setActiveStep}
-            />
+          <h2 className="mt-6 font-accent text-4xl font-bold tracking-tight text-text-primary-headings sm:text-5xl">
+            Get started in <span className="text-accent-soft">3 easy steps</span>
+          </h2>
 
-            {index < steps.length - 1 && (
-              <RiArrowRightDoubleLine
-                className={`hidden text-4xl ${index + 1 === activeStep ? "text-accent-dark" : "text-white/20"}  lg:block`}
-              />
-            )}
-          </div>
-        ))}
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-text-primary-paragraph">
+            Set up your goals, start logging, and build consistency one day at a
+            time.
+          </p>
+        </div>
+
+        <div className="relative mt-16 overflow-hidden rounded-3xl border border-white/10">
+  {/* top border highlight */}
+  <div
+    className="absolute top-0 hidden h-px w-1/3 bg-gradient-to-r from-transparent via-accent-dark to-transparent transition-transform duration-500 ease-out lg:block"
+    style={{
+      transform: `translateX(${(activeStep - 1) * 100}%)`,
+    }}
+  />
+
+  <div className="grid grid-cols-1 lg:grid-cols-3">
+    {steps.map((step, index) => (
+      <WorkingStep
+        key={step.title}
+        icon={step.icon}
+        title={step.title}
+        description={step.description}
+        isActive={activeStep === index + 1}
+        onMouseEnter={() => setActiveStep(index + 1)}
+      />
+    ))}
+  </div>
+
+  {/* bottom border highlight */}
+  <div
+    className="absolute bottom-0 hidden h-px w-1/3 bg-gradient-to-r from-transparent via-accent-dark to-transparent transition-transform duration-500 ease-out lg:block"
+    style={{
+      transform: `translateX(${(activeStep - 1) * 100}%)`,
+    }}
+  />
+</div>
       </div>
     </section>
   );

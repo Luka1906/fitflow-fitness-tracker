@@ -1,39 +1,44 @@
+import { Link } from "react-router-dom";
 export default function WorkingStep({
-  step,
+  icon: Icon,
   title,
   description,
   isActive,
-  setActiveStep,
+  onMouseEnter,
 }) {
+  const articleClasses = isActive ? "bg-white/[0.015]" : "";
+
+  const iconClasses = isActive
+    ? "border-accent-dark/35 bg-accent-dark/5 text-accent-dark"
+    : "border-white/10 bg-white/[0.02] text-slate-400";
+
+  const dividerClasses = isActive
+    ? "bg-gradient-to-r from-accent-dark to-cta-dark"
+    : "bg-white/10";
+
   return (
-    <article className="max-w-sm p-6 shadow text-center  flex flex-col items-center justify-center gap-2">
-      <div className="flex">
-        <button
-         onClick={() => setActiveStep(step)}
-  className={`text-3xl font-bold border w-12 h-12 rounded-full cursor-pointer transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent-dark ${
-    isActive
-      ? "border-accent-dark text-accent-dark"
-      : "border-transparent text-gray-700"
-  }`}
-        >
-          {step}
-        </button>
+    <Link
+      to="/auth?mode=signup"
+      onMouseEnter={onMouseEnter}
+      className={`relative flex flex-col items-center px-6 py-10 text-center transition-all duration-300 lg:border-r lg:border-white/10 last:lg:border-r-0 ${articleClasses}`}
+    >
+      <div
+        className={`flex h-20 w-20 items-center justify-center rounded-full border transition-colors duration-300 ${iconClasses}`}
+      >
+        <Icon className="text-4xl" />
       </div>
 
-      <h3
-        className={`text-xl font-semibold transition-colors duration-300 ${
-          isActive ? "text-accent-dark" : "text-gray-700"
-        }`}
-      >
+      <h3 className="mt-6 text-2xl font-bold text-text-primary-headings">
         {title}
       </h3>
-      <p
-        className={`text-sm transition-colors duration-300 ${
-          isActive ? "text-text-primary-paragraph " : "text-text-primary-paragraph/50"
-        }`}
-      >
+
+      <p className="mt-3 max-w-xs text-base leading-7 text-text-primary-paragraph/80">
         {description}
       </p>
-    </article>
+
+      <div
+        className={`mt-7 h-1 w-16 rounded-full transition-colors duration-300 ${dividerClasses}`}
+      />
+    </Link>
   );
 }

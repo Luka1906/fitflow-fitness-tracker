@@ -43,7 +43,7 @@ export default function Headline() {
 </div>
 
         <div className="mt-8 flex flex-wrap gap-4">
-          <Link to="/auth/?mode=signup">
+          <Link to="/auth?mode=signup">
             <Button variant="primary">
               Start Tracking
             </Button>
