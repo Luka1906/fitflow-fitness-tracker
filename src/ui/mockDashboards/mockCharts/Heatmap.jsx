@@ -1,6 +1,8 @@
 import { heatmapData } from "../mockData/mockHeatMapData";
 import { FaTrophy, FaFire, FaRegCalendarCheck } from "react-icons/fa6";
 import { useState } from "react";
+import Tooltip from "../../Tooltip";
+import { createLocalDate } from "../../../utils/createLocalDate";
 
 export default function HeatMap() {
   const [tooltip, setTooltip] = useState(null);
@@ -65,7 +67,7 @@ export default function HeatMap() {
               Progress Overview
             </p>
 
-            <h2 className="text-2xl font-bold text-text-primary-headings sm:text-3xl">
+            <h2 className="text-xl font-bold text-text-primary-headings sm:text-2xl">
               365 Day Activity Heatmap
             </h2>
           </div>
@@ -102,20 +104,26 @@ export default function HeatMap() {
                     <div className="flex flex-col gap-[3px]" key={index}>
                       {week.map((day) => {
                         const squareColor = getSquareColor(day.count);
-
                         return (
                           <div
+                            onMouseEnter={(e) => {
+                              setTooltip({
+                                x: e.clientX,
+                                y: e.clientY,
+                                activity: day.count,
+                                day: createLocalDate(day.date),
+                              });
+                            }}
                             key={day.date}
                             className={`h-5.5 w-5.5 rounded-sm ${squareColor} transition hover:scale-110 hover:ring-2 hover:ring-sky-300/60`}
-                            title={`${day.date}: ${day.count} workout${
-                              day.count === 1 ? "" : "s"
-                            }`}
+                            onMouseLeave={() => setTooltip(null)}
                           />
                         );
                       })}
                     </div>
                   ))}
                 </div>
+                {tooltip && <Tooltip tooltip={tooltip} />}
               </div>
             </div>
           </div>
@@ -125,7 +133,7 @@ export default function HeatMap() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="flex items-center gap-4 rounded-2xl border border-white/10 bg-background-dark/50 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.18)]"
+              className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/3 p-5 "
             >
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10">
                 {stat.icon}

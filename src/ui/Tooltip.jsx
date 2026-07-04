@@ -5,6 +5,7 @@ export default function Tooltip({ tooltip }) {
     day: "numeric",
   });
 
+
   return (
     <div
       style={{ left: tooltip.x + 10, top: tooltip.y - 40 }}

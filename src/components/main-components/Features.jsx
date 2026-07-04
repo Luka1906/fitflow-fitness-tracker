@@ -46,7 +46,7 @@ export default function Features() {
 
       <header className="relative z-10 mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex rounded-full border border-accent-dark/25 bg-accent-dark/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-accent-dark">
+          <span className="inline-flex rounded-full border border-accent-dark/25 bg-accent-dark/5 px-4 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-accent-dark">
             Features
           </span>
 

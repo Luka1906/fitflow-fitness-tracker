@@ -11,8 +11,8 @@ export default function HomePage() {
     <main>
       <Headline />
       <Features />
-      <WorkingSteps />
       <Consistency />
+      <WorkingSteps />
       <Pricing />
       <Faq />
     </main>

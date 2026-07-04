@@ -24,12 +24,12 @@ export default function WorkingSteps() {
   const [activeStep, setActiveStep] = useState(1);
 
   return (
-    <section className="relative overflow-hidden py-24">
+    <section className="relative overflow-hidden">
       <div className="pointer-events-none absolute left-1/2 top-24 h-[240px] w-[620px] -translate-x-1/2 rounded-full bg-cta-dark/10 blur-[120px]" />
 
       <div className="relative mx-auto max-w-6xl">
         <header className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex rounded-full border border-cta-dark/35 bg-cta-dark/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-cta-dark brightness-125">
+          <span className="inline-flex rounded-full border border-cta-dark/35 bg-cta-dark/5 px-4 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-cta-dark brightness-150">
             How it works
           </span>
 

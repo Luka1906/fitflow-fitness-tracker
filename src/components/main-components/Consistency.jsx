@@ -9,7 +9,7 @@ export default function Consistency() {
       <div className="relative z-10 flex flex-col gap-10">
         <header className="mx-auto max-w-6xl text-center">
           <div className="mx-auto max-w-2xl">
-            <span className="inline-flex rounded-full border border-sky-400/30 bg-sky-400/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-sky-400">
+            <span className="inline-flex rounded-full border border-sky-400/30 bg-sky-400/5 px-4 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-sky-400">
               Consistency that counts
             </span>
 
