@@ -23,6 +23,7 @@ const days = ["Mon", "Wed", "Fri"];
 
 const allDates = getYearDates(new Date().getFullYear());
 
+
 const getWorkoutLogs = (logs) => {
   const workoutLogs = {};
 
@@ -39,6 +40,8 @@ const weekSquares = [];
 for (let i = 0; i < allDates.length; i += 7) {
   weekSquares.push(allDates.slice(i, i + 7));
 }
+
+console.log(weekSquares)
 
 const getSquareColor = (activity) => {
   if (activity === 0) return "bg-slate-700";

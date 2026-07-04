@@ -28,7 +28,7 @@ export default function WorkingSteps() {
       <div className="pointer-events-none absolute left-1/2 top-24 h-[240px] w-[620px] -translate-x-1/2 rounded-full bg-cta-dark/10 blur-[120px]" />
 
       <div className="relative mx-auto max-w-6xl">
-        <div className="mx-auto max-w-3xl text-center">
+        <header className="mx-auto max-w-3xl text-center">
           <span className="inline-flex rounded-full border border-cta-dark/35 bg-cta-dark/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-cta-dark brightness-125">
             How it works
           </span>
@@ -41,7 +41,7 @@ export default function WorkingSteps() {
             Set up your goals, start logging, and build consistency one day at a
             time.
           </p>
-        </div>
+        </header>
 
         <div className="relative mt-16 overflow-hidden rounded-3xl border border-white/10">
   {/* top border highlight */}

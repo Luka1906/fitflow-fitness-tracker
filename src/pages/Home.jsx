@@ -1,6 +1,7 @@
 import Headline from "../components/main-components/Headline";
 import Features from "../components/main-components/Features";
-import Testimonials from "../components/main-components/Testimonials";
+import Consistency from "../components/main-components/Consistency";
+
 import WorkingSteps from "../components/main-components/WorkingSteps";
 import Pricing from "../components/main-components/Pricing";
 import Faq from "../components/main-components/FAQ";
@@ -11,7 +12,7 @@ export default function HomePage() {
       <Headline />
       <Features />
       <WorkingSteps />
-      <Testimonials />
+      <Consistency />
       <Pricing />
       <Faq />
     </main>

@@ -8,8 +8,11 @@ export default function WorkingStep({
 }) {
   const articleClasses = isActive ? "bg-white/[0.015]" : "";
 
+  
+  const titleClasses = isActive? "text-text-primary-headings": "text-slate-400";
+
   const iconClasses = isActive
-    ? "border-accent-dark/35 bg-accent-dark/5 text-accent-dark"
+    ? "border-accent-dark/55 bg-accent-dark/5 text-accent-dark"
     : "border-white/10 bg-white/[0.02] text-slate-400";
 
   const dividerClasses = isActive
@@ -28,7 +31,7 @@ export default function WorkingStep({
         <Icon className="text-4xl" />
       </div>
 
-      <h3 className="mt-6 text-2xl font-bold text-text-primary-headings">
+      <h3 className={`mt-6 text-2xl font-bold ${titleClasses}`}>
         {title}
       </h3>
 
