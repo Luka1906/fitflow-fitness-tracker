@@ -24,7 +24,7 @@ export default function WorkingSteps() {
   const [activeStep, setActiveStep] = useState(1);
 
   return (
-   <section className="relative overflow-hidden py-16">
+   <section id="how-it-works" className="relative overflow-hidden py-16">
   <div className="pointer-events-none absolute left-1/2 top-24 h-[240px] w-[620px] -translate-x-1/2 rounded-full bg-cta-dark/10 blur-[120px]" />
 
   <div className="relative mx-auto max-w-7xl">

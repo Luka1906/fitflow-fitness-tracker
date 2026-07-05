@@ -50,3 +50,7 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--color-text-primary-headings);
   caret-color: var(--color-text-primary-headings);
 }
+
+html {
+  scroll-behavior:smooth
+}

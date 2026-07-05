@@ -1,6 +1,5 @@
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
 
 export default function Header() {
   return (
@@ -14,28 +13,49 @@ export default function Header() {
           </span>
         </Link>
 
-        <ul className="flex items-center gap-4 text-text-secondary-dark sm:gap-8 sm:text-lg">
+        <ul className="flex items-center gap-4 font-semibold sm:gap-8 sm:text-lg">
           <li className="hidden md:block">
-            <Link className="transition hover:text-white" to="/features">
+            <a
+              href="#features"
+              className="text-sky-300/90 transition-colors duration-200 hover:text-white"
+            >
               Features
-            </Link>
+            </a>
           </li>
 
           <li className="hidden md:block">
-            <Link className="transition hover:text-white" to="/pricing">
+            <a
+              href="#how-it-works"
+              className="text-sky-300/90 transition-colors duration-200 hover:text-white"
+            >
+              How It Works
+            </a>
+          </li>
+
+          <li className="hidden md:block">
+            <a
+              href="#pricing"
+              className="text-sky-300/90 transition-colors duration-200 hover:text-white"
+            >
               Pricing
-            </Link>
+            </a>
           </li>
 
           <li className="hidden md:block">
-            <Link className="transition hover:text-white" to="/blog">
-              Blog
-            </Link>
+            <a
+              href="#faq"
+              className="text-sky-300/90 transition-colors duration-200 hover:text-white"
+            >
+              FAQ
+            </a>
           </li>
 
-          <li className="rounded-xl bg-white/5 p-2">
-            <Link to="/profile">
-              <FaUser className="text-xl transition hover:text-white sm:text-2xl" />
+          <li className="hidden md:block">
+            <Link
+              to="/auth"
+              className="rounded-lg border border-sky-400/30 bg-sky-500/10 px-4 py-2 text-text-primary-headings transition-all duration-200 hover:bg-sky-400/20 hover:text-white"
+            >
+              Log In
             </Link>
           </li>
         </ul>

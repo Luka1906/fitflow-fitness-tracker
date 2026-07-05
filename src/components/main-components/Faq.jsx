@@ -38,7 +38,7 @@ export default function Faq() {
   };
 
   return (
-    <section className="border-t border-white/5 px-6 py-20">
+    <section id="faq" className="border-t border-white/5 px-6 py-20">
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <p className="mb-6 w-fit rounded-full border border-accent-dark/70 px-6 py-2 text-sm font-bold uppercase tracking-[0.3em] text-accent-dark">
