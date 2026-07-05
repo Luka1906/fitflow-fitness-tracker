@@ -6,10 +6,12 @@ export default function WorkingStep({
   isActive,
   onMouseEnter,
 }) {
-  const articleClasses = isActive ? "bg-white/[0.015]" : "";
+const articleClasses = isActive
+  ? "bg-white/[0.015]"
+  : "hover:bg-white/[0.01]";
 
   
-  const titleClasses = isActive? "text-text-primary-headings": "text-slate-400";
+  const titleClasses = isActive? "text-text-primary-headings": "text-slate-300";
 
   const iconClasses = isActive
     ? "border-accent-dark/55 bg-accent-dark/5 text-accent-dark"
@@ -23,10 +25,10 @@ export default function WorkingStep({
     <Link
       to="/auth?mode=signup"
       onMouseEnter={onMouseEnter}
-      className={`relative flex flex-col items-center px-6 py-10 text-center transition-all duration-300 lg:border-r lg:border-white/10 last:lg:border-r-0 ${articleClasses}`}
+      className={`relative flex flex-col items-center justify-between px-6 py-10 text-center transition-all duration-300 lg:border-r lg:border-white/10 last:lg:border-r-0 ${articleClasses}`}
     >
       <div
-        className={`flex h-20 w-20 items-center justify-center rounded-full border transition-colors duration-300 ${iconClasses}`}
+        className={`flex h-18 w-18 items-center justify-center rounded-full border transition-colors duration-300 ${iconClasses}`}
       >
         <Icon className="text-4xl" />
       </div>

@@ -41,7 +41,7 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="relative overflow-hidden pt-28">
+    <section className="relative overflow-hidden py-16">
       <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-cta-dark/10 blur-[130px]" />
 
       <header className="relative z-10 mx-auto max-w-6xl">

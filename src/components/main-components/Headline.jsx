@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Headline() {
   return (
-    <section className="mt-2 grid grid-cols-1 items-center gap-14 px-6 lg:grid-cols-2">
+    <section className="mt-2 grid grid-cols-1 items-center gap-14 px-6 pb-16 lg:grid-cols-2">
   
 
       <div>

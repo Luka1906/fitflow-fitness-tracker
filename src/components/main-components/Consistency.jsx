@@ -2,7 +2,7 @@ import HeatMap from "../../ui/mockDashboards/mockCharts/Heatmap";
 
 export default function Consistency() {
   return (
-    <section className="relative overflow-hidden py-24  bg-gradient-to-b from-sky-400/3 via-sky-400/2 to-transparent">
+    <section className="relative overflow-hidden py-16  bg-gradient-to-b from-sky-400/3 via-sky-400/2 to-transparent">
 
 
 

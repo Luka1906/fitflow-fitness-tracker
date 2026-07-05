@@ -63,7 +63,7 @@ export default function HeatMap() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-accent-dark">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-[0.25em] text-accent-dark">
               Progress Overview
             </p>
 
