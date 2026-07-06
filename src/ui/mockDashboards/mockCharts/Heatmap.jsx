@@ -101,7 +101,7 @@ export default function HeatMap() {
 
                 <div className="flex gap-[3px]">
                   {weeklySquares.map((week, index) => (
-                    <div className="flex flex-col gap-[3px]" key={index}>
+                    <div className="flex flex-col gap-[3px] " key={index}>
                       {week.map((day) => {
                         const squareColor = getSquareColor(day.count);
                         return (

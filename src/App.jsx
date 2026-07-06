@@ -27,13 +27,17 @@ import {
   onboardingLoader,
   authLoader,
   waterLogsLoader,
+  rootLoader,
 } from "./pages/loaders.js";
 import { editWeightGoalAction } from "./pages/actions.js";
 
 const router = createBrowserRouter([
   {
+    id: "root",
     path: "",
     element: <RootLayout />,
+    loader: rootLoader,
+
     children: [
       { index: true, element: <HomePage /> },
       {

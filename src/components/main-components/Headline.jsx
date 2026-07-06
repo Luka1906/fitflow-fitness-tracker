@@ -42,7 +42,7 @@ export default function Headline() {
           <Link to="/auth?mode=signup">
            <Button
   variant="primary"
-  className="bg-blue-600 flex items-center gap-2 px-6 py-3 hover:bg-blue-600/85 hover:scale-[1.02]"
+  className="bg-blue-600 flex items-center gap-2 px-6 py-3 hover:bg-blue-600/85 hover:scale-[1.02] cursor-pointer"
 >
   <MdOutlineRocketLaunch
     size={20}
@@ -53,7 +53,7 @@ export default function Headline() {
           </Link>
 
           <Link to="/auth">
-            <Button  className="flex items-center gap-2 hover:scale-[1.02] " variant="outline">
+            <Button  className="flex items-center gap-2 hover:scale-[1.02] cursor-pointer " variant="outline">
               <FaRegCirclePlay className="" size={20}/>
               Play Demo
 

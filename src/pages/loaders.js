@@ -16,7 +16,6 @@ async function getCurrentUser() {
 
   const data = await response.json();
 
-
   if (!response.ok) {
     throw new Error(data.message || "Failed to load user");
   }
@@ -33,13 +32,12 @@ export async function profileLoader() {
     throw redirect("/onboarding");
   }
 
-  return data
+  return data;
 }
 
 // ONBOARDING LOADER
 export async function onboardingLoader() {
   const data = await getCurrentUser();
-
 
   if (data.user.onboarding_completed) {
     throw redirect("/profile");
@@ -63,6 +61,23 @@ export async function authLoader() {
   }
 
   return null;
+}
+
+// ROOT LOADER
+
+export async function rootLoader() {
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/profile`,
+    {
+      credentials: "include",
+    },
+  );
+
+  if (!response.ok) {
+    return null;
+  }
+  const data = await response.json();
+  return data.user;
 }
 
 // WATER LOGS LOADER
