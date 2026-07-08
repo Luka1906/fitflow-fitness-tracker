@@ -65,14 +65,14 @@ export default function WaterChartStats({
     },
   ];
   return (
-    <div className="grid grid-cols-3 bg-accent-dark/10 py-3 rounded-xl">
+    <div className="grid grid-cols-3 bg-accent-dark/10 px-2 sm-px:0 py-3 rounded-xl text-center">
       {stats.map((stat) => (
         <div className="flex flex-col items-center border-r border-white/15">
-          <p className="text-sm font-semibold text-text-primary-paragraph">
+          <p className=" text-[11px] sm:text-sm font-semibold text-text-primary-paragraph">
             {" "}
             <span className="">{stat.value}</span>
           </p>
-          <p className="text-xs text-slate-400">{stat.label}</p>
+          <p className=" text-[11px] sm:text-xs text-slate-400">{stat.label}</p>
         </div>
       ))}
     </div>

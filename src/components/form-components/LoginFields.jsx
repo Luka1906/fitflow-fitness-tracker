@@ -48,7 +48,7 @@ export default function LoginFields({ setIsValid }) {
   }, [loginData, logErr, setIsValid]);
 
   return (
-    <>
+     <div className="grid gap-5 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] ">
       <Input
         type="email"
         className={`${logErr.email ? "border-red-400 " : ""}`}
@@ -78,6 +78,6 @@ export default function LoginFields({ setIsValid }) {
           {logErr.password}
         </p>
       )}
-    </>
+    </div>
   );
 }

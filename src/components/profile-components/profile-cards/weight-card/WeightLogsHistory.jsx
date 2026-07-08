@@ -40,7 +40,7 @@ export default function WeightLogsHistory({
       <header className="flex justify-between border-b border-white/10 p-4">
         <div className="flex flex-col gap-1 text-sm">
           <h2 className="text-slate-400">Weight logs history</h2>
-          <h1 className="text-2xl">Manage your logs</h1>
+          <h1 className="text-xl sm:text-2xl">Manage your logs</h1>
         </div>
 
         <button
@@ -79,17 +79,17 @@ export default function WeightLogsHistory({
                 key={log.id}
                 className="relative flex w-full items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4"
               >
-                <p className="text-sm">{formattedDate(log.logged_at)}</p>
+                <p className="text-[13px] sm:text-sm">{formattedDate(log.logged_at)}</p>
 
-                <p className="text-xl font-semibold">
+                <p className="text-lg sm:text-xl font-semibold">
                   {formatWeight(log.weight)}
-                  <span className="ml-2 text-sm font-normal text-slate-400">
+                  <span className="ml-2 text-[13px] sm:text-sm font-normal text-slate-400">
                     {log.unit}
                   </span>
                 </p>
 
                 <div
-                  className={`flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-semibold ${
+                  className={`flex items-center gap-1 rounded-lg px-2 py-1 text-xs sm:text-sm font-semibold ${
                     change > 0
                       ? "bg-red-500/10 text-red-300/90"
                       : change < 0

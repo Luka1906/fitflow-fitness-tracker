@@ -1,21 +1,24 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useToggle from "../../../../hooks/useToggle";
 import { FiDroplet, FiEdit2, FiPlus, FiMinus } from "react-icons/fi";
 import { useFetcher, useLoaderData } from "react-router-dom";
 import WaterLogsHistory from "./WaterLogsHistory";
 import Drawer from "../../../../ui/Drawer";
 import confetti from "canvas-confetti";
+
 export default function WaterCard() {
   const today = new Date().toLocaleDateString();
   const { water } = useLoaderData();
+
   const addWaterFetcher = useFetcher();
   const goalFetcher = useFetcher();
   const drawerFetcher = useFetcher();
 
   const [selectedAmount, setSelectedAmount] = useState(null);
-  const [customAmount, setCustomAmount] = useState(null);
+  const [customAmount, setCustomAmount] = useState("");
   const [editGoal, setEditGoal] = useState(false);
-  const { isOpen, open, close, toggle } = useToggle();
+
+  const { isOpen, open, close } = useToggle();
 
   const consumedWater = water.todayLogs.reduce(
     (accumulator, currentValue) => accumulator + currentValue.amount,
@@ -25,17 +28,11 @@ export default function WaterCard() {
   const percentage = Math.min((consumedWater / water.goal) * 100, 100);
   const remaining = Math.max(water.goal - consumedWater, 0);
 
-  //   progress ofset function
-
   const progressOffset = useMemo(() => {
     const radius = 54;
     const circumference = 2 * Math.PI * radius;
-    return circumference - (percentage / 100) * circumference; 
+    return circumference - (percentage / 100) * circumference;
   }, [percentage]);
-
-  //   function handlers
-
-  // Edit Water Logs function
 
   const handleOpenDrawer = () => {
     open();
@@ -47,27 +44,20 @@ export default function WaterCard() {
     setCustomAmount("");
   };
 
-  //   adding custom water amount function
   const handleCustomAmount = (event) => {
     setCustomAmount(event.target.value);
-    setSelectedAmount("");
+    setSelectedAmount(null);
   };
-
-  //   incresing custom water amount function
 
   const handleIncreaseWaterAmount = () => {
     setCustomAmount((prev) => Math.min(Number(prev || 0) + 50, water.goal));
-    setSelectedAmount("");
+    setSelectedAmount(null);
   };
-
-  //   decreasing custom water amount function
 
   const handleDecreaseWaterAmount = () => {
-    setCustomAmount((prev) => Math.max(prev - 50, 0));
-    setSelectedAmount("");
+    setCustomAmount((prev) => Math.max(Number(prev || 0) - 50, 0));
   };
 
-  //   Clean custom amount input when submit effect
   useEffect(() => {
     if (addWaterFetcher.state === "idle" && addWaterFetcher.data?.success) {
       setCustomAmount("");
@@ -81,13 +71,11 @@ export default function WaterCard() {
     }
   }, [goalFetcher.state, goalFetcher.data]);
 
-  // Exiting edit mode for updating water goal
-
   useEffect(() => {
     if (!editGoal) return;
 
-    const handleEsc = (e) => {
-      if (e.key === "Escape") {
+    const handleEsc = (event) => {
+      if (event.key === "Escape") {
         setEditGoal(false);
       }
     };
@@ -97,61 +85,56 @@ export default function WaterCard() {
     return () => window.removeEventListener("keydown", handleEsc);
   }, [editGoal]);
 
-  // add confetti effect when goal is completed
   const todayKey = new Date().toISOString().split("T")[0];
-
 
   useEffect(() => {
     const celebrationKey = `water-goal-celebrated-${todayKey}`;
-    const alreadyCelebrated = localStorage.getItem(celebrationKey)
+    const alreadyCelebrated = localStorage.getItem(celebrationKey);
+
     if (consumedWater >= water.goal && !alreadyCelebrated) {
-  
       confetti({
         particleCount: 120,
         spread: 70,
         origin: { y: 0.7, x: 0.25 },
       });
 
-      localStorage.setItem(celebrationKey, "true")
+      localStorage.setItem(celebrationKey, "true");
     }
 
     if (consumedWater < water.goal) {
-      localStorage.removeItem(celebrationKey)
+      localStorage.removeItem(celebrationKey);
     }
-  
-  }, [consumedWater, water.goal, todayKey ]);
+  }, [consumedWater, water.goal, todayKey]);
 
   return (
-    <div className="border rounded-4xl  border-white/10 bg-white/5  flex flex-col p-5  ">
-      {/* top row */}
-
-      <section className="flex items-start justify-between text-white ">
-        <div className="space-y-1">
-          <p className="text-sm font-medium tracking-wide text-slate-400">
+    <div className="flex min-w-0 flex-col rounded-4xl border border-white/10 bg-white/5 p-4 sm:p-5">
+      <section className="flex items-start justify-between gap-4 text-white">
+        <div className="min-w-0 space-y-1">
+          <p className="text-xs font-medium tracking-wide text-slate-400 sm:text-sm">
             Water Intake
           </p>
-          <p className="text-2xl font-semibold ">Stay hydrated</p>
+          <p className="text-lg font-semibold sm:text-2xl">Stay hydrated</p>
         </div>
+
         <button
+          type="button"
           onClick={handleOpenDrawer}
-          className="h-10 w-10  border border-white/10 bg-white/5 text-slate-300 flex items-center justify-center rounded-full hover:bg-white/10  hover:text-white transition"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white sm:h-10 sm:w-10"
         >
           <FiEdit2 />
         </button>
 
-        <Drawer onClose={() => close()} isOpen={isOpen}>
+        <Drawer onClose={close} isOpen={isOpen}>
           <WaterLogsHistory
             logs={drawerFetcher.data?.waterLogs}
-            onClose={() => close()}
+            onClose={close}
           />
         </Drawer>
       </section>
 
-      {/* central content */}
-
-      <section className="mt-6 flex  gap-5">
-        <div className="relative flex h-40 w-40 items-center justify-center">
-          <svg className="absolute  -rotate-90" viewBox="0 0 120 120">
+      <section className="mt-5 flex min-w-0 items-center gap-3 sm:mt-6 sm:gap-4">
+        <div className="relative flex h-32 w-32 shrink-0 items-center justify-center sm:h-40 sm:w-40">
+          <svg className="absolute -rotate-90" viewBox="0 0 120 120">
             <circle
               cx="60"
               cy="60"
@@ -168,51 +151,55 @@ export default function WaterCard() {
               stroke="currentColor"
               strokeWidth="10"
               strokeLinecap="round"
-          className="text-sky-400/60 transition-all duration-500"
+              className="text-sky-400/60 transition-all duration-500"
               strokeDasharray={2 * Math.PI * 54}
               strokeDashoffset={progressOffset}
             />
           </svg>
 
           <div className="relative flex flex-col items-center">
-            <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
-              <FiDroplet className="text-lg text-sky-400/60" />
+            <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-full bg-white/10 sm:mb-2 sm:h-10 sm:w-10">
+              <FiDroplet className="text-sm text-sky-400/60 sm:text-lg" />
             </div>
-            <p className="text-2xl font-bold text-white">
+            <p className="text-xl font-bold text-white sm:text-2xl">
               {Math.floor(percentage)}%
             </p>
-            <p className="text-xs tracking-wide text-slate-400">completed</p>
+            <p className="text-[11px] tracking-wide text-slate-400 sm:text-xs">
+              completed
+            </p>
           </div>
         </div>
-        <div className="flex flex-col">
-          <div className="flex-1 space-y-0.5">
-            <h2 className="text-3xl text-white font-bold">
+
+        <div className="flex min-w-0 flex-1 flex-col gap-3 sm:gap-4">
+          <div className="min-w-0 space-y-0.5">
+            <h2 className="truncate text-2xl font-bold text-white sm:text-3xl">
               {consumedWater} ml
             </h2>
-            <p className="text-slate-400 text-sm">
+            <p className="text-xs text-slate-400 sm:text-sm">
               of {water.goal} ml daily goal
             </p>
           </div>
 
-          <div className="flex flex-col bg-bg-dark p-4 rounded-2xl space-y-2">
-            <p className="uppercase text-xs tracking-wide text-slate-400 ">
+          <div className="rounded-2xl bg-bg-dark p-3 sm:p-4 ">
+            <p className="text-[11px] uppercase tracking-wide text-slate-400 sm:text-xs">
               Remaining
             </p>
-            <p className="mt-2 text-lg font-semibold text-white">
+            <p className="mt-1 text-sm font-semibold text-white sm:mt-2 sm:text-lg">
               {remaining === 0 ? "Goal reached 🎉" : `${remaining} ml left`}
             </p>
           </div>
         </div>
       </section>
-      {/* quick actions */}
-      <section className="flex flex-col mt-6">
-        <p className="uppercase text-slate-500 text-xs tracking-[0.2rem]">
+
+      <section className="mt-5 flex flex-col sm:mt-6">
+        <p className="text-[11px] uppercase tracking-[0.18rem] text-slate-500 sm:text-xs sm:tracking-[0.2rem]">
           Quick add
         </p>
+
         <addWaterFetcher.Form
           method="POST"
           action="/profile/add-water"
-          className="grid grid-cols-3 gap-3"
+          className="mt-3 grid grid-cols-3 gap-2"
         >
           {[250, 500, 750].map((amount) => (
             <button
@@ -221,34 +208,36 @@ export default function WaterCard() {
               onClick={() => handlePresetClick(amount)}
               value={amount}
               name="amount"
-              className=" group border border-white/10 bg-white/5 p-3 text-left  rounded-2xl mt-3 hover:bg-white/10 transition"
+              className="group flex min-w-0 flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-2 text-center transition hover:bg-white/10 sm:p-3"
             >
-              <div className="bg-white/10 h-8 w-8 mb-2 flex items-center justify-center rounded-full text-slate-300 group-hover:text-white transition ">
-                {" "}
+              <div className="mb-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/10 text-slate-300 transition group-hover:text-white sm:mb-2 sm:h-8 sm:w-8">
                 <FiPlus />
               </div>
-              <p className="text-white font-semibold">{amount}</p>
-              <p className="text-xs text-slate-400">ml</p>
+              <p className="text-sm font-semibold text-white sm:text-base">
+                {amount}
+              </p>
+              <p className="text-[11px] text-slate-400 sm:text-xs">ml</p>
             </button>
           ))}
-          {/* Hidden date */}
+
           {selectedAmount && <input hidden name="date" value={today} />}
         </addWaterFetcher.Form>
+
         <addWaterFetcher.Form
           method="POST"
           action="/profile/add-water"
-          className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4 space-y-3"
+          className="mt-4 space-y-3 rounded-2xl border border-white/10 bg-white/5 p-3 sm:p-4"
         >
-          <p className="text-[0.7rem] font-medium tracking-[0.2rem] text-slate-400 uppercase">
+          <p className="text-[0.65rem] font-medium uppercase tracking-[0.18rem] text-slate-400 sm:text-[0.7rem] sm:tracking-[0.2rem]">
             Custom amount
           </p>
 
-          <div className="flex flex-wrap lg:flex-nowrap items-center justify- gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
             <div className="flex min-w-0 flex-1 gap-2">
               <button
                 type="button"
                 onClick={handleDecreaseWaterAmount}
-                className="h-11 w-11 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center hover:bg-white/15 transition"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 transition hover:bg-white/15 sm:h-11 sm:w-11"
               >
                 <FiMinus />
               </button>
@@ -258,31 +247,35 @@ export default function WaterCard() {
                 value={customAmount}
                 name="amount"
                 onChange={handleCustomAmount}
-                className="min-w-0 flex-1 rounded-2xl bg-bg-dark border border-white/10 px-4 text-white placeholder:text-slate-500 outline-none"
+                className="min-w-0 flex-1 rounded-2xl border border-white/10 bg-bg-dark px-3 text-center text-sm text-white outline-none placeholder:text-slate-400 sm:px-4 sm:text-base"
                 placeholder="e.g. 300"
               />
 
               <button
                 type="button"
                 onClick={handleIncreaseWaterAmount}
-                className="h-11 w-11 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center hover:bg-white/15 transition"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 transition hover:bg-white/15 sm:h-11 sm:w-11"
               >
                 <FiPlus />
               </button>
             </div>
 
-            <button className="shrink-0 flex items-center text-sm font-medium cursor-pointer text-text-primary-headings active:scale-115 transition hover:text-text-primary-paragraph">
+            <button
+              type="submit"
+              className="flex w-full items-center justify-center gap-1 rounded-xl bg-white/10 px-4 py-2.5 text-sm font-medium text-text-primary-headings transition hover:bg-white/15 hover:text-text-primary-paragraph active:scale-95 sm:w-auto sm:shrink-0 sm:py-3"
+            >
               <FiPlus />
               Add
             </button>
           </div>
+
           <input hidden name="date" value={today} />
         </addWaterFetcher.Form>
       </section>
-      {/* bottom bar */}
-      <section className="flex justify-between mt-6 border border-white/10 bg-white/5 p-3 rounded-2xl">
-        <div className="space-y-1  ">
-          <p className="text-slate-500 uppercase text-xs tracking-wide">
+
+      <section className="mt-5 flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 sm:mt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0 space-y-1">
+          <p className="text-[11px] uppercase tracking-wide text-slate-500 sm:text-xs">
             Daily goal
           </p>
 
@@ -290,28 +283,33 @@ export default function WaterCard() {
             <goalFetcher.Form
               method="PATCH"
               action="/profile/edit-water-goal"
-              className="relative top-1"
+              className="flex items-center gap-2"
             >
-              {" "}
               <input
                 autoFocus
-                className=" border border-white/10 py-1 px-3  focus:outline-none  focus:border-white/30 active:scale-95 transition rounded-lg"
+                className="w-full rounded-lg border border-white/10 bg-transparent px-3 py-1 text-sm text-white transition focus:border-white/30 focus:outline-none sm:w-32 sm:text-base"
                 type="number"
                 defaultValue={water.goal}
                 name="waterGoal"
-              />{" "}
-              <button type="submit">
-                <FiPlus className="absolute -right-5 top-1/2 -translate-y-1/2 text-lg font-semibold" />
+              />
+
+              <button
+                type="submit"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 text-white transition hover:bg-white/15"
+              >
+                <FiPlus />
               </button>
             </goalFetcher.Form>
           ) : (
-            <p className="text-white text-sm">{water.goal}ml</p>
+            <p className="text-sm text-white">{water.goal} ml</p>
           )}
         </div>
+
         {!editGoal && (
           <button
+            type="button"
             onClick={() => setEditGoal(true)}
-            className="border border-white/10 bg-white/5 py-2 px-4 font-medium text-sm text-white rounded-xl hover:bg-white/10 transition"
+            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
           >
             Edit goal
           </button>

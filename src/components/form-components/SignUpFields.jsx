@@ -97,8 +97,8 @@ export default function SignUpFields({
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <div className="flex flex-col items-start w-full">
+      <div className="grid gap-5 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] ">
+        <div className="flex flex-col items-start">
           <Input
             className={`${signUpErr.firstName ? "border-red-500" : ""}`}
             type="text"
@@ -140,13 +140,13 @@ export default function SignUpFields({
 
       <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
         <label
-          htmlFor="avatar"
-          className="group flex h-60 w-full cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-accent-dark/40 bg-accent-dark/5 text-center transition hover:border-accent-dark hover:bg-accent-dark/10"
-        >
+  htmlFor="avatar"
+  className="group flex h-44 w-full cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-accent-dark/40 bg-accent-dark/5 text-center transition hover:border-accent-dark hover:bg-accent-dark/10 sm:h-56 md:h-60"
+>
           {avatarPreview ? (
             <img
               src={avatarPreview}
-          className="h-full w-full rounded-2xl object-contain bg-center bg-black/10"
+        className="h-full w-full rounded-2xl bg-black/10 object-contain"
               alt="Preview profile image"
             />
           ) : (

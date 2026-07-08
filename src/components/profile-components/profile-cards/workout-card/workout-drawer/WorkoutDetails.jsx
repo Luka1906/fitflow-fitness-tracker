@@ -52,17 +52,17 @@ export default function WorkoutDetails({
           >
             <header className="mb-4 flex items-start justify-between border-b border-white/10 pb-3">
               <div>
-                <h3 className="font-semibold text-lg text-white">
+                <h3 className="font-semibold sm:text-lg text-white">
                   {firstExercise}
                   {totalExercises > 1 && (
-                    <span className="text-base font-normal text-slate-300">
+                    <span className="text-sm sm:text-base font-normal text-slate-300">
                       {" "}
                       + {totalExercises - 1} more
                     </span>
                   )}
                 </h3>
 
-                <div className="mt-1 flex items-center text-sm text-slate-300">
+                <div className="mt-1 flex items-center text-xs sm:text-sm text-slate-300">
                   <span>{formattedTime}</span>
                   <PiDotOutlineFill className="text-lg" />
                   <span>
@@ -74,7 +74,7 @@ export default function WorkoutDetails({
                   <span>{totalSets === 1 ? "1 set" : `${totalSets} sets`}</span>
                 </div>
 
-                <div className="text-xs mt-1 text-slate-400">
+                <div className="text-[11px] sm:text-xs mt-1 text-slate-400">
                   {totalVolume.toLocaleString()} {unit} total volume
                 </div>
 
@@ -105,7 +105,7 @@ export default function WorkoutDetails({
               {workout.exercises.map((exercise) => (
                 <div key={exercise.id}>
                   <div className="mb-3 flex items-center justify-between">
-                    <p className="font-medium text-white">
+                    <p className="text-sm sm:text-base font-medium text-white">
                       {exercise.workout_name}
                     </p>
 
@@ -120,7 +120,7 @@ export default function WorkoutDetails({
                     {exercise.sets.map((set) => (
                       <div
                         key={set.id}
-                        className="flex justify-between rounded-lg bg-white/4 p-3 text-sm"
+                        className="flex justify-between rounded-lg bg-white/4 p-3 text-[13px] sm:text-sm"
                       >
                         <span className="text-slate-400">
                           Set {set.set_order}

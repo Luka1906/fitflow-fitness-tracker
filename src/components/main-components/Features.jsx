@@ -41,29 +41,29 @@ const features = [
 
 export default function Features() {
   return (
-    <section id="features" className="relative overflow-hidden py-16">
+   <section id="features" className="relative overflow-hidden px-4 py-12 sm:px-6 sm:py-16">
       <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-cta-dark/10 blur-[130px]" />
 
       <header className="relative z-10 mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex rounded-full border border-accent-dark/25 bg-accent-dark/5 px-4 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-accent-dark">
+          <span className="inline-flex rounded-full border border-accent-dark/25 bg-accent-dark/5 px-4 py-2 text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-accent-dark">
             Features
           </span>
 
-          <h2 className="mt-6 font-accent text-4xl font-bold tracking-tight text-text-primary-headings sm:text-5xl leading-[1.05]">
+          <h2 className="mt-5 font-accent text-3xl font-bold leading-tight tracking-tight text-text-primary-headings sm:text-4xl lg:text-5xl">
             Everything you need to{" "}
             <span className="text-cta-dark">
               stay consistent
             </span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-text-primary-paragraph">
+         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-text-primary-paragraph sm:mt-5 sm:text-lg">
             Simple tools to help you track workouts, hydration, weight, and
             progress without overcomplicating your routine.
           </p>
         </div>
 
-        <article className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-12">
+      <article className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-12">
           {features.map((feature) => (
             <Feature key={feature.title} {...feature} />
           ))}

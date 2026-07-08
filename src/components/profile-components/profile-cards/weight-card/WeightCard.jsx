@@ -144,7 +144,7 @@ export default function WeightCard() {
             </p>
 
             <div className="mt-2 flex items-end gap-2">
-              <h3 className="text-5xl font-bold">
+              <h3 className=" text-4xl sm:text-5xl font-bold">
                 {currentWeight ? formattedWeightLog : "--"}
               </h3>
 
@@ -155,7 +155,7 @@ export default function WeightCard() {
           </div>
 
           <div
-            className={`flex flex-col items-center rounded-2xl border px-3 py-2
+            className={`flex flex-col items-center rounded-lg sm:rounded-2xl border py-2 px-3
     ${
       isLosing
         ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
@@ -165,7 +165,7 @@ export default function WeightCard() {
     }
   `}
           >
-            <div className="flex items-center gap-1 text-sm font-semibold">
+            <div className="flex items-center gap-1 text-[13px] sm:text-sm font-semibold">
               {isLosing ? (
                 <FiTrendingDown />
               ) : isGaining ? (
@@ -180,7 +180,7 @@ export default function WeightCard() {
               </p>
             </div>
             <p
-              className={`text-xs ${isLosing ? "text-emerald-200/70" : isGaining ? "text-red-300/70" : "text-slate-400"} `}
+              className={` text-[11px] sm:text-xs ${isLosing ? "text-emerald-200/70" : isGaining ? "text-red-300/70" : "text-slate-400"} `}
             >
               this week
             </p>
@@ -249,7 +249,7 @@ export default function WeightCard() {
       </section>
 
       {/* bottom stats */}
-      <section className="grid grid-cols-3 gap-3 relative">
+      <section className="grid sm:grid-cols-3 gap-3 relative">
         <div className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-white/5 p-3">
           <div className="flex justify-between">
             <p className="text-xs uppercase tracking-wide text-slate-500">
@@ -265,7 +265,6 @@ export default function WeightCard() {
             {weightGoalUnit || ""}
           </p>
           <WeightGoalForm
-            key={isGoalOpen}
             goal={formattedWeightGoal}
             unit={weightGoal.unit}
             onClose={closeGoal}

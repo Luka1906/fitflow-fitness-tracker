@@ -81,7 +81,7 @@ export default function WorkoutLogsHistory({
                 <span>Back</span>
               </button>
 
-              <h2 className="text-2xl">Workout Details</h2>
+              <h2 className="text-xl sm:text-2xl">Workout Details</h2>
               <div className="flex text-slate-400 text-sm">
                 <div className="flex gap-1 items-center">
                   <FiCalendar />
@@ -96,8 +96,8 @@ export default function WorkoutLogsHistory({
             </>
           ) : (
             <>
-              <h2 className="text-slate-400">Workout logs history</h2>
-              <h1 className=" text-2xl">Manage your logs</h1>
+              <h2 className=" text-slate-400">Workout logs history</h2>
+              <h1 className="text-xl  sm:text-2xl">Manage your logs</h1>
             </>
           )}
         </div>

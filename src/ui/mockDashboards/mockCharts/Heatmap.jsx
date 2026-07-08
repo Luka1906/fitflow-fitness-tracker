@@ -59,53 +59,55 @@ export default function HeatMap() {
   ];
 
   return (
-    <section className="mx-auto w-[95%] rounded-3xl border border-accent-dark/30 bg-accent-dark/5 px-6 py-10 shadow-[0_20px_80px_rgba(56,189,248,0.08)]">
+   <section className="mx-auto w-[95%] rounded-3xl border border-accent-dark/30 bg-accent-dark/5 px-4 py-8 shadow-[0_20px_80px_rgba(56,189,248,0.08)] sm:px-6 sm:py-10">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-5 lg:mb-8 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="mb-2 text-sm font-semibold uppercase tracking-[0.25em] text-accent-dark">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent-dark sm:text-sm sm:tracking-[0.25em]">
               Progress Overview
             </p>
 
-            <h2 className="text-xl font-bold text-text-primary-headings sm:text-2xl">
+            <h2 className="text-xl font-bold text-text-primary-headings sm:text-2xl lg:text-3xl">
               365 Day Activity Heatmap
             </h2>
           </div>
 
-          <div className="flex items-center gap-2 text-sm text-text-primary-paragraph">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-text-primary-paragraph sm:text-sm">
             <span>Less</span>
-            <div className="h-4 w-4 rounded-sm bg-slate-700" />
-            <div className="h-4 w-4 rounded-sm bg-sky-950" />
-            <div className="h-4 w-4 rounded-sm bg-sky-800" />
-            <div className="h-4 w-4 rounded-sm bg-sky-600" />
-            <div className="h-4 w-4 rounded-sm bg-sky-400" />
+            <div className="h-3.5 w-3.5 rounded-sm bg-slate-700 sm:h-4 sm:w-4" />
+            <div className="h-3.5 w-3.5 rounded-sm bg-sky-950 sm:h-4 sm:w-4" />
+            <div className="h-3.5 w-3.5 rounded-sm bg-sky-800 sm:h-4 sm:w-4" />
+            <div className="h-3.5 w-3.5 rounded-sm bg-sky-600 sm:h-4 sm:w-4" />
+            <div className="h-3.5 w-3.5 rounded-sm bg-sky-400 sm:h-4 sm:w-4" />
             <span>More</span>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-background-dark/40 p-5">
+        <div className="rounded-2xl border border-white/10 bg-background-dark/40 p-3 sm:p-5">
           <div className="overflow-x-auto pb-2">
-            <div className="min-w-[900px]">
-              <ul className="mb-4 ml-10 grid grid-cols-12 text-sm text-text-primary-paragraph">
+            <div className="min-w-[620px] sm:min-w-[760px] lg:min-w-0">
+              <ul className="mb-3 ml-8 grid grid-cols-12 text-xs text-text-primary-paragraph sm:mb-4 sm:ml-10 sm:text-sm">
                 {months.map((month) => (
                   <li key={month}>{month}</li>
                 ))}
               </ul>
 
-              <div className="flex gap-3">
-                <ul className="flex flex-col gap-8 pt-1 text-sm text-text-primary-paragraph">
+              <div className="flex gap-2 sm:gap-3">
+                <ul className="flex flex-col gap-[18px] pt-1 text-xs text-text-primary-paragraph sm:gap-8 sm:text-sm">
                   {days.map((day) => (
                     <li key={day}>{day}</li>
                   ))}
                 </ul>
 
-                <div className="flex gap-[3px]">
+                <div className="flex gap-[2px] sm:gap-[3px]">
                   {weeklySquares.map((week, index) => (
-                    <div className="flex flex-col gap-[3px] " key={index}>
+                    <div className="flex flex-col gap-[2px] sm:gap-[3px]" key={index}>
                       {week.map((day) => {
                         const squareColor = getSquareColor(day.count);
+
                         return (
                           <div
+                            key={day.date}
                             onMouseEnter={(e) => {
                               setTooltip({
                                 x: e.clientX,
@@ -114,41 +116,41 @@ export default function HeatMap() {
                                 day: createLocalDate(day.date),
                               });
                             }}
-                            key={day.date}
-                            className={`h-5.5 w-5.5 rounded-sm ${squareColor} transition hover:scale-110 hover:ring-2 hover:ring-sky-300/60`}
                             onMouseLeave={() => setTooltip(null)}
+                            className={`h-2.5 w-2.5 rounded-sm ${squareColor} transition hover:scale-110 hover:ring-2 hover:ring-sky-300/60 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4 xl:h-5 xl:w-5`}
                           />
                         );
                       })}
                     </div>
                   ))}
                 </div>
+
                 {tooltip && <Tooltip tooltip={tooltip} />}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/3 p-5 "
+              className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/3 p-4 sm:p-5"
             >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/10 sm:h-12 sm:w-12">
                 {stat.icon}
               </div>
 
               <div>
-                <h3 className="text-2xl font-bold text-text-primary-headings">
+                <h3 className="text-xl font-bold text-text-primary-headings sm:text-2xl">
                   {stat.title}
                 </h3>
 
-                <p className="font-semibold text-text-primary-headings">
+                <p className="text-sm font-semibold text-text-primary-headings sm:text-base">
                   {stat.label}
                 </p>
 
-                <p className="text-sm text-text-primary-paragraph">
+                <p className="text-xs text-text-primary-paragraph sm:text-sm">
                   {stat.description}
                 </p>
               </div>

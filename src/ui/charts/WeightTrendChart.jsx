@@ -161,7 +161,10 @@ color: "#cbd5e1",
 
   return (
     
-      <Line data={data} options={options} plugins={[ChartDataLabels]} />
+    <Line data={data} options={options} plugins={[ChartDataLabels]} />
+
+    
+  
 
   );
 }

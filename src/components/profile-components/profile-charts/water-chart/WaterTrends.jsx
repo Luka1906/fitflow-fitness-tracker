@@ -29,16 +29,16 @@ export default function WaterTrends() {
   return (
     <div className="border border-white/10 p-3 rounded-2xl bg-slate-800/20 shadow-2xl">
       <article>
-        <header className="flex px-2  justify-between">
+        <header className="flex px-2  justify-between gap-3 ">
           <div className="flex flex-col">
-            <h2 className="text-white font-semibold">Water Intake Trend</h2>
-            <p className="text-sm text-slate-500">
+            <h2 className="text-white sm:text-base font-semibold  sm:w-full ">Water Intake Trend</h2>
+            <p className="text-sm text-slate-500 ">
               {Number(filterCriteria)
                 ? `Last ${filterCriteria} days`
                 : "All days"}
             </p>
           </div>
-          <div className="relative flex  border border-white/10 rounded-xl w-40 pl-3 text-slate-400  ">
+           <div className="relative flex border border-white/10 rounded-xl h-9 md:h-11.5 w-32 md:w-40 pl-3 text-slate-400 ">
             <select
               onChange={(event) => {
                 const value = event.target.value;

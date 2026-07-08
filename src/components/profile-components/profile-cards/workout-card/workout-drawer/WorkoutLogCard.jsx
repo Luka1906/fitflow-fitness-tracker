@@ -45,9 +45,9 @@ export default function WorkoutLogCard({
                 <div className="flex justify-between">
                   <div className="flex items-center">
                     {totalExercises > 1 ? (
-                      <p className="font-semibold">
+                      <p className="text-[15px] sm:text-base font-semibold">
                         {firstExercise}
-                        <span className="text-sm font-normal text-slate-300">
+                        <span className=" text-[13px] sm:text-sm font-normal text-slate-300">
                           {" "}
                           + {totalExercises - 1} more
                         </span>
@@ -61,7 +61,7 @@ export default function WorkoutLogCard({
       
                 </div>
 
-                <div className="flex items-center text-sm text-slate-400">
+                <div className="flex items-center  text-xs sm:text-sm text-slate-400">
                   <div className="flex items-center gap-1">
                     <FiCalendar className=" " />
                     <p>{logDate}</p>

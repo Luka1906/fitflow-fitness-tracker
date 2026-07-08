@@ -5,7 +5,7 @@ import WeightTrends from "./weight-chart/WeightTrends";
 export default function TrendCharts() {
   return (
     <>
-     <div className="grid grid-cols-2 gap-3">
+     <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-3 justify-center">
         <WeightTrends />
         <WaterTrends />
     </div>

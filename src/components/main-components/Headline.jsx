@@ -6,87 +6,85 @@ import { FaRegCirclePlay } from "react-icons/fa6";
 import { useRouteLoaderData } from "react-router-dom";
 import { BsGridFill } from "react-icons/bs";
 import { IoMdHand } from "react-icons/io";
-import { div } from "framer-motion/client";
 
 export default function Headline() {
   const user = useRouteLoaderData("root");
   return (
-    <section className="mt-2 grid grid-cols-1 items-center gap-14 px-6 pb-16 lg:grid-cols-2">
-      <div>
-        {user && (
-          <div
-            className="flex items-center gap-1 bg-emerald-500/10
-text-emerald-300
-border border-emerald-500/20 py-1.5 p-3 rounded-lg w-fit brightness-105 mb-1"
-          >
-            <p>Welcome back, {user.first_name}!</p>
-            <IoMdHand />
-          </div>
-        )}
-        <h1 className="max-w-2xl font-accent text-5xl font-bold leading-tight text-text-primary-headings sm:text-6xl lg:text-7xl">
-          Track. Train. Thrive. Your Fitness,{" "}
-          <span className="text-cta-dark">All in One Place.</span>
-        </h1>
+   <section className="mt-2 grid grid-cols-1 items-center gap-10 px-4 pb-12 sm:px-6 sm:pb-16 lg:grid-cols-2 lg:gap-14">
+  <div>
+    {user && (
+      <div className="mb-3 flex w-fit items-center gap-1 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-sm text-emerald-300 brightness-105 sm:text-base">
+        <p>Welcome back, {user.first_name}!</p>
+        <IoMdHand />
+      </div>
+    )}
 
-        <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">
-          Build better habits with workout tracking, hydration goals, progress
-          analytics, and clean dashboards designed to keep you consistent.
-        </p>
+    <h1 className="max-w-2xl font-accent text-4xl font-bold leading-tight text-text-primary-headings sm:text-5xl lg:text-6xl xl:text-7xl">
+      Track. Train. Thrive. Your Fitness,{" "}
+      <span className="text-cta-dark">All in One Place.</span>
+    </h1>
 
-        <div className="mt-10 grid max-w-2xl grid-cols-3 gap-3">
-          <div className="rounded-2xl border border-white/10 bg-white/4 p-5 ">
-            <p className="text-2xl font-semibold text-accent-dark">12k+</p>
-            <p className="mt-1 text-sm text-slate-400">Workouts logged</p>
-          </div>
+    <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-300 sm:mt-6 sm:text-lg">
+      Build better habits with workout tracking, hydration goals, progress
+      analytics, and clean dashboards designed to keep you consistent.
+    </p>
 
-          <div className="rounded-2xl border border-white/10 bg-white/4 p-5">
-            <p className="text-2xl font-semibold text-blue-400">85%</p>
-            <p className="mt-1 text-sm text-slate-400">Weekly consistency</p>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/4 p-5">
-            <p className="text-2xl font-semibold bg-gradient-to-t from-orange-400 to-amber-200 bg-clip-text text-transparent">
-              7d
-            </p>
-            <p className="mt-1 text-sm text-slate-400">Average streak</p>
-          </div>
-        </div>
-
-        {user ? (
-          <Link to="/profile">
-            <Button
-              variant="outline"
-              className="mt-8 flex items-center gap-2 cursor-pointer"
-            >
-              <BsGridFill size={18} /> Open Dashboard
-            </Button>
-          </Link>
-        ) : (
-          <div className="mt-8 flex flex-wrap gap-5">
-            <Link to="/auth?mode=signup">
-              <Button
-                variant="primary"
-                className="bg-blue-600 flex items-center gap-2 px-6 py-3 hover:bg-blue-600/85 hover:scale-[1.02] cursor-pointer"
-              >
-                <MdOutlineRocketLaunch size={20} className="text-white" />
-                Start Tracking
-              </Button>
-            </Link>
-
-            <Link to="/auth">
-              <Button
-                className="flex items-center gap-2 hover:scale-[1.02] cursor-pointer "
-                variant="outline"
-              >
-                <FaRegCirclePlay className="" size={20} />
-                Play Demo
-              </Button>
-            </Link>
-          </div>
-        )}
+    <div className="mt-8 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3 lg:mt-10">
+      <div className="rounded-2xl border border-white/10 bg-white/4 p-4 sm:p-5">
+        <p className="text-xl font-semibold text-accent-dark sm:text-2xl">12k+</p>
+        <p className="mt-1 text-sm text-slate-400">Workouts logged</p>
       </div>
 
-      <DashboardBanner />
-    </section>
+      <div className="rounded-2xl border border-white/10 bg-white/4 p-4 sm:p-5">
+        <p className="text-xl font-semibold text-blue-400 sm:text-2xl">85%</p>
+        <p className="mt-1 text-sm text-slate-400">Weekly consistency</p>
+      </div>
+
+      <div className="rounded-2xl border border-white/10 bg-white/4 p-4 sm:p-5">
+        <p className="bg-gradient-to-t from-orange-400 to-amber-200 bg-clip-text text-xl font-semibold text-transparent sm:text-2xl">
+          7d
+        </p>
+        <p className="mt-1 text-sm text-slate-400">Average streak</p>
+      </div>
+    </div>
+
+    {user ? (
+      <Link to="/profile">
+        <Button
+          variant="outline"
+          className="mt-8 flex w-full items-center justify-center gap-2 cursor-pointer sm:w-fit"
+        >
+          <BsGridFill size={18} /> Open Dashboard
+        </Button>
+      </Link>
+    ) : (
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-5">
+        <Link to="/auth?mode=signup" className="w-full sm:w-auto">
+          <Button
+            variant="primary"
+            className="flex w-full items-center justify-center gap-2 bg-blue-600 px-6 py-3 hover:scale-[1.02] hover:bg-blue-600/85 cursor-pointer sm:w-auto"
+          >
+            <MdOutlineRocketLaunch size={20} className="text-white" />
+            Start Tracking
+          </Button>
+        </Link>
+
+        <Link to="/auth" className="w-full sm:w-auto">
+          <Button
+            className="flex w-full items-center justify-center gap-2 hover:scale-[1.02] cursor-pointer sm:w-auto"
+            variant="outline"
+          >
+            <FaRegCirclePlay size={20} />
+            Play Demo
+          </Button>
+        </Link>
+      </div>
+    )}
+  </div>
+
+  <div className="w-full overflow-hidden">
+    <DashboardBanner />
+  </div>
+</section>
   );
 }

@@ -35,7 +35,7 @@ export function WeightGoalForm({ onClose, isOpen, goal, unit }) {
   return (
     <div
       className={`
-        absolute left-1/2 top-full z-50 mt-3
+        absolute left-1/2 z-50 mt-3 
         w-[320px] -translate-x-1/2
         rounded-3xl border border-white/10
         bg-slate-900/70 p-4
