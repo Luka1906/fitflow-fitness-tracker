@@ -1,12 +1,14 @@
-import { Form } from "react-router-dom";
+
 import { IoMdAdd } from "react-icons/io";
 
 import Button from "../../../../ui/Button";
 import { useState } from "react";
 import SetRow from "./SetRow";
 import { DurationRow } from "./DurationRow";
+import { useFetcher } from "react-router-dom";
 
 export default function AddWorkoutForm({ onClose }) {
+  const fetcher = useFetcher();
   const today = new Date().toLocaleDateString();
   const workouts = [
     "Bench Press",
@@ -150,7 +152,7 @@ export default function AddWorkoutForm({ onClose }) {
   };
 
   return (
-    <Form
+    <fetcher.Form
       method="POST"
       action="/profile/add-workout"
       className="flex flex-col max-h-[80vh] overflow-y-auto
@@ -316,6 +318,6 @@ export default function AddWorkoutForm({ onClose }) {
         </Button>
         <Button type="submit">Save</Button>
       </div>
-    </Form>
+    </fetcher.Form>
   );
 }

@@ -58,7 +58,7 @@ export default function WorkoutHeatMap() {
   const [tooltip, setTooltip] = useState(null);
 
   return (
-    <div className="flex justify-between">
+    <div className="flex-col xl:flex-row flex justify-between">
       <div className="flex flex-col gap-5">
         {/* Header */}
         <div className="flex flex-col gap-1">
@@ -70,15 +70,15 @@ export default function WorkoutHeatMap() {
 
         {/* Heatmap + Side Panel */}
 
-        <div>
-          <ul className="ml-8 flex gap-14 text-[0.8rem]">
+        <div className="overflow-scroll">
+          <ul className="ml-8 flex gap-[3.09rem] xl:gap-14 text-[11px] md:text-[13px]">
             {months.map((month) => (
               <li key={month}>{month}</li>
             ))}
           </ul>
 
           <div className="flex">
-            <ul className="flex flex-col gap-5 text-[0.8rem]">
+            <ul className="flex flex-col gap-5 text-[11px] md:text-[13px]">
               {days.map((day) => (
                 <li key={day}>{day}</li>
               ))}
@@ -103,7 +103,7 @@ export default function WorkoutHeatMap() {
                           });
                         }}
                         onMouseLeave={() => setTooltip(null)}
-                        className={`h-3.5 w-3.5 rounded-sm ${getSquareColor(
+                        className={`h-3 md:h-3.5 w-3 md:w-3.5 rounded-sm ${getSquareColor(
                           activity,
                         )}`}
                       />
@@ -117,7 +117,7 @@ export default function WorkoutHeatMap() {
           </div>
 
           {/* Legend */}
-          <div className="mt-5 flex items-center gap-1 text-[0.8rem]">
+          <div className="mt-5 flex items-center gap-1 text-[11px] md:text-[13px] pb-6 xl:pb-0">
             <span className="mr-1">Less</span>
             <div className="h-3 w-3 rounded-xs bg-slate-700" />
             <div className="h-3 w-3 rounded-xs bg-sky-950" />

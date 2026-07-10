@@ -42,11 +42,11 @@ export function WorkoutCard() {
       {/* Header */}
       <section className="flex items-start justify-between gap-4">
         <div className="min-w-0 space-y-1">
-          <p className="text-sm font-medium tracking-wide text-slate-400">
+          <p className="text-xs sm:text-sm font-medium tracking-wide text-slate-400">
             Workout activity
           </p>
 
-          <h2 className="text-xl font-semibold sm:text-2xl">
+          <h2 className="text-lg font-semibold sm:text-2xl">
             Track your training
           </h2>
         </div>
@@ -79,7 +79,7 @@ export function WorkoutCard() {
       {/* Weekly Stats */}
       <section className="grid grid-cols-1 gap-3 rounded-3xl bg-bg-dark p-4 sm:grid-cols-2 sm:gap-4 sm:p-5">
         <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <p className="text-3xl font-bold text-white">
+          <p className="text-2xl sm:text-3xl font-bold text-white">
             {weeklyWorkouts.length}
           </p>
 
@@ -87,7 +87,7 @@ export function WorkoutCard() {
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <p className="text-3xl font-bold text-white">{weeklySetNumber}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{weeklySetNumber}</p>
 
           <p className="mt-1 text-sm text-slate-400">total sets</p>
         </div>

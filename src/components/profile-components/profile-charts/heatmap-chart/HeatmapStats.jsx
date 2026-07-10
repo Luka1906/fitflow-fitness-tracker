@@ -65,21 +65,24 @@ export default function HeatmapStats({ logs }) {
 
   return (
     <>
-      <div className="border-l border-slate-700/60 pl-6 w-[25%]">
+      <div className="xl:border-l mt-6 md:mt-10 xl:mt-0 border-slate-700/60 xl:pl-6 xl:w-[25%]">
         <h3 className="text font-semibold text-white">Activity Insights</h3>
 
         {/* Most Active Month */}
 
-        <div className="mt-4 space-y-5">
-          <div className="rounded-lg bg-white/5 p-3 space-y-1 track">
+        <div className="mt-4  grid md:grid-cols-3 gap-4 xl:flex xl:flex-col">
+          <div className="rounded-lg bg-white/5 p-3 space-y-1">
             <div className="flex items-center gap-2">
-              <FaTrophy className="text-amber-400 text-xl " />
-              <p className="text-sm text-slate-400 tracking-widest">
+              <div className="bg-amber-400/15 p-2.5 rounded-md">
+        <FaTrophy className="text-amber-400 sm:text-lg " />
+              </div>
+      
+              <p className="text-xs md:text-sm text-slate-400 tracking-widest">
                 Most Active Month
               </p>
             </div>
 
-            <p className="font-semibold text-white">
+            <p className="font-semibold text-sm md:text-base text-white">
               {mostActiveMonth}{" "}
               <span>
                 ({`${count === 1 ? `${count} workout` : `${count} workouts`}`})
@@ -89,30 +92,35 @@ export default function HeatmapStats({ logs }) {
 
           {/* Current Streak */}
 
-          <div className="rounded-lg bg-white/5 p-3 space-y-1 track">
+          <div className="rounded-lg bg-white/5 p-3 space-y-1">
             <div className="flex items-center gap-2">
-              <MdLocalFireDepartment className="text-orange-400 text-2xl " />
-              <p className="text-sm text-slate-400 tracking-widest">
+              <div className="bg-orange-400/15 p-2 rounded-md">
+<MdLocalFireDepartment className="text-orange-400 text-xl  " />
+              </div>
+              
+              <p className="text-xs md:text-sm text-slate-400 tracking-widest">
                 Current Streak
               </p>
             </div>
 
-            <p className="font-semibold text-white">
+            <p className="font-semibold text-sm md:text-base text-white">
               {`${currentStreak < 1 ? "No current streak" : `${currentStreak === 1 ? `${currentStreak} day` : `${currentStreak} days`}`}`}
             </p>
           </div>
 
           {/* Total Workouts */}
 
-          <div className="rounded-lg bg-white/5 p-3 space-y-1 track">
+          <div className="rounded-lg bg-white/5 p-3 space-y-1 ">
             <div className="flex items-center gap-2">
-              <FaRegCalendarCheck className="text-sky-400 text-xl " />
-              <p className="text-sm text-slate-400 tracking-widest">
+               <div className="bg-sky-400/15 p-2.5 rounded-md">
+              <FaRegCalendarCheck className="text-sky-400 sm:text-lg " />
+              </div>
+              <p className="text-xs md:text-sm text-slate-400 tracking-widest">
                 Total Active Days
               </p>
             </div>
 
-            <p className="font-semibold text-white">
+            <p className="font-semibold text-white text-sm md:text-base">
               {Object.keys(logs).length < 1
                 ? "No active day"
                 : Object.keys(logs).length === 1

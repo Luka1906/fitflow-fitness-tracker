@@ -117,10 +117,10 @@ export default function WeightCard() {
       {/* top row */}
       <section className="flex items-start justify-between">
         <div className="space-y-1">
-          <p className="text-sm font-medium tracking-wide text-slate-400">
+          <p className="text-xs sm:text-sm font-medium tracking-wide text-slate-400">
             Weight Progress
           </p>
-          <h2 className="text-2xl font-semibold">Your journey</h2>
+          <h2 className="text-lg sm:text-2xl font-semibold">Your journey</h2>
         </div>
 
         <button
