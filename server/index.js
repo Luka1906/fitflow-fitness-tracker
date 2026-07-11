@@ -10,7 +10,7 @@ import { db } from "./config/db.js";
 import "dotenv/config";
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000
 
 const PgStore = connectPgSimple(session);
 
@@ -51,6 +51,6 @@ app.use(
 app.use("/auth", authRoutes);
 app.use("/users", profileRoutes )
 
-app.listen(port, () => {
+app.listen(PORT, () => {
   console.log("Server running on port 3000");
 });
