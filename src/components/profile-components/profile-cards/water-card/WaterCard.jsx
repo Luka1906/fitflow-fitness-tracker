@@ -119,7 +119,7 @@ export default function WaterCard() {
         <button
           type="button"
           onClick={handleOpenDrawer}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white sm:h-10 sm:w-10"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white sm:h-10 sm:w-10 cursor-pointer"
         >
           <FiEdit2 />
         </button>
@@ -208,7 +208,7 @@ export default function WaterCard() {
               onClick={() => handlePresetClick(amount)}
               value={amount}
               name="amount"
-              className="group flex min-w-0 flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-2 text-center transition hover:bg-white/10 sm:p-3"
+              className="group flex min-w-0 flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-2 text-center transition hover:bg-white/10 sm:p-3 cursor-pointer"
             >
               <div className="mb-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/10 text-slate-300 transition group-hover:text-white sm:mb-2 sm:h-8 sm:w-8">
                 <FiPlus />
@@ -237,7 +237,7 @@ export default function WaterCard() {
               <button
                 type="button"
                 onClick={handleDecreaseWaterAmount}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 transition hover:bg-white/15 sm:h-11 sm:w-11"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 transition hover:bg-white/15 sm:h-11 sm:w-11 cursor-pointer"
               >
                 <FiMinus />
               </button>
@@ -254,7 +254,7 @@ export default function WaterCard() {
               <button
                 type="button"
                 onClick={handleIncreaseWaterAmount}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 transition hover:bg-white/15 sm:h-11 sm:w-11"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/10 transition hover:bg-white/15 sm:h-11 sm:w-11 cursor-pointer"
               >
                 <FiPlus />
               </button>
@@ -262,7 +262,7 @@ export default function WaterCard() {
 
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-1 rounded-xl bg-white/10 px-4 py-2.5 text-sm font-medium text-text-primary-headings transition hover:bg-white/15 hover:text-text-primary-paragraph active:scale-95 sm:w-auto sm:shrink-0 sm:py-3"
+              className="flex w-full items-center justify-center gap-1 rounded-xl bg-white/10 px-4 py-2.5 text-sm font-medium text-text-primary-headings transition hover:bg-white/15 hover:text-text-primary-paragraph active:scale-95 sm:w-auto sm:shrink-0 sm:py-3 cursor-pointer"
             >
               <FiPlus />
               Add
@@ -295,7 +295,7 @@ export default function WaterCard() {
 
               <button
                 type="submit"
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 text-white transition hover:bg-white/15"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 text-white transition hover:bg-white/15 cursor-pointer"
               >
                 <FiPlus />
               </button>
@@ -309,7 +309,7 @@ export default function WaterCard() {
           <button
             type="button"
             onClick={() => setEditGoal(true)}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
+            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10 cursor-pointer"
           >
             Edit goal
           </button>

@@ -240,7 +240,7 @@ export default function WeightCard() {
               </div>
               <input hidden name="date" value={today} />
 
-              <button className="shrink-0 rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/15">
+              <button className="shrink-0 rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/15 cursor-pointer">
                 Save
               </button>
             </div>

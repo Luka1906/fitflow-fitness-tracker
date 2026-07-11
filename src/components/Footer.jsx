@@ -1,80 +1,121 @@
+import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
+import { HiOutlineExternalLink } from "react-icons/hi";
 import logo from "../assets/logo.svg";
-import { FaTiktok, FaInstagram, FaFacebook, FaXTwitter, FaYoutube } from "react-icons/fa6";
+
+const navigationLinks = [
+  { label: "Features", href: "#features" },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "FAQ", href: "#faq" },
+];
+
+const developerLinks = [
+  {
+    label: "GitHub",
+    href: "https://github.com/Luka1906",
+    icon: FaGithub,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/lukamatovic/",
+    icon: FaLinkedinIn,
+  },
+  {
+    label: "Portfolio",
+    href: "https://lukamatovic.netlify.app/",
+    icon: HiOutlineExternalLink,
+  },
+];
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="px-6 bg-slate-800 py-10 text-sm text-white">
-      {/* Logo and brand */}
-      <div className="flex items-center gap-3 mb-6">
-        <img
-          className="h-20 grayscale contrast-200"
-          src={logo}
-          alt="Fitflow logo"
-        />
-        <h2 className="text-lg font-semibold">FitFlow</h2>
-      </div>
+    <footer className="border-t border-slate-700/60 bg-slate-900 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-10 md:grid-cols-[1.6fr_0.7fr_0.7fr] md:gap-12">
+          {/* Brand */}
+          <div>
+            <a
+              href="#top"
+              aria-label="Go to the top of the page"
+              className="inline-flex items-center gap-3 "
+            >
+              <div className="h-10 w-10 inline-flex items-center">
+  <img
+                src={logo}
+                alt="FitFlow logo"
+                aria-hidden="true"
+            
+              />
+              </div>
+            
 
-      {/* Links and newsletter */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-10">
-        {/* Navigation Links */}
-        <ul className="flex flex-wrap gap-4">
-          <li><a href="/about" className="hover:underline">About</a></li>
-          <li><a href="/careers" className="hover:underline">Careers</a></li>
-          <li><a href="/press" className="hover:underline">Press</a></li>
-          <li><a href="/support" className="hover:underline">Customer Service</a></li>
-          <li><a href="/accessibility" className="hover:underline">Accessibility Help</a></li>
-        </ul>
+              <span className="bg-gradient-to-r from-blue-500 to-sky-400 bg-clip-text text-2xl font-extrabold text-transparent">
+                FitFlow
+              </span>
+            </a>
 
-        {/* Newsletter form */}
-        <div className="flex flex-col gap-4 w-full md:w-1/3">
-          <p className="font-medium">Get the latest FitFlow news</p>
-          <form className="flex">
-            <input
-              className="border border-r-0 px-3 py-3 w-full outline-none border-slate-400 placeholder:text-white/60 bg-transparent"
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Your email here"
-            />
-            <button className="border border-slate-400 px-4 hover:bg-white hover:text-slate-800 transition">
-              Subscribe
-            </button>
-          </form>
+            <p className="mt-6 max-w-md text-sm leading-7 text-slate-300 sm:text-base">
+              Track workouts, hydration, weight progress, and healthy habits in
+              one place.
+            </p>
+          </div>
+
+          {/* Navigation */}
+          <nav aria-label="Footer navigation">
+            <h2 className="text-sm font-bold uppercase tracking-wide text-slate-200">
+              Navigate
+            </h2>
+
+            <ul className="mt-4 flex flex-col gap-3">
+              {navigationLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="text-sm text-slate-400 hover:text-sky-400"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Developer links */}
+          <div>
+            <h2 className="text-sm font-bold uppercase tracking-wide text-slate-200">
+              Developer
+            </h2>
+
+            <div className="mt-4 flex items-center gap-3">
+              {developerLinks.map((link) => {
+                const Icon = link.icon;
+
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={link.label}
+                    title={link.label}
+                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 text-xl text-slate-400 transition-all duration-200 hover:-translate-y-0.5 hover:border-sky-400/60 hover:bg-sky-400/10 hover:text-sky-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                  >
+                    <Icon aria-hidden="true" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </div>
 
-      <hr className="border-slate-600" />
-
-      {/* Legal links & social */}
-      <div className="flex flex-col gap-6 mt-8 text-xs">
-        {/* Legal Links */}
-        <ul className="flex flex-wrap gap-2">
-          <li className="pr-3 border-r border-slate-400">
-            <a href="/terms">Terms & Conditions</a>
-          </li>
-          <li className="pr-3 border-r border-slate-400">
-            <a href="/privacy">Privacy Policy</a>
-          </li>
-          <li className="pr-3 border-r border-slate-400">
-            <a href="/fraud">Fraud and scam alert</a>
-          </li>
-          <li className="pr-3">
-            <a href="/cookies">Cookie Consent</a>
-          </li>
-        </ul>
-
-        {/* Footer bottom */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-white/70">&copy; 2025 FitFlow, LLC. All rights reserved.</p>
-
-          {/* Social Icons */}
-          <ul className="flex gap-3 text-base">
-            <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400 transition"><FaInstagram /></a></li>
-            <li><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition"><FaFacebook /></a></li>
-            <li><a href="https://x.com" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-400 transition"><FaXTwitter /></a></li>
-            <li><a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition"><FaTiktok /></a></li>
-            <li><a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition"><FaYoutube /></a></li>
-          </ul>
+        {/* Bottom copyright */}
+        <div className="mt-12 border-t border-slate-700/60 pt-7 text-center">
+          <p className="text-sm leading-6 text-slate-500">
+            © {currentYear} FitFlow. Portfolio project built by Luka Matović
+            with React, Express, PostgreSQL, and Tailwind CSS.
+          </p>
         </div>
       </div>
     </footer>
