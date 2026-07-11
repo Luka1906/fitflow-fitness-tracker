@@ -105,16 +105,37 @@ export const onboardingUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await existingUser(email);
+    let user;
+    try {
+      user = await existingUser(email);
+    } catch (dbError) {
+      console.error(
+        "Login DB query error:",
+        dbError.message,
+        dbError.stack
+      );
+      return res.status(500).json({ message: "Server error" });
+    }
 
-    if (!user) {
+    if (!user || typeof user !== "object" || !user.password_hash) {
       return res
         .status(400)
         .json({ error: "Couldn't find user, please sign up" });
     }
 
     const hashedPassword = user.password_hash;
-    const isMatch = await bcrypt.compare(password, hashedPassword);
+
+    let isMatch;
+    try {
+      isMatch = await bcrypt.compare(password, hashedPassword);
+    } catch (bcryptError) {
+      console.error(
+        "Login bcrypt error:",
+        bcryptError.message,
+        bcryptError.stack
+      );
+      return res.status(500).json({ message: "Server error" });
+    }
 
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials. Try again!" });
@@ -126,9 +147,9 @@ export const loginUser = async (req, res) => {
       .status(200)
       .json({ message: "Logged in successfully", user: req.session.userId });
   } catch (error) {
-  console.error("LOGIN ERROR:", error);
-  return res.status(500).json({ message: "Server error" });
-}
+    console.error("Login error:", error.message, error.stack);
+    return res.status(500).json({ message: "Server error" });
+  }
 };
 
 export const logoutUser = async (req, res) => {
