@@ -30,14 +30,14 @@ export default function WeightChartStats({
         {hasData ? (
           <div
             className={`flex min-w-0 items-center gap-1 text-xs font-semibold sm:text-sm ${
-              weightDifference < 0 ? "text-emerald-300" : "text-red-400"
+              weightDifference < 0 ? "text-emerald-300" : weightDifference === 0 ? "text-text-primary-paragraph" : "text-red-400"
             }`}
           >
             {weightDifference < 0 ? (
               <FaArrowDown className="shrink-0 text-[11px] sm:text-xs" />
-            ) : (
+            ) : weightDifference > 0 ? (
               <FaArrowUp className="shrink-0 text-[11px] sm:text-xs" />
-            )}
+            ) : ""}
 
             <p className="min-w-0 truncate">
               {weightDifference > 0 ? "+" : ""}

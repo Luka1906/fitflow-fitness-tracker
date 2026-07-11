@@ -86,6 +86,18 @@ export default function WaterTrendChart({
       legend: {
         display: false,
       },
+        tooltip: {
+      displayColors: false,
+      backgroundColor: "#1E293B",
+      borderColor: "#334155",
+      borderWidth: 1,
+
+      titleColor: "#F8FAFC",
+      bodyColor: "#CBD5E1",
+
+      padding: 12,
+      cornerRadius: 10,
+    },
       annotation:
         filterCriteria !== "all" && filterCriteria !== 90
           ? {

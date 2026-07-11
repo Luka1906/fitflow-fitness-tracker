@@ -21,9 +21,7 @@ ChartJS.register(
 );
 
 const WorkoutBarChart = ({ weeklyLogs }) => {
-
-
-  const lastSevenDays =  getTrendDays(7)
+  const lastSevenDays = getTrendDays(7);
   // Create default chart structure
   const chartData = lastSevenDays.map((date) => ({
     label: date.toLocaleDateString("en-CA", {
@@ -36,7 +34,9 @@ const WorkoutBarChart = ({ weeklyLogs }) => {
 
   // Fill chart with workout data
   weeklyLogs.forEach((log) => {
-   const logDateKey = createLocalDate(log.logged_at).toLocaleDateString("en-US")
+    const logDateKey = createLocalDate(log.logged_at).toLocaleDateString(
+      "en-US",
+    );
 
     // Count total sets for this workout
     const totalSets = log.exercises.reduce(
@@ -74,7 +74,20 @@ const WorkoutBarChart = ({ weeklyLogs }) => {
       legend: {
         display: false,
       },
+        tooltip: {
+      displayColors: false,
+      backgroundColor: "#1E293B",
+      borderColor: "#334155",
+      borderWidth: 1,
+
+      titleColor: "#F8FAFC",
+      bodyColor: "#CBD5E1",
+
+      padding: 12,
+      cornerRadius: 10,
     },
+    },
+  
 
     scales: {
       x: {
@@ -98,8 +111,6 @@ const WorkoutBarChart = ({ weeklyLogs }) => {
       },
     },
   };
-
-  
 
   return <Bar data={data} options={options} />;
 };

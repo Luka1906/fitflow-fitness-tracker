@@ -65,7 +65,7 @@ export default function LoginFields({ setIsValid }) {
       )}
 
       <Input
-        className="md:w-[30rem] w-[20rem]"
+        className="w-full"
         type="password"
         name="password"
         placeholder="Password"

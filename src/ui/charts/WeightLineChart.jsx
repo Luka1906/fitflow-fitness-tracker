@@ -22,18 +22,16 @@ ChartJS.register(
 );
 
 const WeightLineChart = ({ logs }) => {
+  const chartLogs = logs.slice(-7).map((log) => ({
+    label: new Date(log.logged_at).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    }),
+    value: Number(log.weight),
+    unit: log.unit,
+  }));
 
-  const chartLogs = logs.slice(-7)
-    .map((log) => ({
-      label: new Date(log.logged_at).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
-      value: Number(log.weight),
-      unit: log.unit,
-    }));
-
-   const data = {
+  const data = {
     labels: chartLogs.map((log) => log.label),
     datasets: [
       {
@@ -42,7 +40,7 @@ const WeightLineChart = ({ logs }) => {
         borderColor: "#38bdf8",
         tension: 0.4,
         pointRadius: 3,
-        hoverRadius:5
+        hoverRadius: 5,
       },
     ],
   };
@@ -56,11 +54,23 @@ const WeightLineChart = ({ logs }) => {
         display: false,
       },
 
-      tooltip: {
-        callbacks: {
-          label: (context) => `${context.raw} lbs`,
-        },
-      },
+       tooltip: {
+  displayColors: false,
+  backgroundColor: "#1E293B",
+  borderColor: "#334155",
+  borderWidth: 1,
+
+  titleColor: "#F8FAFC",
+  bodyColor: "#CBD5E1",
+
+  padding: 12,
+  cornerRadius: 10,
+
+  callbacks: {
+    label: (context) =>
+      `Weight log: ${Number(context.raw).toFixed(1)} lbs`,
+  },
+},
       title: {
         display: true,
         text: "Last 7 entries",
@@ -82,9 +92,7 @@ const WeightLineChart = ({ logs }) => {
         display: false,
       },
     },
-
   };
- 
 
   return <Line options={options} data={data} />;
 };

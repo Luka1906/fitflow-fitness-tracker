@@ -1,13 +1,12 @@
-
 import { IoMdAdd } from "react-icons/io";
 
 import Button from "../../../../ui/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SetRow from "./SetRow";
 import { DurationRow } from "./DurationRow";
 import { useFetcher } from "react-router-dom";
 
-export default function AddWorkoutForm({ onClose }) {
+export default function AddWorkoutForm({ onClose, modalIsOpen }) {
   const fetcher = useFetcher();
   const today = new Date().toLocaleDateString();
   const workouts = [
@@ -33,7 +32,7 @@ export default function AddWorkoutForm({ onClose }) {
     set_order: ` ${index}`,
     weight: 0,
     reps: 0,
-    unit: "lbs"
+    unit: "lbs",
   });
 
   //   Workout handlers
@@ -150,6 +149,16 @@ export default function AddWorkoutForm({ onClose }) {
       }),
     );
   };
+
+  useEffect(() => {
+    if (!modalIsOpen) return;
+    
+    if (fetcher.state === "idle" && fetcher.data?.success) {
+      onClose();
+    }
+  }, [fetcher.state, fetcher.data, onClose]);
+
+  const isSubmitting = fetcher.state === "submitting";
 
   return (
     <fetcher.Form
@@ -276,17 +285,12 @@ export default function AddWorkoutForm({ onClose }) {
                       />
                     ))}
                   </div>
-
                 </div>
               ))}
             </section>
           )}
 
-          {selectedWorkouts.length > 0 && (
-      
-              <DurationRow/>
-      
-          )}
+          {selectedWorkouts.length > 0 && <DurationRow />}
 
           <section className="space-y-2">
             <label
@@ -303,10 +307,13 @@ export default function AddWorkoutForm({ onClose }) {
               placeholder="Add any notes about your workout..."
             />
           </section>
+          {fetcher.data?.success === false && (
+            <p className="px-5 text-sm text-red-500">{fetcher.data.error}</p>
+          )}
         </div>
       </div>
       <input
-       type="hidden"
+        type="hidden"
         name="workoutData"
         value={JSON.stringify(selectedWorkouts)}
       />
@@ -316,7 +323,10 @@ export default function AddWorkoutForm({ onClose }) {
         <Button type="button" variant="ghost" onClick={onClose}>
           Cancel
         </Button>
-        <Button type="submit">Save</Button>
+        <Button disabled={isSubmitting} type="submit">
+          {" "}
+          {isSubmitting ? "Saving..." : "Save"}
+        </Button>
       </div>
     </fetcher.Form>
   );

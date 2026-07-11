@@ -6,8 +6,6 @@ import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { db } from "./config/db.js";
 
-console.log(db)
-
 
 import "dotenv/config";
 

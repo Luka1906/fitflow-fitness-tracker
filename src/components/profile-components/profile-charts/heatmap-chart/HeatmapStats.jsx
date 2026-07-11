@@ -1,4 +1,4 @@
-import { FaTrophy, FaFire, FaRegCalendarCheck } from "react-icons/fa6";
+import { FaTrophy, FaRegCalendarCheck } from "react-icons/fa6";
 import { createLocalDate } from "../../../../utils/createLocalDate";
 import { MdLocalFireDepartment } from "react-icons/md";
 
@@ -17,6 +17,8 @@ const getMonthActivity = (logs) => {
 
 const getCurrentStreak = (logs) => {
   const dates = Object.keys(logs);
+
+  if (dates.length === 0) return 0;
   const lastWorkout = dates.at(-1);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -48,20 +50,25 @@ const getCurrentStreak = (logs) => {
 export default function HeatmapStats({ logs }) {
   const workoutsByMonth = getMonthActivity(logs);
   const currentStreak = getCurrentStreak(logs);
+  const monthEntries = Object.entries(workoutsByMonth);
+
   //    Get Most Active Month
-  const [month, count] = Object.entries(workoutsByMonth).reduce((max, curr) =>
-    curr[1] > max[1] ? curr : max,
-  );
+  const mostActiveEntry =
+    monthEntries.length > 0
+      ? monthEntries.reduce((max, curr) => (curr[1] > max[1] ? curr : max))
+      : null;
 
-  const [year, monthNumber] = month.split("-");
+  const mostActiveMonth = mostActiveEntry
+    ? new Date(
+        Number(mostActiveEntry[0].split("-")[0]),
+        Number(mostActiveEntry[0].split("-")[1]) - 1,
+        1,
+      ).toLocaleDateString("en-US", {
+        month: "long",
+      })
+    : null;
 
-  const mostActiveMonth = new Date(
-    Number(year),
-    Number(monthNumber) - 1,
-    1,
-  ).toLocaleDateString("en-US", {
-    month: "long",
-  });
+  const mostActiveCount = mostActiveEntry?.[1] ?? 0;
 
   return (
     <>
@@ -74,19 +81,20 @@ export default function HeatmapStats({ logs }) {
           <div className="rounded-lg bg-white/5 p-3 space-y-1">
             <div className="flex items-center gap-2">
               <div className="bg-amber-400/15 p-2.5 rounded-md">
-        <FaTrophy className="text-amber-400 sm:text-lg " />
+                <FaTrophy className="text-amber-400 sm:text-lg " />
               </div>
-      
+
               <p className="text-xs md:text-sm text-slate-400 tracking-widest">
                 Most Active Month
               </p>
             </div>
 
-            <p className="font-semibold text-sm md:text-base text-white">
-              {mostActiveMonth}{" "}
-              <span>
-                ({`${count === 1 ? `${count} workout` : `${count} workouts`}`})
-              </span>
+            <p className="text-sm font-semibold text-white md:text-base">
+              {mostActiveMonth
+                ? `${mostActiveMonth} (${mostActiveCount} ${
+                    mostActiveCount === 1 ? "workout" : "workouts"
+                  })`
+                : "No workouts yet"}
             </p>
           </div>
 
@@ -95,9 +103,9 @@ export default function HeatmapStats({ logs }) {
           <div className="rounded-lg bg-white/5 p-3 space-y-1">
             <div className="flex items-center gap-2">
               <div className="bg-orange-400/15 p-2 rounded-md">
-<MdLocalFireDepartment className="text-orange-400 text-xl  " />
+                <MdLocalFireDepartment className="text-orange-400 text-xl  " />
               </div>
-              
+
               <p className="text-xs md:text-sm text-slate-400 tracking-widest">
                 Current Streak
               </p>
@@ -112,8 +120,8 @@ export default function HeatmapStats({ logs }) {
 
           <div className="rounded-lg bg-white/5 p-3 space-y-1 ">
             <div className="flex items-center gap-2">
-               <div className="bg-sky-400/15 p-2.5 rounded-md">
-              <FaRegCalendarCheck className="text-sky-400 sm:text-lg " />
+              <div className="bg-sky-400/15 p-2.5 rounded-md">
+                <FaRegCalendarCheck className="text-sky-400 sm:text-lg " />
               </div>
               <p className="text-xs md:text-sm text-slate-400 tracking-widest">
                 Total Active Days

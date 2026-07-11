@@ -114,6 +114,23 @@ export default function WeightTrendChart({ weightLogs = [], filterCriteria }) {
       legend: {
         display: false,
       },
+     tooltip: {
+  displayColors: false,
+  backgroundColor: "#1E293B",
+  borderColor: "#334155",
+  borderWidth: 1,
+
+  titleColor: "#F8FAFC",
+  bodyColor: "#CBD5E1",
+
+  padding: 12,
+  cornerRadius: 10,
+
+  callbacks: {
+    label: (context) =>
+      `Weight log: ${Number(context.raw).toFixed(1)} lbs`,
+  },
+},
        datalabels: {
     display: (context) => context.dataIndex === lastDataIndex,
     align: "right",
@@ -127,7 +144,7 @@ color: "#cbd5e1",
     },
     formatter: (value, context) => {
         const latestDate = labels[context.dataIndex];
-        return `${value} lbs\n ${latestDate} `
+    return `${Number(value).toFixed(1)} lbs\n${latestDate}`;
 
     }
     }

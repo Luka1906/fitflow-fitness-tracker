@@ -87,7 +87,9 @@ export function WorkoutCard() {
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <p className="text-2xl sm:text-3xl font-bold text-white">{weeklySetNumber}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">
+            {weeklySetNumber}
+          </p>
 
           <p className="mt-1 text-sm text-slate-400">total sets</p>
         </div>
@@ -141,7 +143,12 @@ export function WorkoutCard() {
       </button>
 
       <Modal onClose={() => setActiveModal(false)} isOpen={activeModal}>
-        <AddWorkoutForm onClose={() => setActiveModal(false)} />
+        {activeModal && (
+          <AddWorkoutForm
+            modalIsOpen={activeModal}
+            onClose={() => setActiveModal(false)}
+          />
+        )}
       </Modal>
     </div>
   );
