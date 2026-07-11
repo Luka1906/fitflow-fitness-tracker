@@ -29,6 +29,8 @@ app.use(
   }),
 );
 
+// Middlewares
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -41,19 +43,21 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    proxy: isProduction,
     cookie: {
       httpOnly: true,
       secure: isProduction,
-      sameSite: "lax",
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 1000 * 60 * 60 * 24,
     },
   }),
 );
 
+// Test route
 app.get("/test", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
+
+// Routes
 
 app.use("/auth", authRoutes);
 app.use("/users", profileRoutes);
