@@ -4,7 +4,7 @@ import Consistency from "../components/main-components/Consistency";
 
 import WorkingSteps from "../components/main-components/WorkingSteps";
 import Pricing from "../components/main-components/Pricing";
-import Faq from "../components/main-components/FAQ";
+import Faq from "../components/main-components/Faq";
 import Footer from "../components/Footer";
 
 export default function HomePage() {
