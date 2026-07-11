@@ -9,7 +9,6 @@ import { addWeightLogger, createUserProfile, updateUserInfo } from "../models/pr
 
 export const signupUser = async (req, res) => {
   const { firstName, lastName, location, email, password } = req.body;
-  console.log(req.body);
 
   try {
     let imageUrL = null;
@@ -44,7 +43,6 @@ export const signupUser = async (req, res) => {
       message: "User created succesfully",
     });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ error: "Server error" });
   }
 };
@@ -106,7 +104,6 @@ export const onboardingUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
   try {
     const user = await existingUser(email);
 
@@ -129,8 +126,9 @@ export const loginUser = async (req, res) => {
       .status(200)
       .json({ message: "Logged in successfully", user: req.session.userId });
   } catch (error) {
-    return res.status(500).json({ message: "Server error" });
-  }
+  console.error("LOGIN ERROR:", error);
+  return res.status(500).json({ message: "Server error" });
+}
 };
 
 export const logoutUser = async (req, res) => {
@@ -145,9 +143,7 @@ export const logoutUser = async (req, res) => {
 
     return res.status(200).json({ message: "Logged out" });
   } catch (error) {
-    console.log(error);
+
     return res.status(500).json({ error: "Logout failed" });
   }
 };
-
-// GET WORKOUT LOGGS

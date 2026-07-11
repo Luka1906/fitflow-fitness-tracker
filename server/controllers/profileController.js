@@ -113,7 +113,7 @@ export const addUserWeight = async (req, res) => {
 
 export const editWeightGoal = async (req, res) => {
   const { weight, unit } = req.body;
-  console.log(weight);
+
   const userId = req.session.userId;
   const allowedUnits = ["kg", "lbs"];
 
@@ -233,7 +233,7 @@ export const addUserWater = async (req, res) => {
 export const addUserWorkout = async (req, res) => {
   const { workouts, note, date, hours, minutes } = req.body;
   const userId = req.session.userId;
-  console.log(hours, minutes);
+
 
   if (!workouts || !date) {
     return res.status(400).json({ message: "Input fields are missing!" });
@@ -254,7 +254,7 @@ export const addUserWorkout = async (req, res) => {
   }
 
   const workoutDuration = parsedHours * 60 + parsedMinutes;
-  console.log(workoutDuration);
+
 
   try {
     await addWorkoutLogger({
