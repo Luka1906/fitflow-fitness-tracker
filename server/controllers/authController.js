@@ -104,51 +104,59 @@ export const onboardingUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
+
+  console.log("LOGIN ROUTE REACHED");
+
   try {
-    let user;
-    try {
-      user = await existingUser(email);
-    } catch (dbError) {
-      console.error(
-        "Login DB query error:",
-        dbError.message,
-        dbError.stack
-      );
-      return res.status(500).json({ message: "Server error" });
+    console.log("Looking up user");
+    const user = await existingUser(email);
+    console.log("User lookup completed:", !!user);
+
+    if (!user) {
+      return res.status(400).json({
+        error: "Couldn't find user, please sign up",
+      });
     }
 
-    if (!user || typeof user !== "object" || !user.password_hash) {
-      return res
-        .status(400)
-        .json({ error: "Couldn't find user, please sign up" });
-    }
+    console.log("Checking password hash:", {
+      userId: user.id,
+      hasPasswordHash: Boolean(user.password_hash),
+    });
 
-    const hashedPassword = user.password_hash;
-
-    let isMatch;
-    try {
-      isMatch = await bcrypt.compare(password, hashedPassword);
-    } catch (bcryptError) {
-      console.error(
-        "Login bcrypt error:",
-        bcryptError.message,
-        bcryptError.stack
-      );
-      return res.status(500).json({ message: "Server error" });
-    }
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+    console.log("Password comparison completed:", isMatch);
 
     if (!isMatch) {
-      return res.status(401).json({ error: "Invalid credentials. Try again!" });
+      return res.status(401).json({
+        error: "Invalid credentials. Try again!",
+      });
     }
 
+    console.log("Setting session");
     req.session.userId = user.id;
 
-    return res
-      .status(200)
-      .json({ message: "Logged in successfully", user: req.session.userId });
+    req.session.save((error) => {
+      if (error) {
+        console.error("SESSION SAVE ERROR:", error);
+
+        return res.status(500).json({
+          message: "Failed to save session",
+        });
+      }
+
+      console.log("Session saved successfully");
+
+      return res.status(200).json({
+        message: "Logged in successfully",
+        user: user.id,
+      });
+    });
   } catch (error) {
-    console.error("Login error:", error.message, error.stack);
-    return res.status(500).json({ message: "Server error" });
+    console.error("LOGIN ERROR:", error?.stack || error);
+
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
