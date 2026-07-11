@@ -8,6 +8,7 @@ import connectPgSimple from "connect-pg-simple";
 import authRoutes from "./routes/authRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import { db } from "./config/db.js";
+import { initializeDatabase } from "./db/initDb.js";
 
 const app = express();
 
@@ -62,6 +63,16 @@ app.get("/test", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/users", profileRoutes);
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Initialize database and start server
+(async () => {
+  try {
+    await initializeDatabase();
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+})();
+
