@@ -23,6 +23,7 @@ import {
 } from "../models/profileModel.js";
 import formattedLogs from "../util/formattedLogs.js";
 import uploadImage from "../util/cloudinary.js";
+import { getTodayKey } from "../../src/utils/getTodayKey.js";
 
 export const getUserProfile = async (req, res) => {
   try {
@@ -35,7 +36,7 @@ export const getUserProfile = async (req, res) => {
     const allGoals = await getAllGoals();
     const waterGoal = await getWaterGoal(userId);
     const waterLogs = await getWaterLogs(userId);
-    const todayWaterLogs = await getTodayWaterLogs(userId);
+    const todayWaterLogs = await getTodayWaterLogs(userId, getTodayKey());
     const weightLogs = await getWeightLogs(userId);
     const weightGoal = await getWeightGoal(userId);
     const workoutLogs = await getWorkoutLog(userId);
@@ -215,6 +216,7 @@ export const updateUserWeightLog = async (req, res) => {
 
 export const addUserWater = async (req, res) => {
   const { amount, date } = req.body;
+  console.log(date)
   const userId = req.session.userId;
 
   if (!amount || !date) {

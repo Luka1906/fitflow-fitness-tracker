@@ -264,10 +264,10 @@ export const editWeightLog = async (logId, userId, weight, unit, date) => {
 
 // GET TODAY WATER LOGS
 
-export const getTodayWaterLogs = async (userId) => {
+export const getTodayWaterLogs = async (userId, date) => {
   const result = await db.query(
-    "SELECT * FROM water_logs WHERE user_id = $1 AND logged_at = CURRENT_DATE ORDER BY logged_at DESC",
-    [userId],
+    "SELECT * FROM water_logs WHERE user_id = $1 AND logged_at = $2 ORDER BY logged_at DESC",
+    [userId, date],
   );
 
   return result.rows;
