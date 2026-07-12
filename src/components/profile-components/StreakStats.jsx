@@ -1,24 +1,10 @@
 import { MdLocalFireDepartment } from "react-icons/md";
 import { getFilteredData } from "../../utils/getFilteredData";
+import { createLocalDate } from "../../utils/createLocalDate";
 import { FiTrendingUp, FiActivity } from "react-icons/fi";
 import { FaRegClock } from "react-icons/fa6";
 
 // Helper functions
-
-const getLocalDateKey = (date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-};
-
-const getWorkoutDateKey = (loggedAt) => {
-  if (!loggedAt) return null;
-
-  // PostgreSQL DATE or ISO timestamp
-  return String(loggedAt).slice(0, 10);
-};
 
 const getLastSevenDays = (activeDays) => {
   const weekDays = [];
@@ -29,14 +15,12 @@ const getLastSevenDays = (activeDays) => {
     currentDate.setDate(currentDate.getDate() - i);
     currentDate.setHours(0, 0, 0, 0);
 
-    const dateKey = getLocalDateKey(currentDate);
-
     weekDays.push({
-      dateKey,
+      dateKey: currentDate.getTime(),
       label: currentDate.toLocaleDateString("en-US", {
         weekday: "short",
       }),
-      active: activeDays.has(dateKey),
+      active: activeDays.has(currentDate.getTime()),
     });
   }
 
@@ -47,15 +31,17 @@ const getActiveDays = (weeklyWorkouts) => {
   const activeDays = new Set();
 
   weeklyWorkouts.forEach((workout) => {
-    const dateKey = getWorkoutDateKey(workout.logged_at);
+    const workoutDate = createLocalDate(workout.logged_at);
 
-    if (dateKey) {
-      activeDays.add(dateKey);
+    if (workoutDate) {
+      workoutDate.setHours(0, 0, 0, 0);
+      activeDays.add(workoutDate.getTime());
     }
   });
 
   return activeDays;
 };
+
 const getFormattedTrainingTime = (trainingTime) => {
   const totalHours = Math.floor(trainingTime / 60);
   const totalMinutes = Math.round(trainingTime % 60);
@@ -132,7 +118,7 @@ export function StreakStats({ workouts }) {
           <div className="grid grid-cols-7 items-center gap-1 border-y border-white/10 px-1 py-4 min-[400px]:gap-2 sm:gap-4 sm:px-3 xl:border-x xl:border-y-0 xl:py-2">
             {weekDays.map((weekDay) => (
               <div
-                 key={weekDay.dateKey}
+                key={weekDay.dateKey}
                 className="flex min-w-0 flex-col items-center gap-2"
               >
                 <p className="text-[10px] font-semibold text-slate-300 min-[380px]:text-xs sm:text-sm">

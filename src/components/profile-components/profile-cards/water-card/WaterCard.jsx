@@ -5,9 +5,20 @@ import { useFetcher, useLoaderData } from "react-router-dom";
 import WaterLogsHistory from "./WaterLogsHistory";
 import Drawer from "../../../../ui/Drawer";
 import confetti from "canvas-confetti";
+import { createLocalDate } from "../../../../utils/createLocalDate";
+
+export const getTodayKey = () => {
+  const date = new Date();
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
 
 export default function WaterCard() {
-  const today = new Date().toLocaleDateString();
+  const today = getTodayKey();
   const { water } = useLoaderData();
 
   const addWaterFetcher = useFetcher();
@@ -85,10 +96,8 @@ export default function WaterCard() {
     return () => window.removeEventListener("keydown", handleEsc);
   }, [editGoal]);
 
-  const todayKey = new Date().toISOString().split("T")[0];
-
   useEffect(() => {
-    const celebrationKey = `water-goal-celebrated-${todayKey}`;
+    const celebrationKey = `water-goal-celebrated-${today}`;
     const alreadyCelebrated = localStorage.getItem(celebrationKey);
 
     if (consumedWater >= water.goal && !alreadyCelebrated) {
@@ -104,7 +113,7 @@ export default function WaterCard() {
     if (consumedWater < water.goal) {
       localStorage.removeItem(celebrationKey);
     }
-  }, [consumedWater, water.goal, todayKey]);
+  }, [consumedWater, water.goal, today]);
 
   return (
     <div className="flex min-w-0 flex-col rounded-4xl border border-white/10 bg-white/5 p-4 sm:p-5">

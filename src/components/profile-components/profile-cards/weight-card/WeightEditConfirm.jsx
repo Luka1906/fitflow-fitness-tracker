@@ -15,7 +15,6 @@ export default function WeightEditConfirm({ log, onClose, isOpen }) {
     weight: Number(log?.weight) || "",
     unit: log?.unit || "lbs",
   });
-  console.log(selectedData);
   const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
