@@ -23,7 +23,7 @@ import {
 } from "../models/profileModel.js";
 import formattedLogs from "../util/formattedLogs.js";
 import uploadImage from "../util/cloudinary.js";
-import { getTodayKey } from "../../src/utils/getTodayKey.js";
+import { getTodayKey } from "../util/getTodayKey.js";
 
 export const getUserProfile = async (req, res) => {
   try {
