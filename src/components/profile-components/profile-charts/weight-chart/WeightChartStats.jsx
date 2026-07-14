@@ -18,31 +18,47 @@ export default function WeightChartStats({
   const weights = hasData ? weightLogs.map((log) => Number(log.weight)) : [];
 
   const firstWeightLog = hasData ? weights[0] : null;
+  
   const lastWeightLog = hasData ? weights.at(-1) : null;
 
-  const weightDifference = hasData ? lastWeightLog - firstWeightLog : null;
+  const weightDifference =
+    weights.length > 1 ? firstWeightLog - lastWeightLog : null;
+
   const lowestWeight = hasData ? Math.min(...weights) : null;
   const highestWeight = hasData ? Math.max(...weights) : null;
 
+  const differenceColor =
+    weightDifference < 0
+      ? "text-emerald-300"
+      : weightDifference > 0
+        ? "text-red-400"
+        : "text-text-primary-paragraph";
+
   return (
-    <div className="grid min-w-0 grid-cols-3 rounded-xl bg-accent-dark/10 px-2 sm:px-0 py-3">
+    <div className="grid min-w-0 grid-cols-3 rounded-xl bg-accent-dark/10 py-3 px-2 sm:px-0">
       <div className="flex min-w-0 flex-col items-center border-r border-white/15 px-1 text-center">
         {hasData ? (
           <div
-            className={`flex min-w-0 items-center gap-1 text-xs font-semibold sm:text-sm ${
-              weightDifference < 0 ? "text-emerald-300" : weightDifference === 0 ? "text-text-primary-paragraph" : "text-red-400"
-            }`}
+            className={`flex min-w-0 items-center gap-1 text-xs font-semibold sm:text-sm ${differenceColor}`}
           >
             {weightDifference < 0 ? (
               <FaArrowDown className="shrink-0 text-[11px] sm:text-xs" />
             ) : weightDifference > 0 ? (
               <FaArrowUp className="shrink-0 text-[11px] sm:text-xs" />
-            ) : ""}
+            ) : null}
 
             <p className="min-w-0 truncate">
-              {weightDifference > 0 ? "+" : ""}
-              {formatWeight(weightDifference)}{" "}
-              <span className="text-[11px] sm:text-xs">{weightUnit}</span>
+              {weightDifference === null ? (
+                "No change yet"
+              ) : (
+                <>
+                  {weightDifference > 0 ? "+" : ""}
+                  {formatWeight(weightDifference)}
+                  <span className="ml-1 text-[11px] sm:text-xs">
+                    {weightUnit}
+                  </span>
+                </>
+              )}
             </p>
           </div>
         ) : (

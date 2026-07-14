@@ -110,7 +110,7 @@ CREATE TABLE
         UNIQUE (exercise_id, set_order)
     );
 
-    -- DEMO DAT
+    -- DEMO DATA
 
     INSERT INTO weight_logs (user_id, weight, unit, logged_at)
 VALUES
@@ -144,3 +144,4 @@ VALUES
 (17, 179.1, 'lbs', CURRENT_DATE - INTERVAL '2 days'),
 (17, 178.8, 'lbs', CURRENT_DATE - INTERVAL '1 day'),
 (17, 178.4, 'lbs', CURRENT_DATE);
+

@@ -149,17 +149,17 @@ color: "#cbd5e1",
     }
 },
     scales: {
-      y: {
-        grid: {
-        color: "rgba(148, 163, 184, 0.12)",
-        },
-        grace: "10%",
-        ticks: {
-          color: "#94a3b8",
-           padding: 10,
-           callback: (value) => `${value} lbs`
-        },
-      },
+    y: {
+  grid: {
+    color: "rgba(148, 163, 184, 0.12)",
+  },
+  grace: "15%",
+  ticks: {
+    color: "#94a3b8",
+    padding: 10,
+  callback: (value) => Number(value).toFixed(1),
+  },
+},
       x: {
         grid: {
             display: false

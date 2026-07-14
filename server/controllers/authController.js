@@ -105,26 +105,38 @@ export const onboardingUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  console.log("LOGIN ROUTE REACHED");
-
   try {
-    console.log("Looking up user");
-    const user = await existingUser(email);
-    console.log("User lookup completed:", !!user);
-
-    if (!user) {
-      return res.status(400).json({
-        error: "Couldn't find user, please sign up",
-      });
+    let user;
+    try {
+      user = await existingUser(email);
+    } catch (dbError) {
+      console.error(
+        "Login DB query error:",
+        dbError.message,
+        dbError.stack
+      );
+      return res.status(500).json({ message: "Server error" });
     }
 
-    console.log("Checking password hash:", {
-      userId: user.id,
-      hasPasswordHash: Boolean(user.password_hash),
-    });
+    if (!user || typeof user !== "object" || !user.password_hash) {
+      return res
+        .status(400)
+        .json({ error: "Couldn't find user, please sign up" });
+    }
 
-    const isMatch = await bcrypt.compare(password, user.password_hash);
-    console.log("Password comparison completed:", isMatch);
+    const hashedPassword = user.password_hash;
+
+    let isMatch;
+    try {
+      isMatch = await bcrypt.compare(password, hashedPassword);
+    } catch (bcryptError) {
+      console.error(
+        "Login bcrypt error:",
+        bcryptError.message,
+        bcryptError.stack
+      );
+      return res.status(500).json({ message: "Server error" });
+    }
 
     if (!isMatch) {
       return res.status(401).json({
@@ -132,7 +144,6 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    console.log("Setting session");
     req.session.userId = user.id;
 
     req.session.save((error) => {
@@ -144,19 +155,14 @@ export const loginUser = async (req, res) => {
         });
       }
 
-      console.log("Session saved successfully");
-
       return res.status(200).json({
         message: "Logged in successfully",
         user: user.id,
       });
     });
   } catch (error) {
-    console.error("LOGIN ERROR:", error?.stack || error);
-
-    return res.status(500).json({
-      message: "Server error",
-    });
+    console.error("Login error:", error.message, error.stack);
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
