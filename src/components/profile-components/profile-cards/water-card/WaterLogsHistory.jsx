@@ -2,11 +2,12 @@ import { useEffect } from "react";
 import { FiDroplet, FiTrash2, FiX } from "react-icons/fi";
 import { useFetcher } from "react-router-dom";
 import useToggle from "../../../../hooks/useToggle";
+import { createLocalDate } from "../../../../utils/createLocalDate";
 
 // Get water log date function
 
 const formatLogDate = (dateString) => {
-  const date = new Date(dateString);
+  const date = createLocalDate(dateString);
   const today = new Date();
   const isToday = date.toDateString() === today.toDateString();
 
