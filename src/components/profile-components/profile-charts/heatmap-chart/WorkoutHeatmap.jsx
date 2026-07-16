@@ -41,8 +41,6 @@ for (let i = 0; i < allDates.length; i += 7) {
   weekSquares.push(allDates.slice(i, i + 7));
 }
 
-console.log(weekSquares)
-
 const getSquareColor = (activity) => {
   if (activity === 0) return "bg-slate-700";
   if (activity === 1) return "bg-sky-950";

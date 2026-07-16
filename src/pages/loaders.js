@@ -1,10 +1,12 @@
 // loaders.js
+import { getTodayKey } from "../utils/getTodayKey";
 
 import { redirect } from "react-router-dom";
 
 async function getCurrentUser() {
+  const today = getTodayKey();
   const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/users/profile`,
+    `${import.meta.env.VITE_API_URL}/users/profile?date=${today}`,
     {
       credentials: "include",
     },
@@ -19,7 +21,6 @@ async function getCurrentUser() {
   if (!response.ok) {
     throw new Error(data.message || "Failed to load user");
   }
-  console.log(data);
 
   return data;
 }

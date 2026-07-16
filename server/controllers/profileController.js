@@ -23,26 +23,25 @@ import {
 } from "../models/profileModel.js";
 import formattedLogs from "../util/formattedLogs.js";
 import uploadImage from "../util/cloudinary.js";
-import { getTodayKey } from "../util/getTodayKey.js";
 
 export const getUserProfile = async (req, res) => {
   try {
     const user = await getUserById(req.session.userId);
     const userId = req.session.userId;
+    const date = req.query.date;
 
     if (!user) return res.status(401).json({ error: "Authorization failed" });
+    if (!date) return res.status(400).json({error: "Local date is requrired"})
 
     const userGoals = await getUserGoals(userId);
     const allGoals = await getAllGoals();
     const waterGoal = await getWaterGoal(userId);
     const waterLogs = await getWaterLogs(userId);
-    const todayWaterLogs = await getTodayWaterLogs(userId, getTodayKey());
+    const todayWaterLogs = await getTodayWaterLogs(userId, date);
     const weightLogs = await getWeightLogs(userId);
     const weightGoal = await getWeightGoal(userId);
     const workoutLogs = await getWorkoutLog(userId);
     const formattedWorkoutLogs = formattedLogs(workoutLogs);
-
-    console.log(getTodayKey())
 
     return res.status(200).json({
       user,

@@ -92,7 +92,6 @@ export async function logoutAction() {
     credentials: "include",
   });
 
-  console.log(response);
 
   if (!response.ok) {
     throw new Error("Failed to logout user");
@@ -188,7 +187,6 @@ export async function editWeightGoalAction({ request }) {
     unit: formData.get("unit"),
   };
 
-  console.log(import.meta.env.VITE_API_URL);
 
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/users/profile/weight-goal`,
@@ -261,7 +259,6 @@ export async function addWorkoutAction({ request }) {
       error: "Invalid workout data",
     };
   }
-  console.log(workouts);
 
   const data = {
     workouts: workouts,
@@ -284,7 +281,6 @@ export async function addWorkoutAction({ request }) {
   );
 
   const responseData = await response.json();
-  console.log(responseData);
 
   if (!response.ok) {
     return {
