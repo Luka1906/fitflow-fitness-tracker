@@ -42,6 +42,8 @@ export const getUserProfile = async (req, res) => {
     const workoutLogs = await getWorkoutLog(userId);
     const formattedWorkoutLogs = formattedLogs(workoutLogs);
 
+    console.log(getTodayKey())
+
     return res.status(200).json({
       user,
       goals: {
